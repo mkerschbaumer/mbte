@@ -1,0 +1,12 @@
+Package: mbte
+Type: Package
+Title: Model-based trend estimation
+Version: 0.0.0.9000
+Author: Martin Kerschbaumer
+Maintainer: Martin Kerschbaumer <maff32@gmx.com>
+Description: A model gets fit to a time series. The predictions are computed and
+  used for an error metric, that gets used to check, if a trend is present.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
