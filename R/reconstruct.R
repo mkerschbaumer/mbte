@@ -21,10 +21,11 @@ reconstruct <- function(new, old) {
 reconstruct.tbl_mbte <- function(new, old) {
   new_tbl_mbte(
     new,
-    time = attr_time(old),
-    value = attr_value(old),
-    signal = attr_signal(old),
-    fits = attr_fits(old),
-    metric = attr_metric(old)
+    time = !!attr_time(old),
+    value = !!attr_value(old),
+    signal = !!attr_signal(old),
+    fits = !!attr_fits(old),
+    metric = !!attr_metric(old),
+    initial = FALSE # disable column-checks
   )
 }
