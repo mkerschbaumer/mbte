@@ -13,25 +13,33 @@
 #' get stored in this list-column.
 #' @param metric The name for numeric-column containing the computed
 #' error-metric.
+#' @param initial Intended for the inital stage of the analysis - checks for
+#' column-name integrity: `time` and `value` must be present, `signal`, `fits`
+#' and `metric` must not be present.
 #' @param ... Additional attributes, that are set.
 #'
 #' @importFrom assertthat assert_that
+#' @importFrom purrr is_scalar_logical
 #' @importFrom rlang ensym
 #' @importFrom tibble new_tibble
 #' @export
 new_tbl_mbte <- function(x, time, value, ..., signal = "signal", fits = "fits",
-                         metric = "metric", subclass = NULL) {
+                         metric = "metric", subclass = NULL, initial = TRUE) {
   time <- ensym(time)
   value <- ensym(value)
   signal <- ensym(signal)
   fits <- ensym(fits)
   metric <- ensym(metric)
 
-  assert_column_in_dataset(!!time, x, substitute(x))
-  assert_column_in_dataset(!!value, x, substitute(x))
-  assert_column_not_in_dataset(!!signal, x, substitute(x))
-  assert_column_not_in_dataset(!!fits, x, substitute(x))
-  assert_column_not_in_dataset(!!metric, x, substitute(x))
+  # for the inital stage of the analysis only
+  assert_that(is_scalar_logical(initial))
+  if (initial) {
+    assert_column_in_dataset(!!time, x, substitute(x))
+    assert_column_in_dataset(!!value, x, substitute(x))
+    assert_column_not_in_dataset(!!signal, x, substitute(x))
+    assert_column_not_in_dataset(!!fits, x, substitute(x))
+    assert_column_not_in_dataset(!!metric, x, substitute(x))
+  }
 
   new_tibble(
     x,
