@@ -25,7 +25,6 @@ reconstruct.tbl_mbte <- function(new, old) {
     value = !!attr_value(old),
     signal = !!attr_signal(old),
     fits = !!attr_fits(old),
-    metric = !!attr_metric(old),
-    initial = FALSE # disable column-checks
+    metric = !!attr_metric(old)
   )
 }
