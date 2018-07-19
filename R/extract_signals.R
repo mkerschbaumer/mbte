@@ -20,13 +20,11 @@ mbte_extract_signals <- function(x, f = mbte_default_indexer, ...) {
   value <- attr_value(x)
   signals <- attr_signal(x)
 
-  x <- x %>%
-    nest(!!time, !!value, .key = .entire_signal) %>%
-    mutate(.tmp := map(.entire_signal, extract_subsignals, indexer = f,
+  x %>%
+    mutate(!!signals := map(!!signals, extract_subsignals, indexer = f,
                             time = time, value = value, signals = signals, ...)
     ) %>%
-    mutate(.entire_signal = NULL) %>% # delete temporary column
-    unnest(.tmp) %>%
+    unnest(!!signals) %>%
     reconstruct(x)
 }
 
