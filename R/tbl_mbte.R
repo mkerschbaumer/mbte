@@ -78,3 +78,14 @@ is_tbl_mbte <- function(x) {
     is_symbol(fits) &&
     is_symbol(metric)
 }
+
+# for assertthat: use custom error message, if a tbl_mbte is required, but not
+# provided
+#' @importFrom assertthat "on_failure<-"
+#' @importFrom rlang expr_label
+on_failure(is_tbl_mbte) <- function(call, env) {
+  paste0(
+    expr_label(call$x), " doesen't meet the requirements for tbl_mbte. ",
+    "See `?is_tbl_mbte` for details."
+  )
+}
