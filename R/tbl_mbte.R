@@ -49,3 +49,32 @@ new_tbl_mbte <- function(x, time, value, ..., signal = "signal", fits = "fits",
 
   x
 }
+
+#' Checks if an object is a \code{tbl_mbte}.
+#'
+#' @param x The object to check
+#'
+#' @details Currently, a valid \code{tbl_mbte} must be a tibble, which also
+#' inherits from \code{tbl_mbte}. The attributes \code{time}, \code{value},
+#' \code{signal}, \code{fits} and \code{metric} have to be present.
+#'
+#' @importFrom rlang is_symbol
+#' @importFrom tibble is_tibble
+#' @export
+is_tbl_mbte <- function(x) {
+  # extract attribtues for checking
+  time <- attr_time(x)
+  value <- attr_value(x)
+  signal <- attr_signal(x)
+  fits <- attr_fits(x)
+  metric <- attr_metric(x)
+
+  # perform basic checks, including the correctness of the required attributes
+  is_tibble(x) &&
+    inherits(x, "tbl_mbte") &&
+    is_symbol(time) &&
+    is_symbol(value) &&
+    is_symbol(signal) &&
+    is_symbol(fits) &&
+    is_symbol(metric)
+}
