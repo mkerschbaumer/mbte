@@ -11,20 +11,14 @@
 #' get stored in this list-column.
 #' @param metric The name for numeric-column containing the computed
 #' error-metric.
-#' @param ... Additional attributes, that are set.
+#' @param ... Additional attributes, that are set (every element must be named)
 #'
 #' @importFrom purrr iwalk
-#' @importFrom rlang ensym is_named
+#' @importFrom rlang ensym
 #' @importFrom tibble as_tibble is_tibble
 #' @export
 new_tbl_mbte <- function(x, time, value, ..., signal = "signal", fits = "fits",
                          metric = "metric", subclass = NULL) {
-  time <- ensym(time)
-  value <- ensym(value)
-  signal <- ensym(signal)
-  fits <- ensym(fits)
-  metric <- ensym(metric)
-
   # convert input to tibble
   if (!is_tibble(x)) {
     x <- as_tibble(x)
@@ -33,18 +27,21 @@ new_tbl_mbte <- function(x, time, value, ..., signal = "signal", fits = "fits",
   # set attributes in ellipsis (make sure no names are missing)
   additional_args <- list(...)
   if (length(additional_args) != 0) {
-    assert_that(is_named(additional_args))
+    assert_ellipsis_named(additional_args, "(additional attributes to set)")
     iwalk(list(...), ~{
       attr(x, .y) <<- .x
     })
   }
 
-  attr_time(x) <- time
-  attr_value(x) <- value
-  attr_signal(x) <- signal
-  attr_fits(x) <- fits
-  attr_metric(x) <- metric
+  attr_time(x) <- ensym(time)
+  attr_value(x) <- ensym(value)
+  attr_signal(x) <- ensym(signal)
+  attr_fits(x) <- ensym(fits)
+  attr_metric(x) <- ensym(metric)
 
+  if (!missing(subclass)) {
+    assert_is_character(subclass)
+  }
   class(x) <- c(subclass, "tbl_mbte", class(x))
 
   x
