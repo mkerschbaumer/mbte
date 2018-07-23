@@ -1,24 +1,24 @@
 #' Reconstruct S3-tbl_mbte-class from object
 #'
-#' This function should be used to readd dropped-arguments, if a
-#' `tbl_mbte`-object gets processed by functions, which drop additional
+#' This function should be used to readd dropped-attributes, if a
+#' `tbl_mbte`-object gets processed by functions, which may drop additional
 #' attributes. The mbte-package relies on attributes in order to store
 #' information about column-names (e.g. name of the time-column) via attributes.
 #'
 #' @param new new object
 #' @param old Object, from which specific attributes are copied (time, value,
-#' signal, fits, metric)
+#' signal, fits, metric). The S3-generic dispatches on this argument.
 #'
 #' The implementation of `sloop::reconstruct()` gets used; This is a temporary
 #' workaround and will be removed, once the sloop-package is on CRAN.
 #'
 #' @export
-reconstruct <- function(new, old) {
-  UseMethod("reconstruct", old)
+mbte_reconstruct <- function(new, old) {
+  UseMethod("mbte_reconstruct", old)
 }
 
 #' @export
-reconstruct.tbl_mbte <- function(new, old) {
+mbte_reconstruct.tbl_mbte <- function(new, old) {
   new_tbl_mbte(
     new,
     time = !!attr_time(old),

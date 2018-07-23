@@ -28,7 +28,7 @@ mbte_extract_subsignals <- function(x, f = mbte_default_indexer, ...) {
                             time = time, value = value, signals = signals, ...)
     ) %>%
     unnest(!!signals) %>%
-    reconstruct(x)
+    mbte_reconstruct(x)
 }
 
 #' The default indexer for the mbte-package

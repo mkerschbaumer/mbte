@@ -20,7 +20,7 @@ mbte_nest_signals <- function(x, ...) {
     # existing grouping of table)
     x <- x %>%
       group_by(!!!group_vars, add = FALSE) %>%
-      reconstruct(x)
+      mbte_reconstruct(x)
   } else {
     assert_that(is_grouped_df(x))
   }
@@ -33,5 +33,5 @@ mbte_nest_signals <- function(x, ...) {
   # combine time- and value- variable into signal-list-column
   x %>%
     nest(!!time, !!value, .key = !!signal) %>%
-    reconstruct(x)
+    mbte_reconstruct(x)
 }

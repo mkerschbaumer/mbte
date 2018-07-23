@@ -67,5 +67,5 @@ mbte_fit <- function(x, ...) {
 
   x %>%
     mutate(!!fits := map(!!signal, fit_signal_impl)) %>%
-    reconstruct(x)
+    mbte_reconstruct(x)
 }
