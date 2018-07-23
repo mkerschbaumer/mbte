@@ -1,7 +1,7 @@
 #' Fit models to signals
 #'
 #' @param x A `tbl_mbte`, where signals have been extracted by
-#' \code{\link{mbte_extract_signal}}.
+#' \code{\link{mbte_extract_subsignals}}.
 #' @param ... It is assumed, that the ellipsis only contains named elements. The
 #' elements are used as quosures and tidy evaluation is used. Caution:
 #' \code{.signal}, \code{.time_sym} and \link{.value_sym} are masked (See

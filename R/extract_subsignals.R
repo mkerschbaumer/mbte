@@ -1,12 +1,15 @@
-#' Extract signals from a `tbl_mbte`-object
+#' Extract subsignals from a `tbl_mbte`-object
 #'
 #' @param x A `tbl_mbte`-object
 #' @param f An indexing function (a function taking a numeric vector and
 #' returning a list). The returned list should contain the elements `start` and
-#' `end` (interger-vector of the starting- or ending-positions respecitvely).
+#' `end` (interger-vector of the starting- or ending-positions of the
+#' subsignal respecitvely).
 #' @param ... Additional arguments passed to `f`
 #'
-#' @return The original table with the signal-column added.
+#' @return The original table gets returned. The "signal"-column
+#' is modified (since subsignals are extracted according to the indexing
+#' function \code{f}).
 #'
 #' @importFrom assertthat assert_that
 #' @importFrom dplyr mutate
@@ -14,7 +17,7 @@
 #' @importFrom purrr map
 #' @importFrom tidyr nest unnest
 #' @export
-mbte_extract_signals <- function(x, f = mbte_default_indexer, ...) {
+mbte_extract_subsignals <- function(x, f = mbte_default_indexer, ...) {
   assert_that(inherits(x, "tbl_mbte"))
   time <- attr_time(x)
   value <- attr_value(x)
@@ -56,6 +59,7 @@ mbte_default_indexer <- function(x, ...) {
   list(start = start, end = end)
 }
 
+# the actual workhorse-function for signal extraction
 # x: signal-subtable
 # indexer: indexing-function
 # value_str: string containing the name of the value-column
