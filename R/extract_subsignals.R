@@ -81,7 +81,7 @@ mbte_default_indexer <- function(x, ...) {
 
   # get positions of sub-signals (corresponding start and end)
   start <- which(diff_signal == 1)
-  end <- which(diff_signal == -1) - 1
+  end <- which(diff_signal == -1) - 1L
 
   list(start = start, end = end)
 }
