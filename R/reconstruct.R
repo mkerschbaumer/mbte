@@ -19,6 +19,7 @@ mbte_reconstruct <- function(new, old) {
 
 #' @export
 mbte_reconstruct.tbl_mbte <- function(new, old) {
+  assert_is_tbl_mbte(old)
   new_tbl_mbte(
     new,
     time = !!attr_time(old),
