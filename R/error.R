@@ -60,6 +60,17 @@ err_fit <- function(...) {
   mbte_error("Fitting failed", ..., subclass = "err_fit")
 }
 
+# wrap errors raised by evaluating the captured quosure via custom wrapper
+# function
+#' @importFrom rlang enquo eval_tidy
+eval_error_wrapper <- function(expr, .wrapper) {
+  expr <- enquo(expr)
+  tryCatch(eval_tidy(expr), error = function(e) {
+    wrapped_err <- .wrapper("- original error message:", paste0('"', e$message, '"'))
+    stop(wrapped_err)
+  })
+}
+
 # dimensions incompatible between objects x1 and x2
 #' @importFrom rlang expr_label
 err_dim_incomp <- function(x1_sym, x2_sym, ...) {
