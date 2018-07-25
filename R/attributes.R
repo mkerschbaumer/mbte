@@ -52,3 +52,26 @@ attr_metric <- function(x) {
   attr(x, "metric") <- value
   x
 }
+
+# event_log: a tibble with information about occurred unusual events and additional
+# information
+attr_event_log <- function(x) {
+  attr(x, "event_log")
+}
+
+#' Retrieve logged information about occurred unusual events
+#'
+#' @param x A `tbl_mbte` with event-log information stored in attributes.
+#'
+#' @return A tibble with logged event-information. Each row represents an event.
+#' @export
+#
+# NOTE: the purpose of this function is to export attr_event_log() but still
+# keep the API of the mbte-package consistent (common prefix: mbte_)
+mbte_event_log <- attr_event_log
+
+`attr_event_log<-` <- function(x, value) {
+  stopifnot(is_tibble(value))
+  attr(x, "event_log") <- value
+  x
+}
