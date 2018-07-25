@@ -55,6 +55,9 @@ assert_class_callback <- function(condition, description) {
 # specialised assertions regarding classes
 assert_is_character <- assert_class_callback(is.character, "is not a character")
 assert_is_numeric <- assert_class_callback(is.numeric, "is not numeric")
+assert_is_integer <- assert_class_callback(is.integer, "is not an integer-vector")
+assert_is_function <- assert_class_callback(is.function, "is not a function")
+assert_is_list <- assert_class_callback(is.list, "is not a list")
 
 assert_is_tbl_mbte <- function(x, ..., x_sym = substitute(x)) {
   if (!is_tbl_mbte(x)) {
@@ -85,3 +88,4 @@ assert_valid_column <- function(description, ...) {
 # abstract out validity checking of columns
 assert_valid_time_col <- assert_valid_column("(time-column)", assert_is_numeric)
 assert_valid_value_col <- assert_valid_column("(value-column)", assert_is_numeric)
+assert_valid_signal_col <- assert_valid_column("(signal-column)", assert_is_list)
