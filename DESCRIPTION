@@ -21,10 +21,10 @@ RoxygenNote: 6.0.1
 Collate: 
     'assertions.R'
     'attributes.R'
+    'extract_subsignals.R'
     'compute_metrics.R'
     'error.R'
     'event-store.R'
-    'extract_subsignals.R'
     'fit.R'
     'nest_signals.R'
     'reconstruct.R'

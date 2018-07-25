@@ -58,6 +58,9 @@ assert_is_numeric <- assert_class_callback(is.numeric, "is not numeric")
 assert_is_integer <- assert_class_callback(is.integer, "is not an integer-vector")
 assert_is_function <- assert_class_callback(is.function, "is not a function")
 assert_is_list <- assert_class_callback(is.list, "is not a list")
+#' @importFrom rlang is_scalar_double
+assert_is_scalar_dbl <- assert_class_callback(is_scalar_double,
+                                              "is not a scalar double")
 
 assert_is_tbl_mbte <- function(x, ..., x_sym = substitute(x)) {
   if (!is_tbl_mbte(x)) {

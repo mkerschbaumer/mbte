@@ -16,56 +16,94 @@
 #'   \item{.obs}{The observed (original) signal-values}
 #' }
 #'
-#' @importFrom assertthat assert_that
-#' @importFrom dplyr mutate select
+#' @include extract_subsignals.R
+#' @inheritSection mbte_extract_subsignals event-logging
+#' @section event-table:
+#' The error-log (tibble) contains the following columns:
+#' \describe{
+#'   \item{error}{The error, which occurred during processing. Errors occurring
+#'     during the evaluation of a metric-quosure (a element passed to
+#'     \code{...}) are wrapped.}
+#'   \item{row_nr}{The row-number of the original table (\code{x}), at which the
+#'     error occurred.}
+#'   \item{fit_name}{The name of the fit.}
+#'   \item{metric_name}{The name of the current metric (a name in \code{...}).}
+#'   \item{metric_quo}{The current metric-quosure (element of \code{...}).}
+#'   \item{pred}{The current predicted signal-values (expected to be be
+#'     numeric).}
+#'   \item{obs}{The observed signal-values (of the original signal).}
+#' }
+#'
+#' @importFrom dplyr mutate select ungroup
 #' @importFrom magrittr "%>%"
-#' @importFrom purrr imap_dfr map2 map_dbl possibly
-#' @importFrom rlang child_env enquos empty_env eval_tidy is_scalar_double
+#' @importFrom purrr imap_dfr pmap
+#' @importFrom rlang enquos eval_tidy new_environment
 #' @importFrom tibble tibble
 #' @importFrom tidyr unnest
 #' @export
 mbte_compute_metrics <- function(x, ...) {
-  assert_that(inherits(x, "tbl_mbte"))
-  metrics <- enquos(...)
+  assert_is_tbl_mbte(x)
+  metric_quos <- enquos(...)
 
   # all elements of ellipsis must be named
-  assert_that(!any(names(metrics) == ""),
-    msg = "All elements of ellipsis must be named")
+  assert_ellipsis_named(metric_quos)
 
   # extract symbols from object
-  value <- as.character(attr_value(x))
-  signal <- as.character(attr_signal(x))
-  fits <- as.character(attr_fits(x))
+  value <- attr_value(x)
+  signal <- attr_signal(x)
+  fits <- attr_fits(x)
 
-  eval_wrapper <- function(...) {
-    res <- eval_tidy(...)
-    if (!is_scalar_double(res)) {
-      res <- NA_real_
-    }
-    res
-  }
-  # return NA_real_ if an error is encountered while evaluating a closure
-  safe_eval <- possibly(eval_wrapper, NA_real_)
+  # check integrity of columns
+  assert_has_column(x, signal, "(signal-column)")
+  assert_valid_signal_col(x, signal)
 
   # create masking environment for `.pred` and `.obs`
-  mask <- child_env(empty_env())
+  mask <- new_environment()
 
-  process_fit <- function(fit, name) {
-    mask$.pred <- fit # predicted value of signal
-    tibble(
-      fit = name,
-      metric = names(metrics),
-      result = map_dbl(metrics, safe_eval, data = mask)
-    )
+  # event store for errors (only collect first 50 errors)
+  event_store <- new_event_store(50L)
+
+  compute_metric <- function(metric_quo, metric_name, fit_name, ...) {
+    # make sure a scalar double gets returned in every case
+    result <- tryCatch({
+      # evaluate metric quosure; if an error occurrs wrap it in an
+      # `err_eval_metric`-error
+      res <- eval_error_wrapper(eval_tidy(metric_quo, data = mask),
+        .wrapper = err_eval_metric)
+      assert_is_scalar_dbl(res, "- result returned from metric quosure")
+      res
+    }, error = function(e) {
+      # store occurred error with additional context
+      event_store$add_event(error = e, ..., fit_name = fit_name,
+        metric_name = metric_name, metric_quo = metric_quo,
+        pred = mask$.pred, obs = mask$.obs)
+
+      NA_real_
+    })
+
+    tibble(fit = fit_name, metric = metric_name, result = result)
   }
 
-  create_metric_subtibble <- function(sig, all_fits) {
+  process_fit <- function(fit_value, fit_name, ...) {
+    mask$.pred <- fit_value # predicted value of signal
+    imap_dfr(metric_quos, compute_metric, fit_name = fit_name, ...)
+  }
+
+  create_metric_subtibble <- function(sig, all_fits, row_nr) {
     mask$.obs <- sig[[value]] # value of original signal
-    imap_dfr(all_fits, process_fit)
+    # compute metrics for all fits for a specific signal
+    imap_dfr(all_fits, process_fit, row_nr = row_nr)
   }
+
+  # list to loop over signal-fit pairs with row indices
+  signals_fits <- list(x[[signal]], x[[fits]], seq_len(nrow(x)))
 
   x %>%
-    mutate(.tmp = map2(.[[!!signal]], .[[!!fits]], create_metric_subtibble)) %>%
+    # explicitly remove grouping, since metric is computed via the signal
+    # and the fit of a row (groups irrelevant)
+    ungroup() %>%
+    mutate(.metric_subtibbles = pmap(signals_fits, create_metric_subtibble)) %>%
     select(-!!signal, -!!fits) %>%
-    unnest(.tmp)
+    unnest(.metric_subtibbles) %>%
+    cond_add_event_store(event_store, mbte_compute_metrics)
 }

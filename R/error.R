@@ -60,6 +60,11 @@ err_fit <- function(...) {
   mbte_error("Fitting failed", ..., subclass = "err_fit")
 }
 
+# signal an error occurred while evaluating a metric-quosure
+err_eval_metric <- function(...) {
+  mbte_error("Metric computation failed", ..., subclass = "err_eval_metric")
+}
+
 # wrap errors raised by evaluating the captured quosure via custom wrapper
 # function
 #' @importFrom rlang enquo eval_tidy
