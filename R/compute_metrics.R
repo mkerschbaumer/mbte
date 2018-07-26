@@ -4,8 +4,7 @@
 #' present.
 #' @param ... The ellipsis must only contain named elements. The elements are
 #' used as quosures and tidy evaluation is used. Caution:
-#' \code{.pred} and \link{.obs} are masked (See
-#' details for more information.).
+#' `.pred` and `.obs` are masked (See details for more information.).
 #' Passed closures must evaluate to a scalar numeric (double). Otherwise or if
 #' an error is encountered, \code{NA_real_} will be returned.
 #'
@@ -107,3 +106,7 @@ mbte_compute_metrics <- function(x, ...) {
     unnest(.metric_subtibbles) %>%
     cond_add_event_store(event_store, mbte_compute_metrics)
 }
+
+# ignore NOTE from R CMD check (since `.metric_subtibbles` gets created by
+# the mutate()-call above)
+globalVariables(".metric_subtibbles")

@@ -78,6 +78,7 @@ assert_is_tbl_mbte <- function(x, ..., x_sym = substitute(x)) {
 # in `...` gets modified: e.g. colname = "custom_column", x_sym = "x"
 # ==> new x_sym = x$custom_column
 #' @importFrom purrr walk
+#' @importFrom rlang expr
 assert_valid_column <- function(description, ...) {
   assertions <- list(...)
   function(x, colname, x_sym = substitute(x)) {

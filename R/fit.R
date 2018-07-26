@@ -4,8 +4,8 @@
 #' list-column.
 #' @param ... It is assumed, that the ellipsis only contains named elements. The
 #' elements are used as quosures and tidy evaluation is used. Caution:
-#' \code{.signal}, \code{.time_sym} and \link{.value_sym} are masked (See
-#' details for more information.).
+#' `.signal`, `.time_sym` and `.value_sym` are masked (See  details for more
+#' information.).
 #' Closures may return a numeric vector with the length of the original
 #' signal-values or an object with a method for \code{\link[stats]{predict}}.
 #' If the quosure evaluates to a numeric vector, it gets used as is. Otherwise,

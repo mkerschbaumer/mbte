@@ -11,6 +11,7 @@
 #' get stored in this list-column.
 #' @param metric The name for numeric-column containing the computed
 #' error-metric.
+#' @param subclass Additional classes to inherit from (character).
 #' @param ... Additional attributes, that are set (every element must be named)
 #'
 #' @importFrom purrr iwalk
