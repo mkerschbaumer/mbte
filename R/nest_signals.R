@@ -19,7 +19,7 @@ mbte_nest_signals <- function(x, ...) {
     # make sure all grouping variables specified by the user are contained
     # in the dataset
     walk(group_vars, ~{
-      assert_column_in_dataset(x, colname = .x, "(missing grouping-variable)")
+      assert_has_column(x, colname = .x, "(missing grouping-variable)")
     })
 
     # use grouping provided by ellipsis (higher priority than possibly
