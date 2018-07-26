@@ -52,7 +52,7 @@ err_class_mismatch <- function(x_sym, ..., exp_class) {
 #' @importFrom rlang expr_label
 err_not_tbl_mbte <- function(x_sym, ...) {
   mbte_error(expr_label(x_sym), "must be a tbl_mbte", ...,
-    subclass = c("mbte_not_tbl_mbte", "mbte_class_mismatch"))
+    subclass = c("err_not_tbl_mbte", "err_class_mismatch"))
 }
 
 # error while evaluating a fitting quosure or while predicting the signal-values
