@@ -68,7 +68,6 @@ mbte_extract_subsignals <- function(x, f = mbte_default_indexer, ...) {
 #' @param x A numeric vector
 #' @param ... Additional arguments (currently ignored)
 #'
-#' @importFrom assertthat assert_that
 #' @importFrom dplyr near
 #' @export
 mbte_default_indexer <- function(x, ...) {
