@@ -21,7 +21,8 @@ new_event_store <- function(threshold = Inf) {
       if ((length(store) + 1) <= threshold) {
         elements <- list(...)
         stopifnot(is_named(elements))
-        elements <- map(elements, list) # wrap every passed element in a list
+        # wrap non-scalar elements in a list
+        elements <- map(elements, wrap_nonscalar)
         store <<- append(store, list(elements))
       }
       invisible(NULL)
@@ -39,6 +40,18 @@ new_event_store <- function(threshold = Inf) {
   # add custom class
   class(funs) <- c("mbte_event_log", class(funs))
   funs
+}
+
+# wrap `x` in a list if it is not a scalar vector (enhances readability of
+# event-log printing, since e.g. scalar integers denoting row names where an
+# event occurred won't get wrapped)
+#' @importFrom rlang is_scalar_vector
+wrap_nonscalar <- function(x) {
+  if (is_scalar_vector(x)) {
+    x
+  } else {
+    list(x)
+  }
 }
 
 # conditionally add event-log tbl to a `tbl_mbte` (if entries are present in
