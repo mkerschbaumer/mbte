@@ -14,6 +14,7 @@ Description: A model gets fit to a time series. The predictions are computed and
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Depends: R (>= 2.10)
 Imports:
   dplyr,
   magrittr,
@@ -28,6 +29,7 @@ Collate:
     'attributes.R'
     'extract_subsignals.R'
     'compute_metrics.R'
+    'datasets.R'
     'error.R'
     'event-store.R'
     'fit.R'
