@@ -85,10 +85,28 @@ mbte_extract_subsignals <- function(x, f = mbte_default_indexer, ...) {
     cond_add_event_store(event_store, mbte_extract_subsignals)
 }
 
-#' The default indexer for the mbte-package
+#' The default \code{\link{indexing-function}} for the mbte-package
 #'
-#' @param x A numeric vector
+#' A subsignal is defined as a sequence of nonzero values in \code{x}.
+#' Therefore, elements near 0 are discarded and only the remaining nonzero
+#' elements of \code{x} are kept.
+#'
+#' @param x A numeric vector (signal-values - see \code{\link{tbl_mbte}}).
 #' @param ... Additional arguments (currently ignored)
+#'
+#' @examples
+#' # create a dummy vector, simulating measurement data
+#' # NOTE: the values of `x` are the same as their index
+#' x <- c(1:4, 0, 6:8, 0, 0, 11:15)
+#' x
+#'
+#' # NOTE: start indices: c(1, 6, 11)
+#' # end indices: c(4, 8, 15)
+#' indices <- mbte_default_indexer(x)
+#' indices
+#'
+#' # show first subsignal:
+#' x[indices$start[1]:indices$end[1]] # c(1, 2, 3, 4)
 #'
 #' @importFrom dplyr near
 #' @export
