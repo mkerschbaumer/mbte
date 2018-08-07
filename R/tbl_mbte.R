@@ -26,19 +26,47 @@
 #' @family tbl_mbte functions
 NULL
 
-#' Creates a new dataset, suited for the the signal detection workflow
+#' Create a new \code{\link{tbl_mbte}}.
 #'
-#' A function intended to be used internally or to extend mbte.
+#' A new \code{\link{tbl_mbte}} based on \code{x} gets created. The
+#' corresponding column names for the `time`-, `value`-, `signal`- and
+#' `fits` columns are passed as parameters as either strings or
+#' \code{\link[base:name]{symbols}}. If symbols are passed,
+#' \link[rlang]{quasiquotation} should be used.
 #'
-#' @param x A data.frame or tibble
-#' @param time A symbol for the time-column (gets quoted).
-#' @param value The value column (measurement-data); gets quoted
+#' @note
+#' Errors about missing or malformatted columns will not be rasised by this
+#' function.
+#'
+#' @return
+#' A \code{\link{tbl_mbte}} wrapping \code{x} will be returned. The resulting
+#' object is a \code{\link[tibble]{tibble}} under the hood and can be used
+#' as such.
+#'
+#' @param x A data.frame or tibble.
+#' @param time The name of the time-column (gets quoted).
+#' @param value The name of the value column (measurement-data) - gets quoted.
 #' @param signal A name for a list column, in which tibbles containing
-#' the signal (time- and value- column combined) get stored; gets quoted
+#'   the signal (time- and value- column combined) get stored - gets quoted.
 #' @param fits List-column-name; The predicted values for the original signal
-#' get stored in this list-column.
+#'   get stored in this list-column - gets quoted.
 #' @param subclass Additional classes to inherit from (character).
-#' @param ... Additional attributes, that are set (every element must be named)
+#' @param ... Additional attributes, that are set (must be named).
+#'
+#' @seealso \code{\link{raw_signals}} (dataset used in examples)
+#' @examples
+#' data(raw_signals)
+#'
+#' # rely on quotation
+#' \dontrun{new_tbl_mbte(raw_signals, time = t, value = value)}
+#'
+#' # pass column names as strings
+#' new_tbl_mbte(raw_signals, time = "t", value = "value")
+#'
+#' # pass symbols using quasiquotation
+#' time_sym <- rlang::sym("t")
+#' value_sym <- rlang::sym("value")
+#' new_tbl_mbte(raw_signals, time = !!time_sym, value = !!value_sym)
 #'
 #' @importFrom purrr iwalk
 #' @importFrom rlang ensym

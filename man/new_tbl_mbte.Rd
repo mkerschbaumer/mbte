@@ -2,32 +2,62 @@
 % Please edit documentation in R/tbl_mbte.R
 \name{new_tbl_mbte}
 \alias{new_tbl_mbte}
-\title{Creates a new dataset, suited for the the signal detection workflow}
+\title{Create a new \code{\link{tbl_mbte}}.}
 \usage{
 new_tbl_mbte(x, time, value, ..., signal = "signal", fits = "fits",
   subclass = NULL)
 }
 \arguments{
-\item{x}{A data.frame or tibble}
+\item{x}{A data.frame or tibble.}
 
-\item{time}{A symbol for the time-column (gets quoted).}
+\item{time}{The name of the time-column (gets quoted).}
 
-\item{value}{The value column (measurement-data); gets quoted}
+\item{value}{The name of the value column (measurement-data) - gets quoted.}
 
-\item{...}{Additional attributes, that are set (every element must be named)}
+\item{...}{Additional attributes, that are set (must be named).}
 
 \item{signal}{A name for a list column, in which tibbles containing
-the signal (time- and value- column combined) get stored; gets quoted}
+the signal (time- and value- column combined) get stored - gets quoted.}
 
 \item{fits}{List-column-name; The predicted values for the original signal
-get stored in this list-column.}
+get stored in this list-column - gets quoted.}
 
 \item{subclass}{Additional classes to inherit from (character).}
 }
+\value{
+A \code{\link{tbl_mbte}} wrapping \code{x} will be returned. The resulting
+object is a \code{\link[tibble]{tibble}} under the hood and can be used
+as such.
+}
 \description{
-A function intended to be used internally or to extend mbte.
+A new \code{\link{tbl_mbte}} based on \code{x} gets created. The
+corresponding column names for the `time`-, `value`-, `signal`- and
+`fits` columns are passed as parameters as either strings or
+\code{\link[base:name]{symbols}}. If symbols are passed,
+\link[rlang]{quasiquotation} should be used.
+}
+\note{
+Errors about missing or malformatted columns will not be rasised by this
+function.
+}
+\examples{
+data(raw_signals)
+
+# rely on quotation
+\dontrun{new_tbl_mbte(raw_signals, time = t, value = value)}
+
+# pass column names as strings
+new_tbl_mbte(raw_signals, time = "t", value = "value")
+
+# pass symbols using quasiquotation
+time_sym <- rlang::sym("t")
+value_sym <- rlang::sym("value")
+new_tbl_mbte(raw_signals, time = !!time_sym, value = !!value_sym)
+
 }
 \seealso{
+\code{\link{raw_signals}} (dataset used in examples)
+
 Other tbl_mbte functions: \code{\link{is_tbl_mbte}},
   \code{\link{mbte_reconstruct}}, \code{\link{tbl_mbte}}
 }
