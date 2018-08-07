@@ -2,18 +2,59 @@
 % Please edit documentation in R/nest_signals.R
 \name{mbte_nest_signals}
 \alias{mbte_nest_signals}
-\title{Combine time- and variable- column to a list-column (signal).}
+\title{Combine `time`- and `value`- columns to a list-column (`signal`).}
 \usage{
 mbte_nest_signals(x, ...)
 }
 \arguments{
-\item{x}{A \code{tbl_mbte}, the time- and value-columns are still present (
-specified when creating the `tbl_mbte`).}
+\item{x}{A \code{\link{tbl_mbte}}, which contains the `time`- and `value`-
+columns.}
 
-\item{...}{Variables (get quoted), which should be used for grouping. If no
-variables are specified, \code{\link{mbte_nest_signals}} assumes, that
-\code{x} is already a grouped table.}
+\item{...}{Variables (get \code{\link[rlang:quotation]{quoted}}), which
+should be used for grouping. If no variables are specified, it is assumed,
+that \code{x} is already a \code{\link[dplyr:grouped_df]{grouped table}}.}
 }
 \description{
-Combine time- and variable- column to a list-column (signal).
+This function is responsible for creating the `signal`-list-column of a
+\code{\link{tbl_mbte}}. This gets done by combining the `time`- and
+`value`-column of \code{x} via nesting (\code{\link[tidyr]{nest}} gets used).
+This step is necessary, since functions like \code{\link{mbte_fit}} or
+\code{\link{mbte_compute_metrics}} rely on the presence of the
+`signal`-column. It is required to specify grouping columns (either by
+passing them via \code{...} or by passing a
+\code{\link[dplyr:grouped_df]{grouped table}} as the \code{x}-parameter).
+}
+\details{
+This function is meant to operate on `long`-datasets. Hence, columns for
+signal-time, signal-values and a variable describing the measured parameter
+should be present. Therefore, the "measurement-variable"-column should be
+used for grouping if the goal is to find out, which measured parameters have
+an underlying trend.
+}
+\note{
+In any case, grouping variables specified in \code{...} are prioritised over
+the grouping columns of a grouped table (if \code{x} is grouped).
+}
+\examples{
+library(dplyr, warn.conflicts = FALSE)
+data(raw_signals)
+
+# create ungrouped tbl_mbte
+tbl <- new_tbl_mbte(raw_signals, time = "t", value = "value")
+
+# NOTE: grouping variable specified manually (grouping based on the
+# "measurement variable"-column, which is describing the measured parameter)
+mbte_nest_signals(tbl, "mv")
+
+# alternative: use pregrouped table
+tbl <- raw_signals \%>\%
+  group_by(mv) \%>\%
+  new_tbl_mbte(time = "t", value = "value")
+
+# yields the same result
+mbte_nest_signals(tbl)
+
+}
+\seealso{
+\code{\link{raw_signals}} (dataset used in examples)
 }
