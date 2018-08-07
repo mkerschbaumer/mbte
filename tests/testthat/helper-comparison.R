@@ -71,9 +71,9 @@ are_deep_equal <- function(obj, exp, ..., nesting = NULL, comp_fun = all.equal) 
   TRUE
 }
 
-# test if 2 `tbl_mbte` are identical (needed, since currently expect_identical)
-# does not consider list-columns - result of a computation is supposed to be
-# checked against expected result
+# test if 2 `tbl_mbte` are equal - -needed, since currently expect_equal()
+# does not perform pairwise comparison of list-columns - result of a computation
+# is supposed to be checked against expected result.
 expect_tbl_mbte_equal <- function(res, exp, ...) {
   expect_true(is_tbl_mbte(res))
   expect_true(is_tbl_mbte(exp))
