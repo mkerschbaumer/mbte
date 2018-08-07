@@ -2,22 +2,35 @@
 % Please edit documentation in R/tbl_mbte.R
 \name{is_tbl_mbte}
 \alias{is_tbl_mbte}
-\title{Checks if an object is a \code{tbl_mbte}.}
+\title{Checks if an object is a \code{\link{tbl_mbte}}.}
 \usage{
 is_tbl_mbte(x)
 }
 \arguments{
-\item{x}{The object to check}
+\item{x}{The object to check.}
 }
 \description{
-Checks if an object is a \code{tbl_mbte}.
+Checks if an object is a \code{\link{tbl_mbte}}.
 }
 \details{
-Currently, a valid \code{tbl_mbte} must be a tibble, which also
-inherits from \code{tbl_mbte}. The attributes \code{time}, \code{value},
-\code{signal} and \code{fits} have to be present.
+Currently, a valid \code{\link{tbl_mbte}} must be a
+\code{\link[tibble]{tibble}}, which also inherits from `tbl_mbte`. The
+attributes `time`, `value`, `signal` and `fits` have to be present and must
+be \code{\link[base:name]{symbols}}.
+}
+\examples{
+data(raw_signals)
+
+# create new tbl_mbte
+tbl <- new_tbl_mbte(raw_signals, time = "t", value = "value")
+
+\dontshow{stopifnot(is_tbl_mbte(tbl))}
+is_tbl_mbte(tbl) # TRUE
+
 }
 \seealso{
+\code{\link{raw_signals}} (dataset used in examples)
+
 Other tbl_mbte functions: \code{\link{mbte_reconstruct}},
   \code{\link{new_tbl_mbte}}, \code{\link{tbl_mbte}}
 }

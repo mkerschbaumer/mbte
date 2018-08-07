@@ -102,13 +102,24 @@ new_tbl_mbte <- function(x, time, value, ..., signal = "signal", fits = "fits",
   x
 }
 
-#' Checks if an object is a \code{tbl_mbte}.
+#' Checks if an object is a \code{\link{tbl_mbte}}.
 #'
-#' @param x The object to check
+#' @param x The object to check.
 #'
-#' @details Currently, a valid \code{tbl_mbte} must be a tibble, which also
-#' inherits from \code{tbl_mbte}. The attributes \code{time}, \code{value},
-#' \code{signal} and \code{fits} have to be present.
+#' @details Currently, a valid \code{\link{tbl_mbte}} must be a
+#' \code{\link[tibble]{tibble}}, which also inherits from `tbl_mbte`. The
+#' attributes `time`, `value`, `signal` and `fits` have to be present and must
+#' be \code{\link[base:name]{symbols}}.
+#'
+#' @seealso \code{\link{raw_signals}} (dataset used in examples)
+#' @examples
+#' data(raw_signals)
+#'
+#' # create new tbl_mbte
+#' tbl <- new_tbl_mbte(raw_signals, time = "t", value = "value")
+#'
+#' \dontshow{stopifnot(is_tbl_mbte(tbl))}
+#' is_tbl_mbte(tbl) # TRUE
 #'
 #' @importFrom rlang is_symbol
 #' @importFrom tibble is_tibble
