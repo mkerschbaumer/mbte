@@ -1,16 +1,38 @@
-#' Reconstruct S3-tbl_mbte-class from object
+#' Reconstruct a \code{\link{tbl_mbte}} from template-object
 #'
 #' This function should be used to readd dropped-attributes, if a
-#' `tbl_mbte`-object gets processed by functions, which may drop additional
-#' attributes. The mbte-package relies on attributes in order to store
-#' information about column-names (e.g. name of the time-column) via attributes.
+#' \code{\link{tbl_mbte}}-object gets processed by functions, which may drop
+#' additional attributes.
 #'
-#' @param new new object
-#' @param old Object, from which specific attributes are copied (time, value,
-#' signal, fits). The S3-generic dispatches on this argument.
+#' The implementation of \code{sloop::reconstruct()} gets used; This is a
+#' temporary workaround and will be removed, once the
+#' \href{https://github.com/hadley/sloop}{sloop}-package is on CRAN.
 #'
-#' The implementation of `sloop::reconstruct()` gets used; This is a temporary
-#' workaround and will be removed, once the sloop-package is on CRAN.
+#' @param new Object, to which the attributes should be added (must be
+#'   convertible to a tibble).
+#' @param old \code{\link{tbl_mbte}}, from which specific attributes are
+#'   copied (`time`, `value`, `signal`, `fits`). Additionally, the class
+#'   `tbl_mbte` gets added. The S3-generic dispatches on this argument.
+#'
+#' @seealso \code{\link{raw_signals}} (dataset used in examples)
+#' @examples
+#' data(raw_signals)
+#'
+#' # create template object for attribute reconstruction
+#' template <- new_tbl_mbte(raw_signals, time = "t", value = "value")
+#'
+#' # create target object, which lacks of the "time"-attribute
+#' target <- new_tbl_mbte(raw_signals, time = "t", value = "value")
+#' attr(target, "time") <- NULL
+#'
+#' \dontshow{stopifnot(!is_tbl_mbte(target))}
+#' is_tbl_mbte(target) # FALSE
+#'
+#' # reconstruct valid tbl_mbte from template
+#' target <- mbte_reconstruct(target, template)
+#'
+#' \dontshow{stopifnot(is_tbl_mbte(target))}
+#' is_tbl_mbte(target) # TRUE
 #'
 #' @include tbl_mbte.R
 #' @family tbl_mbte functions

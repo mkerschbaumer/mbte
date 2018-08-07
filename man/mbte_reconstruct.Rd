@@ -3,28 +3,53 @@
 \name{mbte_reconstruct}
 \alias{mbte_reconstruct}
 \alias{mbte_reconstruct.tbl_mbte}
-\title{Reconstruct S3-tbl_mbte-class from object}
+\title{Reconstruct a \code{\link{tbl_mbte}} from template-object}
 \usage{
 mbte_reconstruct(new, old)
 
 \method{mbte_reconstruct}{tbl_mbte}(new, old)
 }
 \arguments{
-\item{new}{new object}
+\item{new}{Object, to which the attributes should be added (must be
+convertible to a tibble).}
 
-\item{old}{Object, from which specific attributes are copied (time, value,
-signal, fits). The S3-generic dispatches on this argument.
-
-The implementation of `sloop::reconstruct()` gets used; This is a temporary
-workaround and will be removed, once the sloop-package is on CRAN.}
+\item{old}{\code{\link{tbl_mbte}}, from which specific attributes are
+copied (`time`, `value`, `signal`, `fits`). Additionally, the class
+`tbl_mbte` gets added. The S3-generic dispatches on this argument.}
 }
 \description{
 This function should be used to readd dropped-attributes, if a
-`tbl_mbte`-object gets processed by functions, which may drop additional
-attributes. The mbte-package relies on attributes in order to store
-information about column-names (e.g. name of the time-column) via attributes.
+\code{\link{tbl_mbte}}-object gets processed by functions, which may drop
+additional attributes.
+}
+\details{
+The implementation of \code{sloop::reconstruct()} gets used; This is a
+temporary workaround and will be removed, once the
+\href{https://github.com/hadley/sloop}{sloop}-package is on CRAN.
+}
+\examples{
+data(raw_signals)
+
+# create template object for attribute reconstruction
+template <- new_tbl_mbte(raw_signals, time = "t", value = "value")
+
+# create target object, which lacks of the "time"-attribute
+target <- new_tbl_mbte(raw_signals, time = "t", value = "value")
+attr(target, "time") <- NULL
+
+\dontshow{stopifnot(!is_tbl_mbte(target))}
+is_tbl_mbte(target) # FALSE
+
+# reconstruct valid tbl_mbte from template
+target <- mbte_reconstruct(target, template)
+
+\dontshow{stopifnot(is_tbl_mbte(target))}
+is_tbl_mbte(target) # TRUE
+
 }
 \seealso{
+\code{\link{raw_signals}} (dataset used in examples)
+
 Other tbl_mbte functions: \code{\link{is_tbl_mbte}},
   \code{\link{new_tbl_mbte}}, \code{\link{tbl_mbte}}
 }
