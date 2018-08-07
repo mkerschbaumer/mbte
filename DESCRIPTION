@@ -32,5 +32,6 @@ Collate:
     'event-store.R'
     'fit.R'
     'nest_signals.R'
-    'reconstruct.R'
+    'package.R'
     'tbl_mbte.R'
+    'reconstruct.R'
