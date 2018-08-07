@@ -1,5 +1,27 @@
-#' Extract subsignals from a `tbl_mbte`-object
+#' Indexing functions for subsignal-extraction
 #'
+#' Indexing functions have the following signature:
+#' \code{function(x, ...)}. \code{x} denotes a signal-values vector (see
+#' \code{\link{tbl_mbte}} for  details). In other words, the measured values of
+#' a signal get passed as a numeric vector. The job of an indexing function is
+#' to find the start- and end-indices of a subsignal (used by
+#' \code{\link{mbte_extract_subsignals}}).
+#'
+#' @note
+#' The length of the returned indices must match the number of found subsignals
+#' (e.g. 3 Subsignals found ==> length of start- and end-indices vectors must
+#' equal 3). The indices-vectors must be of type integer.
+#'
+#' @return
+#' A list with the following names should get returned:
+#' \describe{
+#'   \item{start}{Start indices of the found subsignals.}
+#'   \item{end}{End indices of the found subsignals.}
+#' }
+#'
+#' @name indexing-function
+NULL
+
 #' @param x A `tbl_mbte`-object
 #' @param f An indexing function (a function taking a numeric vector and
 #' returning a list). The returned list should contain the elements `start` and
