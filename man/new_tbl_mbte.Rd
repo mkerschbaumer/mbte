@@ -27,3 +27,8 @@ get stored in this list-column.}
 \description{
 A function intended to be used internally or to extend mbte.
 }
+\seealso{
+Other tbl_mbte functions: \code{\link{is_tbl_mbte}},
+  \code{\link{mbte_reconstruct}}, \code{\link{tbl_mbte}}
+}
+\concept{tbl_mbte functions}

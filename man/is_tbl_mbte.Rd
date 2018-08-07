@@ -17,3 +17,8 @@ Currently, a valid \code{tbl_mbte} must be a tibble, which also
 inherits from \code{tbl_mbte}. The attributes \code{time}, \code{value},
 \code{signal} and \code{fits} have to be present.
 }
+\seealso{
+Other tbl_mbte functions: \code{\link{mbte_reconstruct}},
+  \code{\link{new_tbl_mbte}}, \code{\link{tbl_mbte}}
+}
+\concept{tbl_mbte functions}

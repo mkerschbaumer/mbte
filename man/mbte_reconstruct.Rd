@@ -2,9 +2,12 @@
 % Please edit documentation in R/reconstruct.R
 \name{mbte_reconstruct}
 \alias{mbte_reconstruct}
+\alias{mbte_reconstruct.tbl_mbte}
 \title{Reconstruct S3-tbl_mbte-class from object}
 \usage{
 mbte_reconstruct(new, old)
+
+\method{mbte_reconstruct}{tbl_mbte}(new, old)
 }
 \arguments{
 \item{new}{new object}
@@ -21,3 +24,8 @@ This function should be used to readd dropped-attributes, if a
 attributes. The mbte-package relies on attributes in order to store
 information about column-names (e.g. name of the time-column) via attributes.
 }
+\seealso{
+Other tbl_mbte functions: \code{\link{is_tbl_mbte}},
+  \code{\link{new_tbl_mbte}}, \code{\link{tbl_mbte}}
+}
+\concept{tbl_mbte functions}

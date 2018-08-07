@@ -12,11 +12,14 @@
 #' The implementation of `sloop::reconstruct()` gets used; This is a temporary
 #' workaround and will be removed, once the sloop-package is on CRAN.
 #'
+#' @include tbl_mbte.R
+#' @family tbl_mbte functions
 #' @export
 mbte_reconstruct <- function(new, old) {
   UseMethod("mbte_reconstruct", old)
 }
 
+#' @rdname mbte_reconstruct
 #' @export
 mbte_reconstruct.tbl_mbte <- function(new, old) {
   assert_is_tbl_mbte(old)
