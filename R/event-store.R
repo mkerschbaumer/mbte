@@ -1,3 +1,41 @@
+#' Log unusual events occurring during execution
+#'
+#' For some occasions (like in long-running computations) it may not be desired
+#' to shut down the whole computation if a single error occurrrs. It may be
+#' better to log the occurred error and carry on with the computation. In such
+#' a case, \code{\link{NA}} will always be the result of a failed computation.
+#' The logged information can be retrieved via \code{mbte_event_log()} (see
+#' examples).
+#'
+#' @seealso \code{\link{raw_signals}} (dataset in examples)
+#' @examples
+#' library(dplyr, warn.conflicts = FALSE)
+#' data(raw_signals)
+#' raw_signals
+#'
+#' # prepare for signal extraction (perform conversion to `tbl_mbte` and nest
+#' # signals)
+#' raw_signals <- raw_signals %>%
+#'   group_by(mv) %>%
+#'   new_tbl_mbte(time = "t", value = "value") %>%
+#'   mbte_nest_signals()
+#'
+#' # provoke an error by passing an indexing-function, that will always raise
+#' # an error
+#' faulty_extract <- mbte_extract_subsignals(raw_signals, f = function(x) {
+#'   stop("test")
+#' })
+#'
+#' # retrieve event-log
+#' event_log <- mbte_event_log(faulty_extract)
+#' head(event_log)
+#'
+#' # show occurred errors
+#' head(event_log$error)
+#'
+#' @name event-logging
+NULL
+
 # generate a list of functions with mutatble state:
 #   + *add_event()*: add event with context
 #     (e.g. add_event(error = err, input = bad_input))

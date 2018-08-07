@@ -26,12 +26,12 @@ Suggests: testthat, withr
 RoxygenNote: 6.1.0
 Collate: 
     'assertions.R'
+    'event-store.R'
     'attributes.R'
     'extract_subsignals.R'
     'compute_metrics.R'
     'datasets.R'
     'error.R'
-    'event-store.R'
     'fit.R'
     'nest_signals.R'
     'package.R'

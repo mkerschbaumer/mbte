@@ -49,13 +49,15 @@ attr_event_log <- function(x) {
   attr(x, "event_log")
 }
 
-#' Retrieve logged information about occurred unusual events
-#'
-#' @param x A `tbl_mbte` with event-log information stored in attributes.
+#' @param x A \code{\link{tbl_mbte}} with event-log information stored in
+#'   attributes.
 #'
 #' @return A tibble with logged event-information. Each row represents an event.
+#' The column layout is specific to the function, which produced the event-log.
+#'
+#' @include event-store.R
+#' @rdname event-logging
 #' @export
-#
 # NOTE: the purpose of this function is to export attr_event_log() but still
 # keep the API of the mbte-package consistent (common prefix: mbte_)
 mbte_event_log <- attr_event_log
