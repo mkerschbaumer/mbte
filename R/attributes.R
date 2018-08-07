@@ -43,16 +43,6 @@ attr_fits <- function(x) {
   x
 }
 
-attr_metric <- function(x) {
-  attr(x, "metric")
-}
-
-`attr_metric<-` <- function(x, value) {
-  stopifnot(is_symbol(value))
-  attr(x, "metric") <- value
-  x
-}
-
 # event_log: a tibble with information about occurred unusual events and additional
 # information
 attr_event_log <- function(x) {

@@ -5,7 +5,7 @@
 \title{Creates a new dataset, suited for the the signal detection workflow}
 \usage{
 new_tbl_mbte(x, time, value, ..., signal = "signal", fits = "fits",
-  metric = "metric", subclass = NULL)
+  subclass = NULL)
 }
 \arguments{
 \item{x}{A data.frame or tibble}
@@ -21,9 +21,6 @@ the signal (time- and value- column combined) get stored; gets quoted}
 
 \item{fits}{List-column-name; The predicted values for the original signal
 get stored in this list-column.}
-
-\item{metric}{The name for numeric-column containing the computed
-error-metric.}
 
 \item{subclass}{Additional classes to inherit from (character).}
 }

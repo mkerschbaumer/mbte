@@ -7,7 +7,7 @@
 #'
 #' @param new new object
 #' @param old Object, from which specific attributes are copied (time, value,
-#' signal, fits, metric). The S3-generic dispatches on this argument.
+#' signal, fits). The S3-generic dispatches on this argument.
 #'
 #' The implementation of `sloop::reconstruct()` gets used; This is a temporary
 #' workaround and will be removed, once the sloop-package is on CRAN.
@@ -25,7 +25,6 @@ mbte_reconstruct.tbl_mbte <- function(new, old) {
     time = !!attr_time(old),
     value = !!attr_value(old),
     signal = !!attr_signal(old),
-    fits = !!attr_fits(old),
-    metric = !!attr_metric(old)
+    fits = !!attr_fits(old)
   )
 }

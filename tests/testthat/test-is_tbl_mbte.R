@@ -9,7 +9,6 @@ gen_valid_tbl_mbte <- function(dat = iris) {
   attr(dat, "value") <- gen_random_sym()
   attr(dat, "signal") <- gen_random_sym()
   attr(dat, "fits") <- gen_random_sym()
-  attr(dat, "metric") <- gen_random_sym()
 
   class(dat) <- c("tbl_mbte", class(dat))
 
@@ -45,7 +44,6 @@ test_that("is_tbl_mbte - not a tibble", {
   expect_true(rlang::is_symbol(attr_value(obj)))
   expect_true(rlang::is_symbol(attr_signal(obj)))
   expect_true(rlang::is_symbol(attr_fits(obj)))
-  expect_true(rlang::is_symbol(attr_metric(obj)))
 
   expect_false(is_tibble(obj))
   expect_false(is_tbl_mbte(obj)) # tibble expected by is_tbl_mbte()
@@ -81,7 +79,7 @@ test_attribute_malformatted <- function(which) {
 
 test_that("is_tbl_mbte - attributes malformatted", {
   # all tested attributes below must be symbols
-  attr_to_test <- c("time", "value", "signal", "fits", "metric")
+  attr_to_test <- c("time", "value", "signal", "fits")
 
   withr::with_seed(testing_seed(), {
     purrr::walk(attr_to_test, test_attribute_malformatted)

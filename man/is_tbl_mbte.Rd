@@ -15,5 +15,5 @@ Checks if an object is a \code{tbl_mbte}.
 \details{
 Currently, a valid \code{tbl_mbte} must be a tibble, which also
 inherits from \code{tbl_mbte}. The attributes \code{time}, \code{value},
-\code{signal}, \code{fits} and \code{metric} have to be present.
+\code{signal} and \code{fits} have to be present.
 }

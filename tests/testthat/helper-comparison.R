@@ -83,7 +83,6 @@ expect_tbl_mbte_equal <- function(res, exp, ...) {
   expect_identical(attr_value(res), attr_value(exp))
   expect_identical(attr_signal(res), attr_signal(exp))
   expect_identical(attr_fits(res), attr_fits(exp))
-  expect_identical(attr_metric(res), attr_metric(exp))
 
   # perform column-wise comparison (to be able to compare list columns)
   expect_equal(dim(res), dim(exp))

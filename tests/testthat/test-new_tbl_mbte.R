@@ -6,8 +6,8 @@ context("new_tbl_mbte")
 # test if the created object (`obj`) matches the following expectations:
 #
 # + a valid `tbl_mbte`-object must have been generated (checked via is_tbl_mbte())
-# + *time*, *value*, *signal*, *fits* and *metric* get quoted and used
-#   as symbols. `obj` must provide these attributes (which have to be symbols).
+# + *time*, *value*, *signal* and *fits* get quoted and used as symbols.
+#   `obj` must provide these attributes (which have to be symbols).
 # + `subclass` should be a character vector of the subclasses `obj` must inherit
 #   from
 # + `additional_attrs` is a named list with the additional attributes, that
@@ -15,21 +15,19 @@ context("new_tbl_mbte")
 #
 # NOTE: ds_name denotes the name of the dataset (as string) - used for
 # displaying purposes when an expectation fails
-test_new_tbl_mbte <- function(obj, ds_name, time, value, signal,
-                              fits, metric, subclass = NULL,
-                              additional_attrs = NULL) {
+test_new_tbl_mbte <- function(obj, ds_name, time, value, signal, fits,
+                              subclass = NULL, additional_attrs = NULL) {
   time <- ensym(time)
   value <- ensym(value)
   signal <- ensym(signal)
   fits <- ensym(fits)
-  metric <- ensym(metric)
 
   # generate addtional information for displaying purposes (if a test fails,
   # this information gets displayed too)
   info <- sprintf(paste("dataset_name: '%s', time: %s, value: %s, signal: %s,",
-    "fits: %s, metric: %s, additional_attrs: %s"), ds_name,
+    "fits: %s, additional_attrs: %s"), ds_name,
     expr_label(time), expr_label(value), expr_label(signal), expr_label(fits),
-    expr_label(metric), expr_label(additional_attrs))
+    expr_label(additional_attrs))
 
   # created object must be recognized as a valid `tbl_mbte`
   expect_true(is_tbl_mbte(obj), info = info)
@@ -40,7 +38,6 @@ test_new_tbl_mbte <- function(obj, ds_name, time, value, signal,
   expect_identical(attr_value(obj), value, info = info)
   expect_identical(attr_signal(obj), signal, info = info)
   expect_identical(attr_fits(obj), fits, info = info)
-  expect_identical(attr_metric(obj), metric, info = info)
 
   # make sure generated object inherits from all the specified subclasses
   purrr::walk(subclass, ~expect_is(obj, .x, info = info))
@@ -59,7 +56,7 @@ test_default_table <- function(obj, ds_name, time, value, ...) {
   time <- ensym(time)
   value <- ensym(value)
   test_new_tbl_mbte(obj, ds_name, !!time, !!value, signal = "signal",
-    fits = "fits", metric = "metric", ...)
+    fits = "fits", ...)
 }
 
 # only randomize `time` and `value`-attributes (in order to test defaults)
@@ -90,24 +87,23 @@ test_all_random <- function(dataset, ds_name) {
   value <- gen_random_string()
   signal <- gen_random_string()
   fits <- gen_random_string()
-  metric <- gen_random_string()
   subclass <- gen_random_string(8)
   additional_attrs <- list(custom_attribute = sample(1L:100L, 1))
 
   # internal testing function
-  test_all_random_ <- function(time, value, signal, fits, metric) {
+  test_all_random_ <- function(time, value, signal, fits) {
     obj <- new_tbl_mbte(dataset, !!time, !!value, signal = !!signal,
-      fits = !!fits, metric = !!metric, subclass = subclass,
+      fits = !!fits, subclass = subclass,
       custom_attribute = additional_attrs$custom_attribute)
-    test_new_tbl_mbte(obj, ds_name, !!time, !!value, !!signal, !!fits, !!metric,
+    test_new_tbl_mbte(obj, ds_name, !!time, !!value, !!signal, !!fits,
       additional_attrs = additional_attrs, subclass = subclass)
   }
 
   # pass as strings
-  test_all_random_(time, value, signal, fits, metric)
+  test_all_random_(time, value, signal, fits)
   # pass as symbols
   test_all_random_(rlang::sym(time), rlang::sym(value), rlang::sym(signal),
-    rlang::sym(fits), rlang::sym(metric))
+    rlang::sym(fits))
 }
 
 # create a randomized dataset (ensure reproducibility via testing seed)
@@ -148,7 +144,7 @@ test_that("all randomized - df", {
     default_raw_df = as.data.frame(raw_dataset)
   )
 
-  # randomise all symbol-related variables (time, value, signal, fits, metric)
+  # randomise all symbol-related variables (time, value, signal, fits)
   withr::with_seed(testing_seed(), {
     purrr::iwalk(datasets, test_all_random)
   })
@@ -160,7 +156,7 @@ test_that("all randomized - tibble", {
     default_raw_tbl <- raw_dataset
   )
 
-  # randomise all symbol-related variables (time, value, signal, fits, metric)
+  # randomise all symbol-related variables (time, value, signal, fits)
   withr::with_seed(testing_seed(), {
     purrr::iwalk(datasets, test_all_random)
   })

@@ -19,7 +19,6 @@ is_valid_reconstruction <- function(obj) {
   expect_identical(attr_value(obj), attr_value(reference))
   expect_identical(attr_signal(obj), attr_signal(reference))
   expect_identical(attr_fits(obj), attr_fits(reference))
-  expect_identical(attr_metric(obj), attr_metric(reference))
 }
 
 # a wrapper around is_valid_reconstruction(), that additionally checks, if the

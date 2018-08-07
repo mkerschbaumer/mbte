@@ -9,8 +9,6 @@
 #' the signal (time- and value- column combined) get stored; gets quoted
 #' @param fits List-column-name; The predicted values for the original signal
 #' get stored in this list-column.
-#' @param metric The name for numeric-column containing the computed
-#' error-metric.
 #' @param subclass Additional classes to inherit from (character).
 #' @param ... Additional attributes, that are set (every element must be named)
 #'
@@ -19,7 +17,7 @@
 #' @importFrom tibble as_tibble is_tibble
 #' @export
 new_tbl_mbte <- function(x, time, value, ..., signal = "signal", fits = "fits",
-                         metric = "metric", subclass = NULL) {
+                         subclass = NULL) {
   # convert input to tibble
   if (!is_tibble(x)) {
     x <- as_tibble(x)
@@ -38,7 +36,6 @@ new_tbl_mbte <- function(x, time, value, ..., signal = "signal", fits = "fits",
   attr_value(x) <- ensym(value)
   attr_signal(x) <- ensym(signal)
   attr_fits(x) <- ensym(fits)
-  attr_metric(x) <- ensym(metric)
 
   if (!missing(subclass)) {
     assert_is_character(subclass)
@@ -54,7 +51,7 @@ new_tbl_mbte <- function(x, time, value, ..., signal = "signal", fits = "fits",
 #'
 #' @details Currently, a valid \code{tbl_mbte} must be a tibble, which also
 #' inherits from \code{tbl_mbte}. The attributes \code{time}, \code{value},
-#' \code{signal}, \code{fits} and \code{metric} have to be present.
+#' \code{signal} and \code{fits} have to be present.
 #'
 #' @importFrom rlang is_symbol
 #' @importFrom tibble is_tibble
@@ -65,7 +62,6 @@ is_tbl_mbte <- function(x) {
   value <- attr_value(x)
   signal <- attr_signal(x)
   fits <- attr_fits(x)
-  metric <- attr_metric(x)
 
   # perform basic checks, including the correctness of the required attributes
   is_tibble(x) &&
@@ -73,6 +69,5 @@ is_tbl_mbte <- function(x) {
     is_symbol(time) &&
     is_symbol(value) &&
     is_symbol(signal) &&
-    is_symbol(fits) &&
-    is_symbol(metric)
+    is_symbol(fits)
 }

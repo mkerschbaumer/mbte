@@ -10,7 +10,7 @@ mbte_reconstruct(new, old)
 \item{new}{new object}
 
 \item{old}{Object, from which specific attributes are copied (time, value,
-signal, fits, metric). The S3-generic dispatches on this argument.
+signal, fits). The S3-generic dispatches on this argument.
 
 The implementation of `sloop::reconstruct()` gets used; This is a temporary
 workaround and will be removed, once the sloop-package is on CRAN.}
