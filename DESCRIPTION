@@ -2,8 +2,13 @@ Package: mbte
 Type: Package
 Title: Model-based trend estimation
 Version: 0.0.0.9000
-Author: Martin Kerschbaumer
-Maintainer: Martin Kerschbaumer <maff32@gmx.com>
+Authors@R: c(
+  person(
+    family = "Kerschbaumer",
+    given = "Martin",
+    email = "maff32@gmx.com",
+    role = c("aut", "cre")
+  ))
 Description: A model gets fit to a time series. The predictions are computed and
   used for an error metric, that gets used to check, if a trend is present.
 License: MIT + file LICENSE
@@ -17,7 +22,7 @@ Imports:
   tibble,
   tidyr
 Suggests: testthat, withr
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 Collate: 
     'assertions.R'
     'attributes.R'
