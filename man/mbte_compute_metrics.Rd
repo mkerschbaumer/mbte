@@ -13,8 +13,8 @@ present.}
 \item{...}{The ellipsis must only contain named elements. The elements are
 used as quosures and tidy evaluation is used. Caution:
 `.pred` and `.obs` are masked (See details for more information.).
-Passed closures must evaluate to a scalar numeric (double). Otherwise or if
-an error is encountered, \code{NA_real_} will be returned.}
+Passed closures must evaluate to a scalar numeric (type double or integer).
+Otherwise or if an error is encountered, \code{NA_real_} will be returned.}
 }
 \description{
 Compute metrics based on the fitted signals and the original signal-values.

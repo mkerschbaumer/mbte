@@ -5,8 +5,8 @@
 #' @param ... The ellipsis must only contain named elements. The elements are
 #' used as quosures and tidy evaluation is used. Caution:
 #' `.pred` and `.obs` are masked (See details for more information.).
-#' Passed closures must evaluate to a scalar numeric (double). Otherwise or if
-#' an error is encountered, \code{NA_real_} will be returned.
+#' Passed closures must evaluate to a scalar numeric (type double or integer).
+#' Otherwise or if an error is encountered, \code{NA_real_} will be returned.
 #'
 #' @details
 #' The following objects are masked via a data-mask:
@@ -63,13 +63,13 @@ mbte_compute_metrics <- function(x, ...) {
   event_store <- new_event_store(50L)
 
   compute_metric <- function(metric_quo, metric_name, fit_name, ...) {
-    # make sure a scalar double gets returned in every case
+    # make sure a scalar numeric gets returned in every case
     result <- tryCatch({
       # evaluate metric quosure; if an error occurrs wrap it in an
       # `err_eval_metric`-error
       res <- eval_error_wrapper(eval_tidy(metric_quo, data = mask),
         .wrapper = err_eval_metric)
-      assert_is_scalar_dbl(res, "- result returned from metric quosure")
+      assert_is_scalar_num(res, "- result returned from metric quosure")
       res
     }, error = function(e) {
       # store occurred error with additional context

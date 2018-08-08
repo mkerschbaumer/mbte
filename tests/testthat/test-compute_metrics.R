@@ -92,8 +92,8 @@ test_that("evaluation error metric quosure", {
 
 # create an error checker (assert than an error in the event log is of
 # class "err_class_mismatch" and that it has the right error message)
-err_checker_scalar_double <- create_err_checker(class = "err_class_mismatch",
-  errmsg = "not.+scalar.+double.+result.+metric.+quosure")
+err_checker_scalar_numeric <- create_err_checker(class = "err_class_mismatch",
+  errmsg = "not.+scalar.+numeric.+result.+metric.+quosure")
 
 # test cases, where the evaluation of a metric quosure doesen't result in a
 # scalar double
@@ -103,11 +103,11 @@ local({
     "test"
   )
 
-  purrr::iwalk(faulty_inputs, ~test_that(paste("result not scalar double", .y), {
+  purrr::iwalk(faulty_inputs, ~test_that(paste("result not scalar numeric", .y), {
     .x <- rlang::enquo(.x) # convert to quosure
     res <- with_event_log(
       mbte_compute_metrics(fitted, faulty_metric = !!.x),
-      err_check = err_checker_scalar_double,
+      err_check = err_checker_scalar_numeric,
       gen_check = create_el_checker("loess", "faulty_metric", .x)
     )
 
@@ -115,6 +115,38 @@ local({
     # metric quosures should have been detected as faulty
     expect_equal(res, exp_all_NA)
   }))
+})
+
+# allow metric-quosures to return integers as results
+test_that("integer-result allowed", {
+  # generate random integer, which should be returned by the metric quosure
+  withr::with_seed(testing_seed(), {
+    int_value <- sample(1L:100L, 1)
+    metric_quo <- rlang::quo(!!int_value)
+  })
+
+  # no errors/warnings expected
+  expect_silent(res <- mbte_compute_metrics(fitted, int_quo = !!metric_quo))
+  # event-log should be empty
+  expect_null(mbte_event_log(res))
+
+  # compute expected result (simulate a case, where every evaluation of the only
+  # metric quosure yields `int_value`)
+  exp <- fitted %>%
+    # only keep relevant columns
+    select(mv, signal_nr, fits) %>%
+    mutate(
+      # only keep names of fits used to generate `fitted`
+      fit = map(fits, colnames),
+      fits = NULL, # delete fits-column
+      result = int_value,
+      metric = "int_quo"
+    ) %>%
+    unnest(fit) %>%
+    select(mv, signal_nr, fit, metric, result) # change column order
+
+  # make sure results match
+  expect_deep_equal(res, exp)
 })
 
 # no errors expected
