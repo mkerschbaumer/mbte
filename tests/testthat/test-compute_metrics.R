@@ -18,7 +18,7 @@ withr::with_seed(testing_seed(), {
 # metric computation should result in `NA_real_`)
 exp_all_NA <- local({
   # "faulty_metric" is used as a dummy name for a metric, which evaluation will
-  # not result in a scalar double
+  # not result in a scalar numeric
   metric_names <- "faulty_metric"
 
   fitted %>%
@@ -96,7 +96,7 @@ err_checker_scalar_numeric <- create_err_checker(class = "err_class_mismatch",
   errmsg = "not.+scalar.+numeric.+result.+metric.+quosure")
 
 # test cases, where the evaluation of a metric quosure doesen't result in a
-# scalar double
+# scalar numeric
 local({
   faulty_inputs <- list(
     1:10,  # numeric, but of length 10
