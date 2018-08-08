@@ -22,11 +22,17 @@
 #' @name indexing-function
 NULL
 
-#' @param x A `tbl_mbte`-object
-#' @param f An indexing function (a function taking a numeric vector and
-#' returning a list). The returned list should contain the elements `start` and
-#' `end` (interger-vector of the starting- or ending-positions of the
-#' subsignal respecitvely).
+#' Extract subsignals from a \code{\link{tbl_mbte}}-object
+#'
+#' This function depends on an existing `signal`-column (see
+#' \code{\link{tbl_mbte}}). The indexing function \code{f} is used to split
+#' a signal into subsignals. This function is useful if only certaial parts
+#' of a signal are relevant (e.g. remove parts, where the measured
+#' signal-values are below a specific threshold via a custom
+#' \code{\link{indexing-function}}).
+#'
+#' @param x A \code{\link{tbl_mbte}}-object.
+#' @param f An \code{\link{indexing-function}}.
 #' @param ... Additional arguments passed to `f`
 #'
 #' @section event-logging:
@@ -34,8 +40,8 @@ NULL
 #' execution, if events have been logged. The error log can be retrieved
 #' by passing the returned object to \code{\link{mbte_event_log}}.
 #'
-#' @section event-table:
-#' A tibble containing event-information consists of 3 columns:
+#' @section event-log:
+#' The tibble containing event-information consists of 3 columns:
 #' \describe{
 #'   \item{error}{The unprocessed error, which occurred during execution.}
 #'   \item{row_nr}{The row-number of the input-tibble (\code{x}), at which the
@@ -43,9 +49,39 @@ NULL
 #'   \item{signal}{The signal-subtable processed at the time the error occurred.}
 #' }
 #'
-#' @return The original table gets returned. The "signal"-column
+#' NOTE: currently warnings are not logged.
+#'
+#' @return The original table gets returned. The `signal`-column
 #' is modified (since subsignals are extracted according to the indexing
-#' function \code{f}).
+#' function \code{f}). Additionally, the column `signal_nr` is added, which
+#' indicates the number of the subsignal within the original signal.
+#'
+#' e.g. Assuming that \code{x} only contains one row (hence only one element is
+#' present in the `signal`-list column). The indexing function \code{f}
+#' determines, that the signal contains 3 subsignals. Therefore, the original
+#' signal-tibble is split into 3 tibbles. The returned table will have 3 rows.
+#' The column `signal_nr` will be equal to \code{c(1, 2, 3)}.
+#'
+#' @seealso \code{\link{raw_signals}} (dataset used in examples)
+#' @examples
+#' library(dplyr, warn.conflicts = FALSE)
+#' data(raw_signals)
+#'
+#' # create nested tbl_mbte (needed for subsignal-extraction)
+#' tbl <- raw_signals %>%
+#'   group_by(mv) %>%
+#'   new_tbl_mbte(time = "t", value = "value") %>%
+#'   mbte_nest_signals()
+#'
+#' # a signal-subtable with leading zeros (should be removed)
+#' tbl$signal[[9]]
+#'
+#' # perform subsignal extraction
+#' #
+#' # by default, mbte_default_indexer() gets used for signal-extraction
+#' # in this case only nonzero values are interesting
+#' extracted <- mbte_extract_subsignals(tbl)
+#' extracted
 #'
 #' @importFrom dplyr mutate
 #' @importFrom magrittr "%>%"
