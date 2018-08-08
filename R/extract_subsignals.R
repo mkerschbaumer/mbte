@@ -37,8 +37,9 @@ NULL
 #'
 #' @section event-logging:
 #' This function logs unusual events. A warning gets raised at the end of
-#' execution, if events have been logged. The error log can be retrieved
-#' by passing the returned object to \code{\link{mbte_event_log}}.
+#' execution, if events have been logged. The event-log can be retrieved
+#' by passing the returned object to \code{\link{mbte_event_log}}. In this
+#' case, a tibble containing the logged events will be returned to the user.
 #'
 #' @section event-log:
 #' The tibble containing event-information consists of 3 columns:
