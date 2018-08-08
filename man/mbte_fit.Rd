@@ -7,42 +7,64 @@
 mbte_fit(x, ...)
 }
 \arguments{
-\item{x}{A `tbl_mbte`, where signals are present as subtibbles in a
-list-column.}
+\item{x}{A \code{\link{tbl_mbte}}.}
 
 \item{...}{It is assumed, that the ellipsis only contains named elements. The
-elements are used as quosures and tidy evaluation is used. Caution:
-`.signal`, `.time_sym` and `.value_sym` are masked (See  details for more
-information.).
-Closures may return a numeric vector with the length of the original
-signal-values or an object with a method for \code{\link[stats]{predict}}.
-If the quosure evaluates to a numeric vector, it gets used as is. Otherwise,
-\code{predict(returned_value, newdata = .signal)} will be called, in order to
-get the predictions.}
+elements are used as \code{\link[rlang:quotation]{quosures}} via
+\code{\link[rlang:eval_tidy]{tidy evaluation}}. Caution: `.signal`,
+`.time_sym` and `.value_sym` are masked (See details for more information).
+The ellipsis supports \code{\link[rlang]{tidy-dots}}-semantics.}
+}
+\value{
+The original table gets returned with the `fits`-column added (list column
+consisting of tibbles). The column names are the names of the ellipsis
+(\code{...}). Each fit is a numeric column containing the predicted
+signal-values.
 }
 \description{
-Fit models to signals
+The presence of the `signal`-column is required (see \code{\link{tbl_mbte}}).
+The idea is to fit the values of a signal via arbitrary models. Those
+models are used to make predictions for the signal-values.
 }
 \details{
-Quosures can make use of masked objects, that shadow their normal regular
-execution environment:
+Fitting-quosures can make use of the following masked objects (see examples
+for clarification):
 \describe{
   \item{.signal}{A \code{\link[tibble]{tibble}} with the signal to fit
-  (time and value are present)}
+    (`time` and `value`-columns are present).}
   \item{.time_sym}{The name of the time column as a
-  \code{\link[base]{name}}.}
+    \code{\link[base:name]{symbol}}.}
   \item{.value_sym}{The name of the value-column stored as a
-  \code{\link[base]{name}}}
+    \code{\link[base:name]{symbol}}.}
 }
-}
-\section{event-table}{
 
-The error-log table contains the following columns:
+Currently, there are two ways, how a fitting-quosure may return the
+predicted signal-values for a signal:
+\itemize{
+  \item by returning a numeric vector: if a quosure evaluates to a numeric
+    vector, the values are used as is.
+  \item by returning an object compatible with \code{\link[stats]{predict}}:
+    In this case, \code{predict()} will be called on the returned object
+    with \code{newdata = .signal} (see above; the original signal-table,
+    which has been used for fitting, gets passed). This option may come in
+    handy, if the actual function used for fitting (e.g.
+    \code{\link[stats]{lm}}) returns an object, for which a predict-method
+    returning a numeric vector exists (in this case
+    \code{\link[stats]{predict.lm}}).
+}
+
+In either case, the length of the vector containing the values of the
+predicted signal has to match the number of rows of \code{.signal} (the
+signal-table used for fitting).
+}
+\section{event-log}{
+
+The tibble containing event-information contains the following columns:
 \describe{
   \item{error}{The error, that occurred during processing. Errors which
-    originate from the evaluation of a fitting quosure (specified in
-    \code{...}) or prediction-related errors are wrapped.}
-  \item{row_nr}{The row-number of the original table (\code{x}), at which
+    originate from the evaluation of a fitting quosure or prediction-related
+    errors get wrapped.}
+  \item{row_nr}{The row-number of the original table \code{x}, at which
     the error occurred.}
   \item{signal}{The signal-subtibble processed at the time the error
     occurred.}
@@ -59,3 +81,44 @@ by passing the returned object to \code{\link{mbte_event_log}}. In this
 case, a tibble containing the logged events will be returned to the user.
 }
 
+\examples{
+# load dataset (tbl_mbte with extracted subsignals)
+data(filtered_signals)
+
+# fit linear models to signals (by returning a predict()-compatible object
+# and by returning a numeric vector of the correct length)
+#
+# NOTE: `.signal` is not defined in this scope. However, masking is used and
+# to provide the signal-tibble as described above.
+fits1 <- mbte_fit(filtered_signals,
+  lm1 = lm(value ~ t, .signal), # rely on predict()
+  lm2 = predict(lm(value ~ t, .signal)) # return numeric vector
+)
+
+# resuting table with `fits`-column added
+fits1
+
+# a tibble in the `fits`-list column; the columns `fit1` and `fit2` are
+# equivalent (only different ways of returning the fittind signal-values have
+# been used).
+fits1$fits[[1]]
+
+# use tidy-dots semantics of mbte_fit() - useful if fitting quosures are
+# generated programmatically
+
+# define fitting quosures
+fitting_candidates <- rlang::quos(
+  lm1 = lm(value ~ t, .signal), # rely on predict()
+  lm2 = predict(lm(value ~ t, .signal)) # return numeric vector
+)
+
+# use tidy-dots splicing (equivalent to call producing `fits1` above)
+fits2 <- mbte_fit(filtered_signals, !!!fitting_candidates)
+fits2
+
+fits2$fits[[1]]
+
+}
+\seealso{
+\code{\link{filtered_signals}} (dataset used in examples)
+}
