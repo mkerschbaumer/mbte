@@ -94,6 +94,7 @@ assert_valid_column <- function(description, ...) {
 assert_valid_time_col <- assert_valid_column("(time-column)", assert_is_numeric)
 assert_valid_value_col <- assert_valid_column("(value-column)", assert_is_numeric)
 assert_valid_signal_col <- assert_valid_column("(signal-column)", assert_is_list)
+assert_valid_fits_col <- assert_valid_column("(fits-column)", assert_is_list)
 
 assert_equal_lengths <- function(x1, x2, ..., x1_sym = substitute(x1),
                                  x2_sym = substitute(x2)) {
