@@ -2,46 +2,72 @@
 % Please edit documentation in R/compute_metrics.R
 \name{mbte_compute_metrics}
 \alias{mbte_compute_metrics}
-\title{Compute metrics based on the fitted signals and the original signal-values.}
+\title{Compute metrics for a \code{\link{tbl_mbte}} with fitted signals}
 \usage{
 mbte_compute_metrics(x, ...)
 }
 \arguments{
-\item{x}{A `tbl_mbte`, where predicted signals and original signals are
-present.}
+\item{x}{A \code{\link{tbl_mbte}}}
 
 \item{...}{The ellipsis must only contain named elements. The elements are
-used as quosures and tidy evaluation is used. Caution:
-`.pred` and `.obs` are masked (See details for more information.).
-Passed closures must evaluate to a scalar numeric (type double or integer).
-Otherwise or if an error is encountered, \code{NA_real_} will be returned.}
+used as \code{\link[rlang:quotation]{quosures}} via
+\code{\link[rlang:eval_tidy]{tidy evaluation}}. The quosures should perform
+the metric computation. Caution: `.pred` and `.obs` are masked (See details
+for more information). \code{\link[rlang]{tidy-dots}}-semantics are
+supported.}
+}
+\value{
+A tibble with the following columns:
+\describe{
+  \item{desc}{In this case, `desc` is a placeholder for all the columns
+    in \code{x}, which are not columns for `signal` or `fits` (can be seen as
+    descriptive columns).}
+  \item{fit}{A character column with the name of the fits. Its elements will
+    be the names of the fitting quosures used (in most cases the names of
+    the fitting quosures in the call to \code{\link{mbte_fit}}).}
+  \item{metric}{The name of the metric-quosure, which computed the result.}
+  \item{result}{The actual result from the metric-computation (numeric or
+    integer, depending on what type the metric quosures returned).}
+}
 }
 \description{
-Compute metrics based on the fitted signals and the original signal-values.
+The presence of the `signal`- and `fits`-columns is required. An (error)-
+metric is computed based on the fitted signal-values and the original signal-
+values. This gets done to allow a comparison of different fitting-methods or
+to detect trends (e.g. an error metric gets used. A low error indicates, that
+the a model has been able to generalize the underlying trend).
 }
 \details{
-The following objects are masked via a data-mask:
+The metric quosures can use the following masked objects (see examples):
 \describe{
   \item{.pred}{The predicted signal-values}
-  \item{.obs}{The observed (original) signal-values}
+  \item{.obs}{The observed/measured (original) signal-values}
 }
-}
-\section{event-table}{
 
-The error-log (tibble) contains the following columns:
+Both masked objects (\code{.pred} and \code{.obs}) are numeric vectors.
+
+A metric quosure must evalutate to a scalar numeric (double or integer-vector
+of length 1). Otherwise or if an error is encountered, \code{NA_real_} will
+be the result of the metric computation.
+}
+\section{event-log}{
+
+A tibble containing event-information with the following columns:
 \describe{
   \item{error}{The error, which occurred during processing. Errors occurring
-    during the evaluation of a metric-quosure (a element passed to
-    \code{...}) are wrapped.}
+    during the evaluation of a metric-quosure are wrapped.}
   \item{row_nr}{The row-number of the original table (\code{x}), at which the
     error occurred.}
   \item{fit_name}{The name of the fit.}
-  \item{metric_name}{The name of the current metric (a name in \code{...}).}
+  \item{metric_name}{The name of the current metric (a name in \code{...}).
+    NOTE: "current" referes to the moment the error/event occurred).}
   \item{metric_quo}{The current metric-quosure (element of \code{...}).}
   \item{pred}{The current predicted signal-values (expected to be be
     numeric).}
   \item{obs}{The observed signal-values (of the original signal).}
 }
+
+NOTE: currently only errors are logged.
 }
 
 \section{event-logging}{
@@ -52,3 +78,24 @@ by passing the returned object to \code{\link{mbte_event_log}}. In this
 case, a tibble containing the logged events will be returned to the user.
 }
 
+\examples{
+data(filtered_signals)
+filtered_signals
+
+# fit linear model to each signal (`t` denotes the time column)
+fits <- mbte_fit(filtered_signals, lm = lm(value ~ t, .signal))
+
+# define error metric (in this case normalized root mean squared error)
+nrmse <- function(pred, obs) {
+  sqrt(mean((pred - obs)^2)) / (max(obs) - min(obs))
+}
+
+# compute metrics
+# NOTE: `.pred` and `.obs` not present in scope, but provided via masking
+metrics <- mbte_compute_metrics(fits, nrmse = nrmse(.pred, .obs))
+metrics
+
+}
+\seealso{
+\code{\link{filtered_signals}} (dataset used in examples)
+}
