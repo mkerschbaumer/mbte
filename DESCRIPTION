@@ -38,3 +38,4 @@ Collate:
     'package.R'
     'tbl_mbte.R'
     'reconstruct.R'
+    'unnest.R'
