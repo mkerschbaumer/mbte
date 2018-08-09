@@ -9,8 +9,9 @@ Authors@R: c(
     email = "maff32@gmx.com",
     role = c("aut", "cre")
   ))
-Description: A model gets fit to a time series. The predictions are computed and
-  used for an error metric, that gets used to check, if a trend is present.
+Description: A model gets fit to time-dependent measurement data. The
+  predictions are computed and used for an error metric, that gets used to
+  check if a trend is present.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
