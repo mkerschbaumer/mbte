@@ -35,6 +35,13 @@ assert_has_column <- function(x, colname, ..., x_sym = substitute(x)) {
   }
 }
 
+# TODO: implement for unified error messages
+#' @importFrom purrr partial
+assert_has_time_column <- partial(assert_has_column, .msg = "(time-column)")
+assert_has_value_column <- partial(assert_has_column, .msg = "(value-column)")
+assert_has_signal_column <- partial(assert_has_column, .msg = "(signal-column)")
+assert_has_fits_column <- partial(assert_has_column, .msg = "(fits-column)")
+
 # check if x inherits from an expected class and raise an error if it doesn't
 assert_class <- function(x, exp_class, ..., x_sym = substitute(x)) {
   if (!inherits(x, exp_class)) {
