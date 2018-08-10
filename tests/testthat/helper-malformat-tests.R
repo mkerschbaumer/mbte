@@ -27,20 +27,40 @@ test_ellipsis_unnamed <- function(expr) {
   })
 }
 
-# test signal column is not present or malformatted (should be a list)
-test_signal_col_np_mf <- function(fun, tbl) {
-  test_that("signal column not present or malformatted", {
-    stopifnot(!"signal" %in% colnames(tbl), is_tbl_mbte(tbl), is.function(fun))
+# create a testing function to check if a malformatted or missing list column
+# (`target`) gets detected properly
+#
+# assumptions:
+# + an error of class "err_col_expected" gets raised if the target column is
+#   missing; `regexp_np` is the corresponding regualr expression
+# + "err_class_mismatch" is the error class for the raised error if the column
+#   gets malformatted (in this helper function by converting it to an integer
+#   column). The corresponding regular expression is `regexp_mf`
+create_col_np_mf_tester <- function(target, regexp_np, regexp_mf) {
+  # return the actual testing function, which takes the function to test and the
+  # dataset to use as arguments
+  function(fun, tbl) {
+    test_that(paste(target, "column not present or malformatted"), {
+      stopifnot(!target %in% colnames(tbl), is_tbl_mbte(tbl), is.function(fun))
 
-    # signal column not present
-    expect_error(fun(tbl), class = "err_col_expected", regexp = "signal.+column")
+      # column not present ==> error expected
+      expect_error(fun(tbl), class = "err_col_expected", regexp = regexp_np)
 
-    # add a numeric signal column (not a list-column ==> error expected)
-    tbl$signal <- seq_len(nrow(tbl))
-    expect_error(fun(tbl), class = "err_class_mismatch",
-      regexp = "x\\$signal.+not.+list")
-  })
+      # add a numeric column (not a list-column ==> error expected)
+      tbl[[target]] <- seq_len(nrow(tbl))
+      expect_error(fun(tbl), class = "err_class_mismatch", regexp = regexp_mf)
+    })
+  }
 }
+
+# test signal column is not present or malformatted (should be a list)
+test_signal_col_np_mf <- create_col_np_mf_tester("signal", "signal.+column",
+  "x\\$signal.+not.+list")
+
+# test fit column not present or malformatted (fits-column should also be a
+# list-column)
+test_fits_col_np_mf <- create_col_np_mf_tester("fits", "fits.+column",
+  "x\\$fits.+not.+list")
 
 # created for testing if `fun` (e.g. mbte_extract_subsignals() detects invalid
 # columns in a signal subtibble). The target column of the subtibble must be
