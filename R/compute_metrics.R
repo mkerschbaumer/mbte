@@ -100,7 +100,7 @@ mbte_compute_metrics <- function(x, ...) {
   fits <- attr_fits(x)
 
   # check integrity of columns
-  assert_has_column(x, signal, "(signal-column)")
+  assert_has_signal_column(x, signal)
   assert_valid_signal_col(x, signal)
 
   # create masking environment for `.pred` and `.obs`

@@ -75,9 +75,9 @@ mbte_nest_signals <- function(x, ...) {
   value <- attr_value(x)
   signal <- attr_signal(x)
 
-  assert_has_column(x, time, "(time-column)")
+  assert_has_time_column(x, time)
   assert_valid_time_col(x, time)
-  assert_has_column(x, value, "(value-column)")
+  assert_has_value_column(x, value)
   assert_valid_value_col(x, value)
 
   # combine time- and value- columns into "signal"-list-column

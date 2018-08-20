@@ -97,7 +97,7 @@ mbte_extract_subsignals <- function(x, f = mbte_default_indexer, ...) {
   value <- attr_value(x)
   signals <- attr_signal(x)
 
-  assert_has_column(x, signals, "(signal-column)")
+  assert_has_signal_column(x, signals)
   assert_valid_signal_col(x, signals)
 
   # only capture the first 10 errors

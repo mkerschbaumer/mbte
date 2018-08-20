@@ -120,7 +120,7 @@ mbte_fit <- function(x, ...) {
   fits <- attr_fits(x)
 
   # assert presence and type of signal column
-  assert_has_column(x, signal, "(signal-column)")
+  assert_has_signal_column(x, signal)
   assert_valid_signal_col(x, signal)
 
   # create data mask for tidy evaluation
@@ -135,8 +135,8 @@ mbte_fit <- function(x, ...) {
   # fit a fitting-quosure to a signal
   fit_quo_to_signal <- function(fit_quo, fit_name, sig) {
     # assert signal contains valid time-and value-columns
-    assert_has_column(sig, time)
-    assert_has_column(sig, value)
+    assert_has_time_column(sig, time)
+    assert_has_value_column(sig, value)
     assert_valid_time_col(sig, time)
     assert_valid_value_col(sig, value)
 

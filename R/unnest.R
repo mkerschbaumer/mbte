@@ -50,7 +50,7 @@ mbte_unnest_signals <- function(x) {
   fits <- attr_fits(x)
 
   # check presence and integrity of signal-column
-  assert_has_column(x, signal, "(signal-column)")
+  assert_has_signal_column(x, signal)
   assert_valid_signal_col(x, signal)
 
   # colnames for "descriptive" columns (not signal- or fits-columns) - needed
@@ -116,9 +116,9 @@ mbte_unnest_fits <- function(x) {
   fits <- attr_fits(x)
 
   # check integrity of columns
-  assert_has_column(x, signal, "(signal-column)")
+  assert_has_signal_column(x, signal)
   assert_valid_signal_col(x, signal)
-  assert_has_column(x, fits, "(fits-column)")
+  assert_has_fits_column(x, fits)
   assert_valid_fits_col(x, fits)
 
   # add time column to `fits` and convert actual fits to long-form (column
