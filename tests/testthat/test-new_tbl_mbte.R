@@ -1,8 +1,5 @@
 context("new_tbl_mbte")
 
-# NOTE: variable-related parameters of new_tbl_mbte() like `signal` get tested
-# by providing strings and symbols (via tidy semantics).
-
 # test if the created object (`obj`) matches the following expectations:
 #
 # + a valid `tbl_mbte`-object must have been generated (checked via is_tbl_mbte())
@@ -12,22 +9,18 @@ context("new_tbl_mbte")
 #   from
 # + `additional_attrs` is a named list with the additional attributes, that
 #   should be set in the call to new_tbl_mbte()
-#
-# NOTE: ds_name denotes the name of the dataset (as string) - used for
-# displaying purposes when an expectation fails
-test_new_tbl_mbte <- function(obj, ds_name, time, value, signal, fits,
-                              subclass = NULL, additional_attrs = NULL) {
-  time <- ensym(time)
-  value <- ensym(value)
-  signal <- ensym(signal)
-  fits <- ensym(fits)
+check_new_tbl_mbte <- function(obj, time, value, signal = signal, fits = fits) {
+  time <- rlang::ensym(time)
+  value <- rlang::ensym(value)
+  signal <- rlang::ensym(signal)
+  fits <- rlang::ensym(fits)
 
   # generate addtional information for displaying purposes (if a test fails,
   # this information gets displayed too)
-  info <- sprintf(paste("dataset_name: '%s', time: %s, value: %s, signal: %s,",
-    "fits: %s, additional_attrs: %s"), ds_name,
-    expr_label(time), expr_label(value), expr_label(signal), expr_label(fits),
-    expr_label(additional_attrs))
+  info <- sprintf(
+    "time: %s, value: %s, signal: %s, fits: %s", rlang::expr_label(time),
+    rlang::expr_label(value), rlang::expr_label(signal), rlang::expr_label(fits)
+  )
 
   # created object must be recognized as a valid `tbl_mbte`
   expect_true(is_tbl_mbte(obj), info = info)
@@ -38,126 +31,80 @@ test_new_tbl_mbte <- function(obj, ds_name, time, value, signal, fits,
   expect_identical(attr_value(obj), value, info = info)
   expect_identical(attr_signal(obj), signal, info = info)
   expect_identical(attr_fits(obj), fits, info = info)
-
-  # make sure generated object inherits from all the specified subclasses
-  purrr::walk(subclass, ~expect_is(obj, .x, info = info))
-
-  # check if additional attributes have been set correctly
-  if (length(additional_attrs) != 0) {
-    stopifnot(is_named(additional_attrs)) # no unnamed elements allowed
-    purrr::iwalk(additional_attrs, ~{
-      expect_identical(attr(obj, .y), .x, info = info)
-    })
-  }
 }
 
-# test for a table created with defaults arguments (signal = "signal", etc.)
-test_default_table <- function(obj, ds_name, time, value, ...) {
-  time <- ensym(time)
-  value <- ensym(value)
-  test_new_tbl_mbte(obj, ds_name, !!time, !!value, signal = "signal",
-    fits = "fits", ...)
-}
+test_that("creation using tidy semantics", {
+  # symbols to pass using tidy semantics
+  time <- rlang::sym("time_var")
+  value <- rlang::sym("value_var")
+  signal <- rlang::sym("signal_var")
+  fits <- rlang::sym("fits_var")
 
-# only randomize `time` and `value`-attributes (in order to test defaults)
-test_tv_random <- function(dataset, ds_name) {
-  time <- gen_random_string()
-  value <- gen_random_string()
-  subclass <- gen_random_string(8)
-  additional_attrs <- list(custom_attribute = sample(1L:100L, 1))
-
-  # internal testing function
-  test_tv_random_ <- function(time, value) {
-    obj <- new_tbl_mbte(dataset, !!time, !!value, subclass = subclass,
-      custom_attribute = additional_attrs$custom_attribute)
-    test_default_table(obj, ds_name, !!time, !!value,
-      additional_attrs = additional_attrs, subclass = subclass)
-  }
-
-  # pass `time` and `value` as strings
-  test_tv_random_(time, value)
-  # pass `time` and `value` as symbols
-  test_tv_random_(rlang::sym(time), rlang::sym(value))
-}
-
-# test dataset creation with all symbol-related attributes generated
-# pseudo-randomly
-test_all_random <- function(dataset, ds_name) {
-  time <- gen_random_string()
-  value <- gen_random_string()
-  signal <- gen_random_string()
-  fits <- gen_random_string()
-  subclass <- gen_random_string(8)
-  additional_attrs <- list(custom_attribute = sample(1L:100L, 1))
-
-  # internal testing function
-  test_all_random_ <- function(time, value, signal, fits) {
-    obj <- new_tbl_mbte(dataset, !!time, !!value, signal = !!signal,
-      fits = !!fits, subclass = subclass,
-      custom_attribute = additional_attrs$custom_attribute)
-    test_new_tbl_mbte(obj, ds_name, !!time, !!value, !!signal, !!fits,
-      additional_attrs = additional_attrs, subclass = subclass)
-  }
-
-  # pass as strings
-  test_all_random_(time, value, signal, fits)
-  # pass as symbols
-  test_all_random_(rlang::sym(time), rlang::sym(value), rlang::sym(signal),
-    rlang::sym(fits))
-}
-
-# create a randomized dataset (ensure reproducibility via testing seed)
-withr::with_seed(testing_seed(), {
-  raw_dataset <- gen_raw_dataset()
-})
-
-# # NOTE: data.frame's are provided as inputs to assure, that the conversion to
-# a tibble gets properly done
-
-test_that("time value randomized - df", {
-  datasets <- list(
-    iris_df = iris,
-    default_raw_df = as.data.frame(raw_dataset)
+  # create new tbl_mbte; NOTE: it is not important if the specified column
+  # names are actually present in the dataset
+  tbl <- new_tbl_mbte(raw_signals, !!time, !!value,
+    signal = !!signal, fits = !!fits
   )
 
-  # run tests (randomise time and value)
-  withr::with_seed(testing_seed(), {
-    purrr::iwalk(datasets, test_tv_random)
-  })
+  # check integrity of the generated tbl_mbte
+  check_new_tbl_mbte(tbl, !!time, !!value, !!signal, !!fits)
 })
 
-test_that("time value randomized - tibble", {
-  datasets <- list(
-    iris_tbl = as_tibble(iris),
-    default_raw_tbl <- raw_dataset
-  )
+test_that("assume quotation - data.frame with defaults", {
+  # convert to data.frame on purpose to ensure, that the conversion to a tibble
+  # gets performed
+  raw_signals_df <- as.data.frame(raw_signals)
 
-  # run tests (randomise time and value)
-  withr::with_seed(testing_seed(), {
-    purrr::iwalk(datasets, test_tv_random)
-  })
+  # column-name related inputs should get quoted
+  tbl <- new_tbl_mbte(raw_signals_df, time_var, value_var)
+
+  # NOTE: assume defaults for `signal` and `fits`
+  check_new_tbl_mbte(tbl, time_var, value_var)
 })
 
-test_that("all randomized - df", {
-  datasets <- list(
-    iris_df = iris,
-    default_raw_df = as.data.frame(raw_dataset)
-  )
+test_that("pass strings - defaults", {
+  tbl <- new_tbl_mbte(raw_signals, "time_var", "value_var")
 
-  # randomise all symbol-related variables (time, value, signal, fits)
-  withr::with_seed(testing_seed(), {
-    purrr::iwalk(datasets, test_all_random)
-  })
+  # NOTE: defaults expected for `signal` and `fits`-attribute
+  check_new_tbl_mbte(tbl, time_var, value_var)
 })
 
-test_that("all randomized - tibble", {
-  datasets <- list(
-    iris_tbl = as_tibble(iris),
-    default_raw_tbl <- raw_dataset
-  )
+test_that("inherits from subclasses", {
+  # subclasses to inherit from
+  subclasses <- c("custom_subclass1", "custom_subclass2")
 
-  # randomise all symbol-related variables (time, value, signal, fits)
-  withr::with_seed(testing_seed(), {
-    purrr::iwalk(datasets, test_all_random)
-  })
+  tbl <- new_tbl_mbte(raw_signals, time, value, subclass = subclasses)
+
+  # perform general checks
+  check_new_tbl_mbte(tbl, time, value)
+
+  # make sure generated tbl_mbte inherits from the specified subclasses
+  expect_is(tbl, "custom_subclass1")
+  expect_is(tbl, "custom_subclass2")
+})
+
+test_that("error wrong type for subclasses", {
+  # subclasses must be of type character
+  expect_error(
+    new_tbl_mbte(raw_signals, time, value, subclass = c(1, 2)),
+    class = "err_class_mismatch", regexp = "subclass"
+  )
+})
+
+# attributes should be set correctly
+test_that("attributes are set", {
+  tbl <- new_tbl_mbte(raw_signals, time, value, custom_attribute = 42)
+
+  # perform general checks
+  check_new_tbl_mbte(tbl, time, value)
+  # make sure `custom_attribute` has been set
+  expect_equal(attr(tbl, "custom_attribute"), 42)
+})
+
+test_that("error if not all elements of ellipsis named", {
+  # NOTE: `50` is unnamed and should trigger an error
+  expect_error(
+    new_tbl_mbte(raw_signals, time, value, a1 = 10, 50),
+    class = "err_expected_named", regexp = "\\.{3}.+named"
+  )
 })
