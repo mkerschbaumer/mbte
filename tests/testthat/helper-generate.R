@@ -242,30 +242,24 @@ gen_raw_gr_tbl_mbte <- local({
   }
 })
 
-# generate extended raw dataset - add n simulated grouping columns to the
-# generated output from gen_raw_dataset()
-gen_ext_raw_dataset <- function(n = 5L, mv_prefix = "mv") {
-  stopifnot(purrr::is_scalar_integer(n))
-  res <- gen_raw_dataset(long = FALSE, mv_prefix = mv_prefix)
+# generate extended tbl_mbte - add a simulated column to it (may also be used
+# as a grouping-column)
+gen_ext_tbl_mbte <- local({
+  raw_tbl <- gen_raw_tbl_mbte()
 
-  # generate n random column names
-  names <- purrr::map_chr(seq_len(n), ~gen_random_string(length = 3L))
-  # compute number of groups (letters of the alphabet chosen arbitrarily)
-  n_groups <- nrow(res) %/% 10 + 1
-  # clamp number of groups to 26
-  n_groups <- ifelse(n_groups > 26, 26, n_groups)
-
-  cols <- purrr::map_dfc(seq_len(n), ~{
-    # generate random grouping variable (e.g. "a", "b", "a", "a", "b", "c", ...)
-    sample(letters[seq_len(n_groups)], nrow(res), TRUE)
+  # extend table by adding a simulated column (ensure reproducibility)
+  withr::with_seed(42L, {
+    ext_tbl <- dplyr::mutate(raw_tbl,
+      extra_column = sample(letters[1:6], nrow(raw_tbl), replace = TRUE)
+    )
   })
-  colnames(cols) <- names
+  # make sure resulting object is a tbl_mbte
+  ext_tbl <- mbte_reconstruct(ext_tbl, raw_tbl)
 
-  # add randomly generated columns to original table from gen_raw_dataset()
-  res <- dplyr::bind_cols(res, cols)
-  # return output in long-form in any case
-  tidyr::gather(res, !!mv_prefix, "value", dplyr::matches(paste0("^", mv_prefix)))
-}
+  function() {
+    ext_tbl
+  }
+})
 
 # generate a random string consisting of lowercase letters of specified length
 gen_random_string <- function(length = 6) {

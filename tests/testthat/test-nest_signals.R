@@ -5,14 +5,14 @@ test_input_not_tbl_mbte(mbte_nest_signals)
 # all column names in ellipsis (interpreted as symbols) must be present as
 # columns
 test_that("error for missing specified gropuing variable", {
-  withr::with_seed(testing_seed(), {
-    tbl <- gen_raw_tbl_mbte()
-  })
+  tbl <- gen_raw_tbl_mbte()
 
   # test for specific grouping-related error
   expect_spec_error <- function(...) {
-    expect_error(mbte_nest_signals(tbl, ...), class = "err_col_expected",
-      regexp = "missing group\\w*.*variable")
+    expect_error(mbte_nest_signals(tbl, ...),
+      class = "err_col_expected",
+      regexp = "missing group\\w*.*variable"
+    )
   }
 
   # without splicing
@@ -26,14 +26,10 @@ test_that("error for missing specified gropuing variable", {
   expect_spec_error(!!str)
 })
 
-# delete a specific column and make sure the right error gets raised
+# delete a specific column and make sure the right error (err_col_expected) gets
+# raised
 check_nonexisting_column <- function(target, attr_fun, regexp) {
-  # generate grouped raw tbl_mbte
-  withr::with_seed(testing_seed(), {
-    tbl <- gen_raw_gr_tbl_mbte()
-  })
-  expect_true(dplyr::is_grouped_df(tbl))
-  expect_true(is_tbl_mbte(tbl))
+  tbl <- gen_raw_gr_tbl_mbte()
 
   # delete specified column and make sure the attribute for the target column
   # is referring to a nonexisting column
@@ -42,8 +38,10 @@ check_nonexisting_column <- function(target, attr_fun, regexp) {
   expect_false(target %in% colnames(tbl))
 
   # error should get raised because target column is not present in dataset
-  expect_error(mbte_nest_signals(tbl), class = "err_col_expected",
-    regexp = regexp)
+  expect_error(mbte_nest_signals(tbl),
+    class = "err_col_expected",
+    regexp = regexp
+  )
 }
 
 test_that("time-column missing", {
@@ -57,9 +55,7 @@ test_that("value-column missing", {
 # malformat target column and check if the right error (err_class_mismatch) gets
 # raised
 check_malformatted_column <- function(target, regexp) {
-  withr::with_seed(testing_seed(), {
-    tbl <- gen_raw_gr_tbl_mbte()
-  })
+  tbl <- gen_raw_gr_tbl_mbte()
 
   # make sure `target` is a numeric column in `tbl`
   expect_true(target %in% colnames(tbl))
@@ -67,8 +63,10 @@ check_malformatted_column <- function(target, regexp) {
 
   # modify column
   tbl[[target]] <- as.character(tbl[[target]])
-  expect_error(mbte_nest_signals(tbl), class = "err_class_mismatch",
-    regexp = regexp)
+  expect_error(mbte_nest_signals(tbl),
+    class = "err_class_mismatch",
+    regexp = regexp
+  )
 }
 
 test_that("time column malformatted", {
@@ -82,94 +80,43 @@ test_that("value column malformatted", {
 # assert grouping columns in ellipsis (if specified) have higher priority than
 # preexisting grouping-columns
 test_that("columns in ellipsis prioritised", {
-  # ensure reproducibility of random dataset generation
-  withr::with_seed(testing_seed(), {
-    # generate random column-names for time-, value- and signal columns
-    time <- gen_random_sym(8L)
-    value <- gen_random_sym(8L)
-    signal <- gen_random_sym(8L)
-
-    # generate extended raw dataset (contains simulated grouping columns)
-    tbl <- gen_ext_raw_dataset(n = 5L)
-
-    # get strings of possible grouping-columns
-    possible_gr_cols <- names(purrr::keep(tbl, is.character))
-
-    # predefined grouping columns - see below
-    pr_gr_cols <- sample(possible_gr_cols, 2)
-
-    # actual grouping columns - chosen randomly from the remaining ones
-    gr_cols <- sample(setdiff(possible_gr_cols, pr_gr_cols), 2)
-  })
-
-  # rename time- and value- column to randomly generated column-names
-  expect_true(is.numeric(tbl$time)) # ensure presence of column `t`
-  expect_true(is.numeric(tbl$value)) # ensure column `value` is present
-  tbl <- dplyr::rename(tbl, !!time := time, !!value := value)
+  tbl <- gen_ext_tbl_mbte()
+  expect_true("extra_column" %in% colnames(tbl))
 
   # predefined grouping columns should have lower priority than those specified
-  # in ellipsis)
-  pr_gr_syms <- rlang::syms(pr_gr_cols)
-  tbl <- dplyr::group_by(tbl, !!!pr_gr_syms) # add predefined grouping
+  # in ellipsis
+  tbl <- tbl %>%
+    dplyr::group_by(extra_column)
 
-  # construct `tbl_mbte`
-  tbl <- new_tbl_mbte(tbl, !!time, !!value, signal = !!signal)
-  # make sure grouping is unchanged
-  expect_identical(dplyr::group_vars(tbl), pr_gr_cols)
+  # create tbl_mbte with custom name for signal-column
+  tbl <- new_tbl_mbte(tbl, t, value, signal = sig_col)
 
-  # actual grouping columns for ellisis as symbols - should be prioritised over
-  # `pr_gr_cols`
-  gr_syms <- rlang::syms(gr_cols)
+  # make sure grouping variable is unchanged
+  expect_identical(dplyr::group_vars(tbl), "extra_column")
 
-  # compute expected result for comparison
+  # compute expected result for comparison (grouping should be performed on the
+  # `mv`-variable because variables in the ellipsis should be priorizized)
   exp <- tbl %>%
-    dplyr::group_by(!!!gr_syms, add = FALSE) %>%
-    tidyr::nest(!!time, !!value, .key = !!signal) %>%
+    dplyr::group_by(mv, add = FALSE) %>%
+    tidyr::nest(t, value, .key = "sig_col") %>%
     mbte_reconstruct(tbl) # needed to keep class attribute "tbl_mbte"
 
-  # splice grouping columns as strings
-  res <- mbte_nest_signals(tbl, !!!gr_cols)
-  expect_tbl_mbte_equal(res, exp)
-
-  # splice grouping columns as symbols
-  res <- mbte_nest_signals(tbl, !!!gr_syms)
+  gr_var <- rlang::sym("mv")
+  res <- mbte_nest_signals(tbl, !!gr_var)
   expect_tbl_mbte_equal(res, exp)
 })
 
-test_that("expect grouping if no variables in ellipsis", {
-  withr::with_seed(testing_seed(), {
-    time <- gen_random_sym()
-    value <- gen_random_sym()
-    signal <- gen_random_sym()
+test_that("expect grouped table if no variables provided in ellipsis", {
+  # NOTE: use custom name for signal-column
+  tbl <- gen_raw_gr_tbl_mbte() %>%
+    new_tbl_mbte(t, value, signal = signal_var)
 
-    # generate sample raw dataset with additional simulated grouping-columns
-    # (character-columns)
-    tbl <- gen_ext_raw_dataset(4L)
-    expect_true(is.numeric(tbl$time)) # ensure presence of column `time`
-    expect_true(is.numeric(tbl$value)) # ensure column `value` is present
-
-    # get possible grouping-columns
-    possible_gr_cols <- names(purrr::keep(tbl, is.character))
-
-    # choose 2 grouping columns
-    gr_cols <- sample(possible_gr_cols, 2)
-    gr_syms <- rlang::syms(gr_cols)
-  })
-
-  # rename time- and value columns to randomly generated column names, add
-  # grouping and convert to tbl_mbte.
-  tbl <- tbl %>%
-    dplyr::rename(!!time := time, !!value := value) %>%
-    dplyr::group_by(!!!gr_syms, add = FALSE) %>%
-    new_tbl_mbte(!!time, !!value, signal = !!signal)
-
-  # ensure grouping-columns are preserved
-  expect_identical(dplyr::group_vars(tbl), gr_cols)
-  expect_true(is_tbl_mbte(tbl))
+  # ensure grouping-column "mv" is set
+  expect_identical(dplyr::group_vars(tbl), "mv")
 
   # compute expected result
   exp <- tbl %>%
-    tidyr::nest(!!time, !!value, .key = !!signal) %>%
+    tidyr::nest(t, value, .key = signal_var) %>%
     mbte_reconstruct(tbl) # needed to keep class attribute "tbl_mbte"
 
   # compute actual result and compare it to expected result
@@ -180,11 +127,8 @@ test_that("expect grouping if no variables in ellipsis", {
 # assumption: no grouping columns in ellipsis specified ==> table must be
 # grouped
 test_that("error when not grouped", {
-  withr::with_seed(testing_seed(), {
-    tbl <- gen_raw_tbl_mbte()
-  })
-
-  expect_true(is_tbl_mbte(tbl))
+  tbl <- gen_raw_tbl_mbte()
   expect_false(dplyr::is_grouped_df(tbl))
+
   expect_error(mbte_nest_signals(tbl), class = "err_expected_grouped")
 })
