@@ -4,11 +4,11 @@ context("reconstruct")
 # without grouping
 basic_df <- as.data.frame(raw_signals)
 basic_tbl <- raw_signals # tibble
-basic_tbl_mbte <- new_tbl_mbte(raw_signals, t, value)
+basic_tbl_mbte <- gen_raw_tbl_mbte()
 # with grouping
 gr_df <- dplyr::group_by(basic_df, mv)
 gr_tbl <- dplyr::group_by(basic_tbl, mv)
-gr_tbl_mbte <- new_tbl_mbte(gr_tbl, t, value)
+gr_tbl_mbte <- gen_raw_gr_tbl_mbte()
 
 # independent dataset, which serves as a "template" for reconstruction (contains
 # the attribtutes, that should be set for the target object).

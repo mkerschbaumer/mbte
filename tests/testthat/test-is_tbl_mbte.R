@@ -25,7 +25,7 @@ test_that("is_tbl_mbte - positive test helper", {
 # cross-check, that objects created by new_tbl_mbte() are detected as valid
 # `tbl_mbte`-objects
 test_that("is_tbl_mbte - new_tbl_mbte()", {
-  tbl <- new_tbl_mbte(raw_signals, t, value)
+  tbl <- gen_raw_tbl_mbte()
   expect_true(is_tbl_mbte(tbl))
 })
 

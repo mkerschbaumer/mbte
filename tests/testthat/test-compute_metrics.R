@@ -11,7 +11,7 @@ withr::with_seed(testing_seed(), {
     mbte_extract_subsignals() %>%
     dplyr::filter(purrr::map_int(signal, nrow) > 20) %>%
     mbte_reconstruct(raw_tbl) %>%
-    mbte_fit(loess = loess(value ~ time, .signal))
+    mbte_fit(loess = loess(value ~ t, .signal))
 })
 
 # expected result if the metric computation fails (by definition, a failed

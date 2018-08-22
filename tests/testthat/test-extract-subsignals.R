@@ -21,7 +21,7 @@ test_signal_col_np_mf(mbte_extract_subsignals, tbl)
 
 # subtibble with malformatted time column contained (character instead of
 # numeric)
-test_malformatted_signal_subtable(mbte_extract_subsignals, tbl_nested, "time")
+test_malformatted_signal_subtable(mbte_extract_subsignals, tbl_nested, "t")
 
 # subtibble with malformatted value column
 test_malformatted_signal_subtable(mbte_extract_subsignals, tbl_nested, "value")

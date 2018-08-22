@@ -70,7 +70,7 @@ test_malformatted_signal_subtable <- function(fun, tbl, target_col,
                                            signal = "signal", row_nr = 2L) {
   test_that(paste0(target_col, " column in signal malformatted"), {
     # make sure all signal-subtibbles contain the numeric target column (e.g.
-    # numeric time-column if `target_col` is set to "time")
+    # numeric time-column if `target_col` is set to "t")
     expect_true(all(purrr::map_lgl(tbl[[signal]], ~{
       is.numeric(.x[[target_col]])
     })))

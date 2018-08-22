@@ -47,7 +47,7 @@ check_nonexisting_column <- function(target, attr_fun, regexp) {
 }
 
 test_that("time-column missing", {
-  check_nonexisting_column("time", attr_time, "time.*column")
+  check_nonexisting_column("t", attr_time, "time.*column")
 })
 
 test_that("value-column missing", {
@@ -72,7 +72,7 @@ check_malformatted_column <- function(target, regexp) {
 }
 
 test_that("time column malformatted", {
-  check_malformatted_column("time", "not numeric.+time.?column")
+  check_malformatted_column("t", "not numeric.+time.?column")
 })
 
 test_that("value column malformatted", {

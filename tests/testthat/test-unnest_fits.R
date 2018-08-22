@@ -1,7 +1,7 @@
 context("unnest_fits")
 
 # create datasets needed for testing
-raw_tbl_mbte <- new_tbl_mbte(raw_signals, "t", "value")
+raw_tbl_mbte <- gen_raw_tbl_mbte()
 fitted <- mbte_fit(filtered_signals, lm = lm(value ~ t, .signal))
 
 test_input_not_tbl_mbte(mbte_unnest_fits)
@@ -27,7 +27,7 @@ test_that("time column not present or malformatted", {
   expect_error(mbte_unnest_fits(fitted), "x$signal[[3L]]$t",
     "err_class_mismatch", fixed = TRUE)
 
-  # "delete" time column
+  # "delete" time column (t)
   bad_signal$t <- NULL
   fitted$signal[[3]] <- bad_signal
 

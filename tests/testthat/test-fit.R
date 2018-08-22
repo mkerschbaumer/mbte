@@ -22,7 +22,7 @@ withr::with_seed(testing_seed(), {
 
 test_input_not_tbl_mbte(mbte_fit)
 
-test_ellipsis_unnamed(mbte_fit(filtered, loess(value ~ time, .signal)))
+test_ellipsis_unnamed(mbte_fit(filtered, loess(value ~ t, .signal)))
 
 # specify a dumming fitting quosure, since this wrapper function is only needed
 # to test for detection of malformatted signal-subtibbles.
@@ -34,7 +34,7 @@ fit_wrapper <- function(...) {
 # test signal column not present or malformatted
 test_signal_col_np_mf(fit_wrapper, raw_tbl)
 
-test_malformatted_signal_subtable(fit_wrapper, filtered, "time")
+test_malformatted_signal_subtable(fit_wrapper, filtered, "t")
 
 test_malformatted_signal_subtable(fit_wrapper, filtered, "value")
 
@@ -109,7 +109,7 @@ test_that("error during prediction", {
   })
 
   # fitting quosure
-  fit_quo <- rlang::quo(lm(value ~ time, .signal))
+  fit_quo <- rlang::quo(lm(value ~ t, .signal))
   res <- with_mock(
     # mock predict.lm to always raise an error (with error message from above)
     predict.lm = function(x, ...) {
@@ -128,7 +128,7 @@ test_that("error during prediction", {
 
 test_that("predictions not numeric", {
   # fitting quosure
-  fit_quo <- rlang::quo(lm(value ~ time, .signal))
+  fit_quo <- rlang::quo(lm(value ~ t, .signal))
   res <- with_mock(
     # mock predict.lm to always return a character-vector of the correct length
     # instead of a numeric vector
@@ -175,7 +175,7 @@ test_that("positive test", {
   filtered <- filtered %>%
     # rename time- and value colnames for signal-subtibbles
     dplyr::mutate(signal = map(signal, ~{
-      dplyr::rename(.x, !!time := time, !!value := value)
+      dplyr::rename(.x, !!time := t, !!value := value)
     })) %>%
     dplyr::rename(!!signal := signal) %>%
     new_tbl_mbte(!!time, !!value, signal = !!signal, fits = !!fits)
