@@ -261,6 +261,29 @@ gen_ext_tbl_mbte <- local({
   }
 })
 
+# testing helper for mbte_compute_metrics(): simulate cases, where it is known,
+# that every computed result will be equal to `result`. `metric_names` contains
+# the names of the metric-quosures, which produce the passed result.
+#
+# NOTE: `dataset` should be a tibble containing the `fits` column
+gen_metric_result <- function(dataset, result, metric_names, signal, fits) {
+  # column names for signal- and fits column
+  signal <- rlang::ensym(signal)
+  fits <- rlang::ensym(fits)
+
+  dataset %>%
+    dplyr::mutate(.tmp = purrr::map(!!fits, ~{
+      purrr::cross_df(list(
+        # names of the fits, which are present in passed dataset (e.g. "loess")
+        fit = colnames(.x),
+        metric = metric_names,
+        result = result
+      ))
+    })) %>%
+    dplyr::select(-!!signal, -!!fits) %>% # remove unneeded columns
+    tidyr::unnest(.tmp)
+}
+
 # generate a random string consisting of lowercase letters of specified length
 gen_random_string <- function(length = 6) {
   paste(sample(letters, length, TRUE), collapse = "")
