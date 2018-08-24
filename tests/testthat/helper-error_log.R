@@ -1,13 +1,14 @@
-# expect unusual events happening during execution of `expr` (gets quoted)
+# expect unusual events during execution of `expr` (gets quoted and used as a
+# quosure)
 #
-# `gen_check`, if provided, gets passed to purrr::as_mapper() and is intended to
+# `gen_check`, if provided, is passed to purrr::as_mapper() and is intended to
 # be used for checking the *general* integrity of the event log (e.g. checking
-# consistency with known values). Its first argument should take the extracted
-# event log.
+# consistency with known values). It should take the event log as its first
+# argument.
 #
 # `err_check`, if provided, is meant to check errors from the event log
-# (event_log$error). Like `gen_check`, it also gets passed to purrr::as_mapper()
-# first. This function may take 2 arguments (first argument: recorded error;
+# (event_log$error). Like `gen_check`, it is also passed to purrr::as_mapper().
+# This function may take 2 arguments (first argument: recorded error;
 # second argument: row of the event-log tibble, where the error can be found).
 #
 # This function returns the result from the computation of `expr` invisibly.
@@ -23,7 +24,7 @@ with_event_log <- function(expr, gen_check, err_check) {
   expect_true(tibble::is_tibble(event_log))
   expect_true(nrow(event_log) != 0)
 
-  # run generic consistency checks of event log (if provided)
+  # run generic integrity checks of event log (if provided)
   if (!missing(gen_check)) {
     gen_check <- purrr::as_mapper(gen_check)
     gen_check(event_log)
@@ -66,12 +67,12 @@ err_class_mismatch_checker <- function(errmsg) {
 # NOTE: the provided error-message is passed with modifications (because the
 # prefix "original.+message.+" should be present)
 err_fit_checker <- function(errmsg) {
-  create_err_checker(paste0("original.+message.+", errmsg), class = "err_fit")
+  create_err_checker(paste0("original.+message.+", errmsg), "err_fit")
 }
 
 # a checker for "err_dim_incomp"-errors
 err_dim_incomp_checker <- function(errmsg) {
-  create_err_checker(errmsg, class = "err_dim_incomp")
+  create_err_checker(errmsg, "err_dim_incomp")
 }
 
 # an error checker for "err_eval_metric"
