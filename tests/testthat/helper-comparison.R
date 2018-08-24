@@ -1,29 +1,37 @@
-# check if an object `obj` is equal to an expected object by recursively
-# applying expect_deep_equal to the corresponding subelements; NOTES:
+# use are_deep_equal() to verify, that two objects match
 #
-# + recursion is applied for list-like objects (is.list(obj) evaluates to
-#   `TRUE`)
-# + for objects to be considered equal, the following condition must apply:
-#   + the classes, names and length must be equal
-#   + elements not being lists must be considered equal by the specified
-#     comparison function (`comp_fun`)
-#
-# NOTE: `...` is passed to are_deep_equal() - will be passed to paste0() in
-# order to generate additional information about what has been assed to
+# NOTE: `...` is passed to are_deep_equal() - will be passed to paste0();
+# is used to generate additional information about what has been passed to
 # expect_deep_equal()
 expect_deep_equal <- function(obj, exp, ...) {
   expect_true(are_deep_equal(obj, exp, ...))
 }
 
+# check if an object (`obj`) is equal to an expected object by recursively
+# applying are_deep_equal() to the corresponding subelements; NOTES:
+#
+# + recursion is applied to list-like objects (when `is.list(obj)` evaluates
+#   to `TRUE`)
+# + for objects to be considered equal, the following condition must apply:
+#   + the classes, names and length must be equal
+#   + elements not being lists must be considered equal by the specified
+#     comparison function (`comp_fun`)
+#
 # `...` is passed to paste0() in order to generate additional information in
 # case of failure.
 #
-# comp_fun is the actual comparison function used to compare two non-list-like
+# `comp_fun` is the actual comparison function used to compare two non-list-like
 # objects.
-are_deep_equal <- function(obj, exp, ..., nesting = NULL, comp_fun = all.equal) {
+#
+# NOTE: this function is intended to test equality of two tibbles containing
+# list-columns
+are_deep_equal <- function(obj, exp, ..., nesting = NULL,
+                           comp_fun = all.equal) {
   # generate information about nesting level
-  info <- paste0("nesting:", ifelse(length(nesting) == 0, " none", nesting),
-    " - info from caller: \"", ..., "\"")
+  info <- paste0(
+    "nesting:", ifelse(length(nesting) == 0, " none", nesting),
+    " - info from caller: \"", ..., "\""
+  )
 
   # objects can't be equal if classes don't match
   if (!identical(class(obj), class(exp))) {
@@ -31,7 +39,8 @@ are_deep_equal <- function(obj, exp, ..., nesting = NULL, comp_fun = all.equal) 
     return(FALSE)
   }
 
-  # NOTE: exp doesen't need to be checked (since objects are of the same classes)
+  # NOTE: exp doesen't need to be checked (since objects are of the same
+  # classes)
   if (!is.list(obj)) {
     # perform "regular" comparison (of non-list elements)
     if (!isTRUE(comp_fun(obj, exp))) {
@@ -54,8 +63,8 @@ are_deep_equal <- function(obj, exp, ..., nesting = NULL, comp_fun = all.equal) 
   }
 
   names <- names(obj)
-  # if no names are present (e.g. in a unnamed list), use the positions
-  # as names
+  # if no names are present (e.g. in an unnamed list), the positions are used
+  # as names (converted to character)
   to_compare <- list(
     name = if (length(names) != 0) names else as.character(seq_along(obj)),
     index = seq_along(obj)
@@ -63,17 +72,19 @@ are_deep_equal <- function(obj, exp, ..., nesting = NULL, comp_fun = all.equal) 
 
   # compare subelements via index
   purrr::pmap(to_compare, function(name, index) {
-    are_deep_equal(obj[[index]], exp[[index]], ..., comp_fun = comp_fun,
-      nesting = paste(nesting, name))
+    are_deep_equal(obj[[index]], exp[[index]], ...,
+      comp_fun = comp_fun,
+      nesting = c(nesting, name)
+    )
   })
 
   # tests haven't failed ==> objects are equal
   TRUE
 }
 
-# test if 2 `tbl_mbte` are equal - -needed, since currently expect_equal()
-# does not perform pairwise comparison of list-columns - result of a computation
-# is supposed to be checked against expected result.
+# Test if 2 `tbl_mbte`-objects are equal - needed if pairwise comparison of
+# list-columns is required - result of a computation (`res`) is checked against
+# expected result (`exp`).
 expect_tbl_mbte_equal <- function(res, exp, ...) {
   expect_true(is_tbl_mbte(res))
   expect_true(is_tbl_mbte(exp))
@@ -84,7 +95,8 @@ expect_tbl_mbte_equal <- function(res, exp, ...) {
   expect_identical(attr_signal(res), attr_signal(exp))
   expect_identical(attr_fits(res), attr_fits(exp))
 
-  # perform column-wise comparison (to be able to compare list columns)
+  # column-names and dimensions must match (asserted before performing deep
+  # comparison involving the contents of list-columns)
   expect_equal(dim(res), dim(exp))
   expect_equal(colnames(res), colnames(exp))
 
