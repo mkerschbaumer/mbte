@@ -7,17 +7,16 @@
 mbte_nest_signals(x, ...)
 }
 \arguments{
-\item{x}{A \code{\link{tbl_mbte}}, which contains the `time`- and `value`-
-columns.}
+\item{x}{A \code{\link{tbl_mbte}} containing `time`- and `value`-columns.}
 
 \item{...}{Variables (get \code{\link[rlang:quotation]{quoted}}), which
-should be used for grouping. If no variables are specified, it is assumed,
+can be used for grouping. If no variables are specified, it is assumed,
 that \code{x} is already a \code{\link[dplyr:grouped_df]{grouped table}}.}
 }
 \description{
 This function is responsible for creating the `signal`-list-column of a
 \code{\link{tbl_mbte}}. This gets done by combining the `time`- and
-`value`-column of \code{x} via nesting (\code{\link[tidyr]{nest}} gets used).
+`value`-column of \code{x} via nesting (\code{\link[tidyr]{nest}} is used).
 This step is necessary, since functions like \code{\link{mbte_fit}} or
 \code{\link{mbte_compute_metrics}} rely on the presence of the
 `signal`-column. It is required to specify grouping columns (either by
@@ -27,9 +26,9 @@ passing them via \code{...} or by passing a
 \details{
 This function is meant to operate on `long`-datasets. Hence, columns for
 signal-time, signal-values and a variable describing the measured parameter
-should be present. Therefore, the "measurement-variable"-column should be
-used for grouping if the goal is to find out, which measured parameters have
-an underlying trend.
+should be present. Therefore, the "measurement-variable"-column is used for
+grouping if the goal is to find out, which measured parameters have an
+underlying trend (see examples).
 }
 \note{
 In any case, grouping variables specified in \code{...} are prioritised over

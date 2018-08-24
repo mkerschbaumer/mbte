@@ -2,17 +2,17 @@
 
 #' Sample dataset of raw-signals
 #'
-#' A \code{\link[tibble]{tibble}} with randomly generated and purely fictional
-#' signal-data. The intensities of fictional measurement variables are measured
-#' every minute. The dataset contains 100 measurements of 42 measurement
-#' variables. A measurement variable can be thought of a variable describing the
-#' measured parameter.
+#' A \code{\link[tibble]{tibble}} with randomly generated and exclusively
+#' fictional signal-data. The intensities of fictional measurement variables are
+#' measured every minute. The dataset contains 100 measurements of 42
+#' measurement variables. A measurement variable can be thought of a variable
+#' describing the measured parameter.
 #'
 #' @section Contained colums:
-#' \itemize{
-#'   \item t. The time column.
-#'   \item mv. The measurement variable.
-#'   \item value. The measured intensity of the signal.
+#' \describe{
+#'   \item{t}{The time column.}
+#'   \item{mv}{The measurement variable.}
+#'   \item{value}{The measured intensity of the signal.}
 #' }
 #'
 #' @name raw_signals
@@ -23,9 +23,8 @@ NULL
 
 #' Filtered raw-signals
 #'
-#' A \code{\link{tbl_mbte}}, which is based on the \code{\link{raw_signals}}-
-#' dataset. Signal-extraction has already been performed and short signals were
-#' removed.
+#' A \code{\link{tbl_mbte}} based on the \code{\link{raw_signals}}-dataset.
+#' Signal-extraction has already been performed and short signals were removed.
 #'
 #' The following operations have been performed on \code{\link{raw_signals}}:
 #' \itemize{
@@ -39,13 +38,13 @@ NULL
 #' }
 #'
 #' @section Contained columns:
-#' \itemize{
-#'   \item mv. The measurement variable. See \code{\link{raw_signals}} for
-#'     details.
-#'   \item signal_nr. An integer column indicating the number of the subsignal
+#' \describe{
+#'   \item{mv}{The measurement variable. See \code{\link{raw_signals}} for
+#'     details.}
+#'   \item{signal_nr}{An integer column indicating the number of the subsignal
 #'     within the original signal. See \code{\link{mbte_extract_subsignals}} for
-#'     details.
-#'   \item signal. A list-column consisting of tibbles.
+#'     details.}
+#'   \item{signal}{A list-column consisting of tibbles.}
 #' }
 #'
 #' @name filtered_signals

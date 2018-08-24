@@ -10,10 +10,10 @@
 #' @note
 #' The length of the returned indices must match the number of found subsignals
 #' (e.g. 3 Subsignals found ==> length of start- and end-indices vectors must
-#' equal 3). The indices-vectors must be of type integer.
+#' equal 3). The indices-vectors have to be of type integer.
 #'
 #' @return
-#' A list with the following names should get returned:
+#' A list with the following names should be returned:
 #' \describe{
 #'   \item{start}{Start indices of the found subsignals.}
 #'   \item{end}{End indices of the found subsignals.}
@@ -26,7 +26,7 @@ NULL
 #'
 #' This function depends on an existing `signal`-column (see
 #' \code{\link{tbl_mbte}}). The indexing function \code{f} is used to split
-#' a signal into subsignals. This function is useful if only certaial parts
+#' a signal into subsignals. This function is useful, if only certain parts
 #' of a signal are relevant (e.g. remove parts, where the measured
 #' signal-values are below a specific threshold via a custom
 #' \code{\link{indexing-function}}).
@@ -36,7 +36,7 @@ NULL
 #' @param ... Additional arguments passed to `f`
 #'
 #' @section event-logging:
-#' This function logs unusual events. A warning gets raised at the end of
+#' This function logs unusual events. A warning gets raised at the end of an
 #' execution, if events have been logged. The event-log can be retrieved
 #' by passing the returned object to \code{\link{mbte_event_log}}. In this
 #' case, a tibble containing the logged events will be returned to the user.

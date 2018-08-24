@@ -5,18 +5,18 @@
 \alias{raw_signals}
 \title{Sample dataset of raw-signals}
 \description{
-A \code{\link[tibble]{tibble}} with randomly generated and purely fictional
-signal-data. The intensities of fictional measurement variables are measured
-every minute. The dataset contains 100 measurements of 42 measurement
-variables. A measurement variable can be thought of a variable describing the
-measured parameter.
+A \code{\link[tibble]{tibble}} with randomly generated and exclusively
+fictional signal-data. The intensities of fictional measurement variables are
+measured every minute. The dataset contains 100 measurements of 42
+measurement variables. A measurement variable can be thought of a variable
+describing the measured parameter.
 }
 \section{Contained colums}{
 
-\itemize{
-  \item t. The time column.
-  \item mv. The measurement variable.
-  \item value. The measured intensity of the signal.
+\describe{
+  \item{t}{The time column.}
+  \item{mv}{The measurement variable.}
+  \item{value}{The measured intensity of the signal.}
 }
 }
 

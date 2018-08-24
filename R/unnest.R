@@ -67,7 +67,7 @@ mbte_unnest_signals <- function(x) {
 #' Perform unnesting of fitting data
 #'
 #' The `fits`-list column gets unnested. This function is useful if the fitted
-#' signal-values should be processed further.
+#' signal-values are processed further.
 #'
 #' @return
 #' A \code{\link{tbl_mbte}} with the following columns:

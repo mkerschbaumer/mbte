@@ -1,7 +1,7 @@
 #' Log unusual events occurring during execution
 #'
 #' For some occasions (like in long-running computations) it may not be desired
-#' to shut down the whole computation if a single error occurrrs. It may be
+#' to shut down the whole computation if a single error occurrs. It may be
 #' better to log the occurred error and carry on with the computation. In such
 #' a case, \code{\link{NA}} will always be the result of a failed computation.
 #' The logged information can be retrieved via \code{mbte_event_log()} (see

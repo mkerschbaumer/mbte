@@ -33,9 +33,10 @@ A tibble with the following columns:
 \description{
 The presence of the `signal`- and `fits`-columns is required. An (error)-
 metric is computed based on the fitted signal-values and the original signal-
-values. This gets done to allow a comparison of different fitting-methods or
-to detect trends (e.g. an error metric gets used. A low error indicates, that
-the a model has been able to generalize the underlying trend).
+values. This gets done in order to allow a comparison of different
+fitting-methods or to detect trends (e.g. an error metric gets used. A low
+error indicates, that the a model has been able to generalize the underlying
+trend).
 }
 \details{
 The metric quosures can use the following masked objects (see examples):
@@ -72,7 +73,7 @@ NOTE: currently only errors are logged.
 
 \section{event-logging}{
 
-This function logs unusual events. A warning gets raised at the end of
+This function logs unusual events. A warning gets raised at the end of an
 execution, if events have been logged. The event-log can be retrieved
 by passing the returned object to \code{\link{mbte_event_log}}. In this
 case, a tibble containing the logged events will be returned to the user.

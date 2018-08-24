@@ -10,7 +10,7 @@ mbte_reconstruct(new, old)
 \method{mbte_reconstruct}{tbl_mbte}(new, old)
 }
 \arguments{
-\item{new}{Object, to which the attributes should be added (must be
+\item{new}{Object, which the attributes should be added to (must be
 convertible to a tibble).}
 
 \item{old}{\code{\link{tbl_mbte}}, from which specific attributes are
@@ -18,7 +18,7 @@ copied (`time`, `value`, `signal`, `fits`). Additionally, the class
 `tbl_mbte` gets added. The S3-generic dispatches on this argument.}
 }
 \description{
-This function should be used to readd dropped-attributes, if a
+This function is used to readd dropped-attributes, if a
 \code{\link{tbl_mbte}}-object gets processed by functions, which may drop
 additional attributes.
 }

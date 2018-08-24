@@ -24,7 +24,7 @@ A \code{\link{tbl_mbte}} with the following columns:
 }
 \description{
 The `fits`-list column gets unnested. This function is useful if the fitted
-signal-values should be processed further.
+signal-values are processed further.
 }
 \examples{
 # load sample dataset

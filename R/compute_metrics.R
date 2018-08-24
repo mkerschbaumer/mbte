@@ -2,9 +2,10 @@
 #'
 #' The presence of the `signal`- and `fits`-columns is required. An (error)-
 #' metric is computed based on the fitted signal-values and the original signal-
-#' values. This gets done to allow a comparison of different fitting-methods or
-#' to detect trends (e.g. an error metric gets used. A low error indicates, that
-#' the a model has been able to generalize the underlying trend).
+#' values. This gets done in order to allow a comparison of different
+#' fitting-methods or to detect trends (e.g. an error metric gets used. A low
+#' error indicates, that the a model has been able to generalize the underlying
+#' trend).
 #'
 #' @param x A \code{\link{tbl_mbte}}
 #' @param ... The ellipsis must only contain named elements. The elements are

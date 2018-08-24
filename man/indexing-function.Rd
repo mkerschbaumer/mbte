@@ -4,7 +4,7 @@
 \alias{indexing-function}
 \title{Indexing functions for subsignal-extraction}
 \value{
-A list with the following names should get returned:
+A list with the following names should be returned:
 \describe{
   \item{start}{Start indices of the found subsignals.}
   \item{end}{End indices of the found subsignals.}
@@ -21,5 +21,5 @@ to find the start- and end-indices of a subsignal (used by
 \note{
 The length of the returned indices must match the number of found subsignals
 (e.g. 3 Subsignals found ==> length of start- and end-indices vectors must
-equal 3). The indices-vectors must be of type integer.
+equal 3). The indices-vectors have to be of type integer.
 }

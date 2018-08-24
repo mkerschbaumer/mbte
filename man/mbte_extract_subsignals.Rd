@@ -28,14 +28,14 @@ The column `signal_nr` will be equal to \code{c(1, 2, 3)}.
 \description{
 This function depends on an existing `signal`-column (see
 \code{\link{tbl_mbte}}). The indexing function \code{f} is used to split
-a signal into subsignals. This function is useful if only certaial parts
+a signal into subsignals. This function is useful, if only certain parts
 of a signal are relevant (e.g. remove parts, where the measured
 signal-values are below a specific threshold via a custom
 \code{\link{indexing-function}}).
 }
 \section{event-logging}{
 
-This function logs unusual events. A warning gets raised at the end of
+This function logs unusual events. A warning gets raised at the end of an
 execution, if events have been logged. The event-log can be retrieved
 by passing the returned object to \code{\link{mbte_event_log}}. In this
 case, a tibble containing the logged events will be returned to the user.

@@ -5,9 +5,8 @@
 \alias{filtered_signals}
 \title{Filtered raw-signals}
 \description{
-A \code{\link{tbl_mbte}}, which is based on the \code{\link{raw_signals}}-
-dataset. Signal-extraction has already been performed and short signals were
-removed.
+A \code{\link{tbl_mbte}} based on the \code{\link{raw_signals}}-dataset.
+Signal-extraction has already been performed and short signals were removed.
 }
 \details{
 The following operations have been performed on \code{\link{raw_signals}}:
@@ -23,13 +22,13 @@ The following operations have been performed on \code{\link{raw_signals}}:
 }
 \section{Contained columns}{
 
-\itemize{
-  \item mv. The measurement variable. See \code{\link{raw_signals}} for
-    details.
-  \item signal_nr. An integer column indicating the number of the subsignal
+\describe{
+  \item{mv}{The measurement variable. See \code{\link{raw_signals}} for
+    details.}
+  \item{signal_nr}{An integer column indicating the number of the subsignal
     within the original signal. See \code{\link{mbte_extract_subsignals}} for
-    details.
-  \item signal. A list-column consisting of tibbles.
+    details.}
+  \item{signal}{A list-column consisting of tibbles.}
 }
 }
 

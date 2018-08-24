@@ -17,6 +17,6 @@ metric-results. The results can be visualized using
 \href{https://ggplot2.tidyverse.org/}{ggplot2}.
 }
 \details{
-The general workflow and how the different components of this package
+The general workflow and the way the different components of this package
 interact, can be seen in the introduction vignette.
 }

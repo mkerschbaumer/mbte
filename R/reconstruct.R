@@ -1,6 +1,6 @@
 #' Reconstruct a \code{\link{tbl_mbte}} from template-object
 #'
-#' This function should be used to readd dropped-attributes, if a
+#' This function is used to readd dropped-attributes, if a
 #' \code{\link{tbl_mbte}}-object gets processed by functions, which may drop
 #' additional attributes.
 #'
@@ -8,7 +8,7 @@
 #' temporary workaround and will be removed, once the
 #' \href{https://github.com/hadley/sloop}{sloop}-package is on CRAN.
 #'
-#' @param new Object, to which the attributes should be added (must be
+#' @param new Object, which the attributes should be added to (must be
 #'   convertible to a tibble).
 #' @param old \code{\link{tbl_mbte}}, from which specific attributes are
 #'   copied (`time`, `value`, `signal`, `fits`). Additionally, the class

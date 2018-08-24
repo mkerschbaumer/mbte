@@ -30,11 +30,10 @@ object is a \code{\link[tibble]{tibble}} under the hood and can be used
 as such.
 }
 \description{
-A new \code{\link{tbl_mbte}} based on \code{x} gets created. The
-corresponding column names for the `time`-, `value`-, `signal`- and
-`fits` columns are passed as parameters as either strings or
-\code{\link[base:name]{symbols}}. If symbols are passed,
-\link[rlang]{quasiquotation} should be used.
+A new \code{\link{tbl_mbte}} based on \code{x} is created. The corresponding
+column names for the `time`-, `value`-, `signal`- and `fits` columns are
+passed as parameters as either strings or \code{\link[base:name]{symbols}}.
+If symbols are passed, \link[rlang]{quasiquotation} should be used.
 }
 \note{
 Errors about missing or malformatted columns will not be rasised by this
