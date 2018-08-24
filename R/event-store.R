@@ -104,8 +104,10 @@ cond_add_event_store <- function(x, store, caller_fn) {
 
   if (store$n_events() != 0) {
     attr_event_log(x) <- store$get_events()
-    warning("Unusual events occurred during execution of `",
-      as.character(caller_fn), "()` ==> can be retrieved via mbte_event_log()")
+    warning(
+      "Unusual events occurred during execution of `",
+      as.character(caller_fn), "()` ==> can be retrieved via mbte_event_log()"
+    )
   }
 
   x

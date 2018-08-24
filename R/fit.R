@@ -148,8 +148,8 @@ mbte_fit <- function(x, ...) {
     fit <- eval_error_wrapper(.wrapper = err_fit, {
       fit <- eval_tidy(fit_quo, data = mask)
 
-      # get predictions via predict(), if the quosure didn't evaluate to a numeric
-      # vector
+      # get predictions via predict(), if the quosure didn't evaluate to a
+      # numeric vector
       if (!is.numeric(fit)) {
         fit <- predict(fit, newdata = sig)
       }
@@ -170,8 +170,10 @@ mbte_fit <- function(x, ...) {
   # (errors are stored in `event_store`)
   safe_fit <- function(fit_quo, fit_name, sig, ...) {
     tryCatch(fit_quo_to_signal(fit_quo, fit_name, sig), error = function(e) {
-      event_store$add_event(error = e, ..., signal = sig, fit_name = fit_name,
-        fit_quo = fit_quo)
+      event_store$add_event(
+        error = e, ..., signal = sig, fit_name = fit_name,
+        fit_quo = fit_quo
+      )
 
       # return NA's for predicted signal-values (since error occurred)
       rep(NA_real_, nrow(sig))

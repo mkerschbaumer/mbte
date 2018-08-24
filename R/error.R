@@ -20,29 +20,34 @@ mbte_error <- function(..., subclass = NULL) {
 #' @importFrom rlang expr_label
 err_expected_named <- function(x_sym, ...) {
   mbte_error("All elements of", expr_label(x_sym), "must be named", ...,
-    subclass = "err_expected_named")
+    subclass = "err_expected_named"
+  )
 }
 
 # target object is not grouped (by dplyr::group_by())
 #' @importFrom rlang expr_label
 err_expected_grouped <- function(x_sym, ...) {
   mbte_error(expr_label(x_sym), "must be grouped", ...,
-    subclass = "err_expected_grouped")
+    subclass = "err_expected_grouped"
+  )
 }
 
 # a column is expected in a dataset, but not present
 #' @importFrom rlang expr_label
 err_col_expected <- function(x_sym, colname, ...) {
-  mbte_error(expr_label(x_sym), "must contain column", paste0('"', colname, '"'),
-    ..., subclass = "err_col_expected")
+  mbte_error(expr_label(x_sym), "must contain column",
+    paste0('"', colname, '"'),
+    ..., subclass = "err_col_expected"
+  )
 }
 
 # object `x_sym` is not of class exp_class
 #' @importFrom rlang expr_label
 err_class_mismatch <- function(x_sym, ..., exp_class) {
   if (!missing(exp_class)) {
-    mbte_error(expr_label(x_sym), "does not inherit from class", exp_class, ...,
-      subclass = "err_class_mismatch")
+    mbte_error(expr_label(x_sym), "does not inherit from class",
+      exp_class, ..., subclass = "err_class_mismatch"
+    )
   } else {
     mbte_error(expr_label(x_sym), ..., subclass = "err_class_mismatch")
   }
@@ -52,7 +57,8 @@ err_class_mismatch <- function(x_sym, ..., exp_class) {
 #' @importFrom rlang expr_label
 err_not_tbl_mbte <- function(x_sym, ...) {
   mbte_error(expr_label(x_sym), "must be a tbl_mbte", ...,
-    subclass = c("err_not_tbl_mbte", "err_class_mismatch"))
+    subclass = c("err_not_tbl_mbte", "err_class_mismatch")
+  )
 }
 
 # error while evaluating a fitting quosure or while predicting the signal-values
@@ -71,7 +77,10 @@ err_eval_metric <- function(...) {
 eval_error_wrapper <- function(expr, .wrapper) {
   expr <- enquo(expr)
   tryCatch(eval_tidy(expr), error = function(e) {
-    wrapped_err <- .wrapper("- original error message:", paste0('"', e$message, '"'))
+    wrapped_err <- .wrapper(
+      "- original error message:",
+      paste0('"', e$message, '"')
+    )
     stop(wrapped_err)
   })
 }
@@ -79,6 +88,8 @@ eval_error_wrapper <- function(expr, .wrapper) {
 # dimensions incompatible between objects x1 and x2
 #' @importFrom rlang expr_label
 err_dim_incomp <- function(x1_sym, x2_sym, ...) {
-  mbte_error("Incompatible dimensions of objects", expr_label(x1_sym),
-    "and", expr_label(x2_sym), ..., subclass = "err_dim_incomp")
+  mbte_error("Incompatible dimensions of objects",
+    expr_label(x1_sym), "and", expr_label(x2_sym),
+    ..., subclass = "err_dim_incomp"
+  )
 }

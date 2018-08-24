@@ -92,15 +92,22 @@ assert_valid_column <- function(description, ...) {
   function(x, colname, x_sym = substitute(x)) {
     walk(assertions, ~{
       .x(x[[as.character(colname)]], description,
-         x_sym = expr(`$`(!!x_sym, !!colname)))
+        x_sym = expr(`$`(!!x_sym, !!colname))
+      )
     })
   }
 }
 
 # abstract out validity checking of columns
 assert_valid_time_col <- assert_valid_column("(time-column)", assert_is_numeric)
-assert_valid_value_col <- assert_valid_column("(value-column)", assert_is_numeric)
-assert_valid_signal_col <- assert_valid_column("(signal-column)", assert_is_list)
+assert_valid_value_col <- assert_valid_column(
+  "(value-column)",
+  assert_is_numeric
+)
+assert_valid_signal_col <- assert_valid_column(
+  "(signal-column)",
+  assert_is_list
+)
 assert_valid_fits_col <- assert_valid_column("(fits-column)", assert_is_list)
 
 assert_equal_lengths <- function(x1, x2, ..., x1_sym = substitute(x1),
@@ -110,8 +117,10 @@ assert_equal_lengths <- function(x1, x2, ..., x1_sym = substitute(x1),
   if (len_1 != len_2) {
     # generate descriptive string of how the lengths differ and include it in
     # the error message
-    len_desc = sprintf("length(%s) = %d, length(%s) = %d", as.character(x1_sym),
-      len_1, as.character(x2_sym), len_2)
+    len_desc <- sprintf(
+      "length(%s) = %d, length(%s) = %d",
+      as.character(x1_sym), len_1, as.character(x2_sym), len_2
+    )
     stop(err_dim_incomp(x1_sym, x2_sym, len_desc, ...))
   }
 }

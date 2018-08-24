@@ -114,15 +114,19 @@ mbte_compute_metrics <- function(x, ...) {
     result <- tryCatch({
       # evaluate metric quosure; if an error occurrs wrap it in an
       # `err_eval_metric`-error
-      res <- eval_error_wrapper(eval_tidy(metric_quo, data = mask),
-        .wrapper = err_eval_metric)
+      res <- eval_error_wrapper(
+        eval_tidy(metric_quo, data = mask),
+        .wrapper = err_eval_metric
+      )
       assert_is_scalar_num(res, "- result returned from metric quosure")
       res
     }, error = function(e) {
       # store occurred error with additional context
-      event_store$add_event(error = e, ..., fit_name = fit_name,
+      event_store$add_event(
+        error = e, ..., fit_name = fit_name,
         metric_name = metric_name, metric_quo = metric_quo,
-        pred = mask$.pred, obs = mask$.obs)
+        pred = mask$.pred, obs = mask$.obs
+      )
 
       NA_real_
     })

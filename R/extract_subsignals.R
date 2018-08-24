@@ -113,9 +113,10 @@ mbte_extract_subsignals <- function(x, f = mbte_default_indexer, ...) {
   }
 
   x %>%
-    mutate(!!signals := imap(!!signals, safe_extract_subsignals, indexer = f,
-                            time = time, value = value, signals = signals, ...)
-    ) %>%
+    mutate(!!signals := imap(!!signals, safe_extract_subsignals,
+      indexer = f,
+      time = time, value = value, signals = signals, ...
+    )) %>%
     unnest(!!signals) %>%
     mbte_reconstruct(x) %>%
     # add error information (if errors occurred)
