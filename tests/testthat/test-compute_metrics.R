@@ -128,7 +128,7 @@ test_that("positive test", {
 
       # iterate over `fits`-tibbles (`.y` is a tibble)
       purrr::imap_dfr(.y, ~{
-        pred <- .x     # predicted signal-values
+        pred <- .x # predicted signal-values
         fit_name <- .y # e.g. "loess"
         purrr::imap_dfr(metrics, ~{
           # NOTE: `.x` is a metric quosure and `.y` denotes its name;
