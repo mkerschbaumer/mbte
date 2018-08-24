@@ -14,9 +14,9 @@ fit_wrapper <- function(...) {
 # test signal column not present or malformatted
 test_signal_col_np_mf(fit_wrapper, gen_raw_tbl_mbte())
 
-test_malformatted_signal_subtable(fit_wrapper, filtered_signals, "t")
+test_faulty_signal_subtable(fit_wrapper, filtered_signals, "t")
 
-test_malformatted_signal_subtable(fit_wrapper, filtered_signals, "value")
+test_faulty_signal_subtable(fit_wrapper, filtered_signals, "value")
 
 # A helper function for creating a checking-function, that tests if the event
 # log produced by mbte_fit() is valid.

@@ -66,7 +66,7 @@ test_fits_col_np_mf <- create_col_np_mf_tester("fits", "fits.+column",
 # columns in a signal subtibble). The target column of the subtibble must be
 # numeric but gets converted to a character on purpose - the error gets
 # retrieved from the error log.
-test_malformatted_signal_subtable <- function(fun, tbl, target_col,
+test_faulty_signal_subtable <- function(fun, tbl, target_col,
                                            signal = "signal", row_nr = 2L) {
   test_that(paste0(target_col, " column in signal malformatted"), {
     # make sure all signal-subtibbles contain the numeric target column (e.g.
