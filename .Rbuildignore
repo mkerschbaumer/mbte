@@ -3,3 +3,5 @@
 ^packrat/
 ^\.Rprofile$
 ^data-raw$
+^README\.Rmd$
+^README-.*\.png$
