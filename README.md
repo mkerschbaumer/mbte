@@ -3,6 +3,8 @@
 mbte
 ====
 
+[![Travis-CI Build Status](https://travis-ci.org/mkerschbaumer/mbte.svg?branch=master)](https://travis-ci.org/mkerschbaumer/mbte)
+
 The goal of mbte is to simplify the process of finding trends in time-dependent measurement data using models (**M**odel-**b**ased **t**rend **e**stimation). This package is based on the [Managing many models](https://speakerdeck.com/hadley/managing-many-models)-talk by Hadley Wickham.
 
 Installation
