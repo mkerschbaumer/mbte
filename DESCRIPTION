@@ -24,9 +24,10 @@ Imports:
   tibble,
   tidyr
 Suggests: testthat (>= 2.0.0),
-  withr
+  withr,
+  covr
 RoxygenNote: 6.1.0
-Collate: 
+Collate:
     'assertions.R'
     'event-store.R'
     'attributes.R'
