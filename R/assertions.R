@@ -75,14 +75,14 @@ assert_is_tbl_mbte <- function(x, ..., x_sym = substitute(x)) {
   }
 }
 
-# a function for creating assertion helpers to check the integrity of specific
-# columns via other assertions. `...` in this context takes assertions
-# (e.g. assert_is_numeric); description should be a string, which describes
-# the column being checked (e.g. "time") - gets passed to assertion
+# A function for creating assertion helpers to check the integrity of specific
+# columns using other assertions. `...` in this context takes assertions
+# (e.g. assert_is_numeric); `description` should be a string, which describes
+# the column being checked (e.g. "time").
 #
-# the generated assertion helpers convert `colname` to a character.
-# NOTE: the `x_sym`-argument, which is passed on to the assesrtions provided
-# in `...` gets modified: e.g. colname = "custom_column", x_sym = "x"
+# The generated assertion helper converts `colname` to a character.
+# NOTE: The `x_sym`-argument, which is passed on to the assertions provided
+# in `...`, gets modified: e.g. colname = "custom_column", x_sym = "x"
 # ==> new x_sym = x$custom_column
 #' @importFrom purrr walk
 #' @importFrom rlang expr
@@ -90,9 +90,11 @@ assert_valid_column <- function(description, ...) {
   assertions <- list(...)
   function(x, colname, x_sym = substitute(x)) {
     walk(assertions, ~{
-      .x(x[[as.character(colname)]], description,
-        x_sym = expr(`$`(!!x_sym, !!colname))
-      )
+      # new `x_sym`: x$colname
+      x_sym <- expr(`$`(!!x_sym, !!colname))
+
+      # invoke assertion
+      .x(x[[as.character(colname)]], description, x_sym = x_sym)
     })
   }
 }
