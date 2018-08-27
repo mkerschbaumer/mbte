@@ -156,8 +156,8 @@ gen_sim_sig_default <- function(ind_tbl, ...) {
     r_coef(0.1, 2) * x,
     r_coef(0.1, 3) * log(1 + x),
     rs_coef(4) * (1 / (1 + exp(-(rs_coef(1) * c_x)))), # sigmoid
-    rs_coef(4) * rnorm(n), # relatively strong noise
-    rs_coef(1) * rnorm(n), # signal less strong but noisy
+    rs_coef(4) * rnorm(n), # noise with high intensity
+    rs_coef(1) * rnorm(n), # noise with lower signal-intensity
     weights = c(1, 2, 2, 3, 4)
   )
 }
