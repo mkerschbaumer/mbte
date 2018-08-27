@@ -35,7 +35,6 @@ assert_has_column <- function(x, colname, ..., x_sym = substitute(x)) {
   }
 }
 
-# TODO: implement for unified error messages
 #' @importFrom purrr partial
 assert_has_time_column <- partial(assert_has_column, .msg = "(time-column)")
 assert_has_value_column <- partial(assert_has_column, .msg = "(value-column)")
