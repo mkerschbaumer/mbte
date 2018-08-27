@@ -23,7 +23,8 @@ Imports:
   rlang,
   tibble,
   tidyr
-Suggests: testthat, withr
+Suggests: testthat (>= 2.0.0),
+  withr
 RoxygenNote: 6.1.0
 Collate: 
     'assertions.R'
