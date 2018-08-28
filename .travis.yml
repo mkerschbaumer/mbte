@@ -9,5 +9,7 @@ r:
 - release
 - devel
 
+r_github_packages: lionel-/vdiffr
+
 after_success:
   - Rscript -e 'covr::codecov()'

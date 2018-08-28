@@ -28,7 +28,8 @@ Imports:
   tidyr
 Suggests: testthat (>= 2.0.0),
   withr,
-  covr
+  covr,
+  vdiffr
 RoxygenNote: 6.1.0
 Collate:
     'assertions.R'
