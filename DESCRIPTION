@@ -30,8 +30,11 @@ Suggests: testthat (>= 2.0.0),
   withr,
   covr,
   vdiffr,
-  gdtools
+  gdtools,
+  knitr,
+  rmarkdown
 RoxygenNote: 6.1.0
+VignetteBuilder: knitr
 Collate:
     'assertions.R'
     'event-store.R'

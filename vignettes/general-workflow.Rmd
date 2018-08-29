@@ -1,0 +1,271 @@
+---
+title: "General Workflow"
+author: "Martin Kerschbaumer"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{General Workflow}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 5
+)
+```
+
+# Introduction
+
+The *mbte*-package aims to generalize the workflow regarding the exploratory
+data analysis of time-dependent data. The approach is based on the
+*[Managing many models](https://speakerdeck.com/hadley/managing-many-models)*-
+talk by Hadley Wickham.
+
+# Example workflow
+
+First, the required packages are loaded:
+```{r load pkg, message=FALSE}
+library(dplyr)
+library(tidyr)
+library(purrr)
+library(ggplot2)
+library(mbte)
+```
+
+The *sample_dataset* is used for this demonstration.
+
+```{r show raw dataset, echo=TRUE}
+data("raw_signals")
+raw_signals
+```
+
+The `raw_signals`-dataset is a exclusively fictional dataset, which consists of
+3 columns:
+
++ *t*: The time-column indicating when the measurement was made.
++ *mv*: The measurement-variable - the measured parameter.
++ *value*: The intensity of the measurement variable.
+
+The goal is to estimate, if trends of different measured parameters are present.
+
+## Creation of the main datastructure
+
+Because `raw_signals` is a tibble, `new_tbl_mbte()` is used to convert it to
+a `tbl_mbte` (the main datastructure of the mbte-package). `new_tbl_mbte()`
+takes tibbles as first argument or objects, that can be converted to tibbles via
+`tibble::as_tibble()`. Additionally, column names for the `time` and the
+`value`-columns are passed too.
+
+```{r new_tbl}
+# pass as strings
+raw_signals <- new_tbl_mbte(raw_signals, time = "t", value = "value")
+```
+
+It would be possible to rely on quotation too:
+```{r new tbl quotation, eval=FALSE}
+raw_signals <- new_tbl_mbte(raw_signals, time = t, value = value)
+```
+
+## Nesting of signals
+
+In the following step, the `time`- and `value`- columns get combined into a new
+list-column, which is consisting of tibbles (signal-column). A parameter for
+grouping must be specified. Since the goal is to find out which measurement-
+variables contain trends, the `mv`-column is used for grouping (contains the
+names of the measured parameters).
+
+```{r nest}
+nested <- mbte_nest_signals(raw_signals, "mv")
+nested
+```
+
+Also here, the passed variables get quoted. Therefore, the following call is
+equivalent to the one above.
+```{r use quotation, eval=FALSE}
+nested <- mbte_nest_signals(raw_signals, mv)
+```
+
+Each subtibble contains the complete signal for the chosen grouping:
+```{r show subtibble}
+nested$signal[[5]] # print example signal-subtibble
+```
+
+## Subsignal extraction
+
+For some specific usecases, it may be required, that the extracted signal-
+table gets split into subsignals. This may be necessary if only nonzero
+signal-values are analyzed. The following plots show the unextracted
+signals. The parts highlighted in blue will be kept (extracted subsignals).
+The dashed red line indicates $y = 0$.
+
+```{r plot subsignals, echo=FALSE}
+mbte_panel_plot(nested, {
+  # use mbte_default_indexer() to show which parts of the signal will be kept
+  # (subsignal-extractions)
+  ind_tbl <- .u_signals %>% 
+    group_by(mv) %>% 
+    mutate(ind = {
+      list(value %>% mbte_default_indexer() %>% as_tibble())
+    }) %>% 
+    select(-t, -value) %>% 
+    unnest(ind)
+  
+  ggplot(mapping = aes(t, value)) +
+    # highlight subsingals, which will be kept, in blue
+    geom_rect(aes(xmin = start, xmax = end, ymin = -Inf, ymax = Inf),
+      fill = "#9fb8ff", data = ind_tbl, inherit.aes = FALSE) +
+    geom_hline(yintercept = 0, col = "red", linetype = "dashed") +
+    geom_path(data = .u_signals, color = "grey10") + # draw signals
+    labs(x = "time", y = "signal-values") +
+    ggtitle("Raw signals", paste("Page", .n_page, "of", .n_pages)) +
+    theme_minimal() +
+    theme(axis.text = element_blank(), panel.grid = element_blank())
+}, mv, ncol = 7, nrow = 3)
+```
+
+The subsignal-extraction is performed by using `mbte_extract_subsignals()`.
+
+```{r extract signals}
+extracted <- mbte_extract_subsignals(nested)
+extracted
+```
+
+The output shows, that the first signal has been split into three subsignals.
+The column "signal_nr" has been added to describe the position of the extracted
+subsignal within the original signal (e.g. `signal_nr == 2` indicates, that the
+corresponding row contains the second subsignal within the orginal signal).
+
+In this example, only subsignals with a length of greater than 11 (arbitrary
+threshold) are kept. This should ensure, that signals like the one for
+"mv2" (measurement variable 2) are discarded. Filtering can be done using dplyr.
+Since `signal` is a list-column, `purrr::map_int()` is used to get the number of
+rows of the corresponding signal (which is stored as a tibble).
+
+NOTE: `mbte_reconstruct()` should be called, if functions are invoked, which
+may modify the attributes of the original object (in this case
+`dplyr::filter()`).
+
+```{r filter subsignals}
+filtered_dataset <- extracted %>% 
+  filter(purrr::map_int(signal, nrow) > 11) %>% 
+  mbte_reconstruct(extracted)
+filtered_dataset
+```
+
+## Fitting
+
+The remaining rows are analyzed for trends. This is done by fitting an
+arbitrary model to the subsignals. The only criteria for the used models is,
+that numeric predictions for the original signal must be computable.
+
+Since the general trend is not always known beforehand, `loess()` gets used
+to fit a spline to each subsignal using `mbte_fit()`. Additonally, a linear
+model gets fit too.
+
+```{r fit}
+fitted <- filtered_dataset %>% 
+  mbte_fit(
+    loess = loess(value ~ t, .signal, span = 0.95),
+    lm = lm(value ~ t, .signal)
+  )
+
+# resulting table
+fitted
+```
+
+Users can make use of masked objects for fitting (see documentation of
+`mbte_fit()` for details). For example `.signal` does not exist in
+the workspace. It gets provided by `mbte_fit()` to simplify fitting. That way,
+the user can think of fitting a linear model to a table containing the time-
+and value-column (in our example named `t` and `value`). `.signal` is just an
+element of the signal-column of the filtered dataset:
+
+```{r}
+filtered_dataset$signal[[1]] # example element of `.signal`
+```
+
+## Metric computation
+
+In order to compare the fits, an error metric is computed for each fit.
+Generally speaking, a trend is present, if the used models are able to
+generalize the underlying trend of a signal. Therefore, the lower the resulting
+error metric, the higher the likelyhood for an interesting measurement-parameter
+worth inversitgating.
+
+For the comparison of the fits, the normalized root mean-squared error is used,
+since a error metric is required, which is relative to the range of the
+signal-intensities (signal-values).
+```{r metrics}
+nrmse <- function(obs, pred) {
+  sqrt(mean((pred - obs)^2)) / (max(obs) - min(obs))
+}
+
+metrics <- mbte_compute_metrics(fitted, nrmse = nrmse(.obs, .pred))
+metrics
+```
+
+Like for `mbte_fit()`, `mbte_compute_metrics()` also uses masking to simplify
+the metric computation. Here `.pred` denote the predicted signal-values from the
+model and `.obs` are the observed/original values of the signal (both are
+numeric vectors).
+
+The resulting matrics-table can be filterd accordingly using dplyr. A score
+gets computed for each signal (identified by the measurement variable and the
+signal_nr).
+
+NOTE: In this case, calling `mbte_reconstruct()` is not required, since the
+result doesen't have to be of class `tbl_mbte`, which will only be processed
+by dplyr and not by the mbte-package directly.
+```{r filter metrics}
+metrics <- metrics %>% 
+  group_by(mv, signal_nr) %>% 
+  summarize(score = sum(result)) %>% # compute score (lower is better)
+  arrange(-desc(score)) %>% # order by result in ascending order
+  ungroup() %>% 
+  select(mv, signal_nr, score) # only keep relevant columns
+metrics
+```
+
+It can be seen, that subsignal nr. `r metrics$signal_nr[1]` of
+measurement-variable `r metrics$mv[1]` seems to have the best score. To
+investigate the fits further, the `fitted`-table containing the fits is
+rearranged (order of rows changed according to the best fits). The
+best-performing fits are put at the beginning of the table.
+
+```{r}
+fitted <- fitted %>% 
+  left_join(metrics, by = c("mv", "signal_nr")) %>% # add "score" column
+  arrange(-desc(score)) %>% # reorder rows
+  select(-score) %>% # remove column "score"
+  mbte_reconstruct(fitted)
+fitted
+```
+
+## Visualisation of fits
+
+`mbte_panel_plot()` is used to produce the following visualisations of the
+fits. Since the `fitted`-table has been rearranged according to the performance
+of the corresponding fit, signals containing a clearer trend are drawn first:
+```{r plot results}
+fit_vis <- mbte_panel_plot(fitted, {
+  ggplot(.u_signals, aes(t, value)) +
+    geom_point(alpha = 0.75, color = "grey50") +
+    geom_path(aes(color = fit, group = paste0(mv, signal_nr, fit)), .u_fits) +
+    scale_color_brewer(palette = "Set1") +
+    labs(x = "time", y = "signal-values") +
+    ggtitle("Fits ordered by metric", paste("Page", .n_page, "of", .n_pages)) +
+    theme_minimal() +
+    theme(legend.position = "bottom")
+}, mv, signal_nr, nrow = 2, ncol = 3)
+fit_vis <- fit_vis[c(1, length(fit_vis))] # only keep best and worst fits
+
+# best fits
+fit_vis[[1]]
+
+# worst fits
+fit_vis[[2]]
+```
