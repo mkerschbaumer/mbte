@@ -1,4 +1,4 @@
-# from vdiff-package
+# from vdiffr-package
 
 on_appveyor <- function() {
   identical(Sys.getenv("APPVEYOR"), "True")

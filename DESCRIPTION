@@ -29,7 +29,8 @@ Imports:
 Suggests: testthat (>= 2.0.0),
   withr,
   covr,
-  vdiffr
+  vdiffr,
+  gdtools
 RoxygenNote: 6.1.0
 Collate:
     'assertions.R'
