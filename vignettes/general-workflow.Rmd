@@ -36,7 +36,7 @@ library(ggplot2)
 library(mbte)
 ```
 
-The *sample_dataset* is used for this demonstration.
+The *raw_signals*-dataset is used for this demonstration.
 
 ```{r show raw dataset, echo=TRUE}
 data("raw_signals")
