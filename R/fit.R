@@ -182,6 +182,9 @@ mbte_fit <- function(x, ...) {
 
   # fit specific signal via specified fitting quosures
   fit_signal_impl <- function(sig, row_nr) {
+    # provide `.row_nr`
+    mask$.row_nr <- row_nr
+
     # fit fitting-quosures to signal
     imap_dfc(fit_quos, safe_fit, sig = sig, row_nr = row_nr)
   }
