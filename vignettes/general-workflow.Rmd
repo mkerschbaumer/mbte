@@ -43,8 +43,8 @@ data("raw_signals")
 raw_signals
 ```
 
-The `raw_signals`-dataset is a exclusively fictional dataset, which consists of
-3 columns:
+The `raw_signals`-dataset is an exclusively fictional dataset, which consists
+of 3 columns:
 
 + *t*: The time-column indicating when the measurement was made.
 + *mv*: The measurement-variable - the measured parameter.
