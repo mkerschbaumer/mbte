@@ -36,6 +36,9 @@ for clarification):
     \code{\link[base:name]{symbol}}.}
   \item{.value_sym}{The name of the value-column stored as a
     \code{\link[base:name]{symbol}}.}
+  \item{.row_nr}{The number of the processed row of \code{x}. This masked
+    object may be helpful if a fitting quosure has side-effects (e.g.
+    a unique identifier is needed for storing parameters about the fit).}
 }
 
 Currently, there are two ways, how a fitting-quosure may return the

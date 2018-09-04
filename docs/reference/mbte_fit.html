@@ -160,6 +160,9 @@ for clarification):</p><dl class='dl-horizontal'>
     <code><a href='http://www.rdocumentation.org/packages/base/topics/name'>symbol</a></code>.</p></dd>
   <dt>.value_sym</dt><dd><p>The name of the value-column stored as a
     <code><a href='http://www.rdocumentation.org/packages/base/topics/name'>symbol</a></code>.</p></dd>
+  <dt>.row_nr</dt><dd><p>The number of the processed row of <code>x</code>. This masked
+    object may be helpful if a fitting quosure has side-effects (e.g.
+    a unique identifier is needed for storing parameters about the fit).</p></dd>
 </dl>
     <p>Currently, there are two ways, how a fitting-quosure may return the
 predicted signal-values for a signal:</p><ul>
