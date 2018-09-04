@@ -175,3 +175,41 @@ test_that("positive test", {
   # compare result with expected result (using custom comparison function)
   expect_tbl_mbte_equal(res, exp, comp_fun = comp_fun)
 })
+
+# Check integrity of objects provided by masking (`.time_sym`, `.value_sym`,
+# `.signal` and `.row_nr`).
+test_that("integrity masking", {
+  row_counter <- new_counter(initial_value = 1L)
+
+  # expected values for `.time_sym` and `.value_sym`
+  exp_time <- attr_time(filtered_signals)
+  exp_value <- attr_value(filtered_signals)
+
+  # fitting quosure to use
+  fit_quo <- rlang::quo({
+    # counter for row_nr (to test integrity of `.row_nr`); NOTE: The fitting
+    # quosure should be evaluated once for every row of `filtered_signals`.
+    # Hence, the counter for `.row_nr` is incremented after every evaluation of
+    # the fitting quosure.
+    exp_row <- row_counter$value()
+    info <- paste("counter:", exp_row)
+
+    # Check integrity of `.row_nr` and `.signal` (`.signal` should be equal to
+    # the corresponding element of the signal-column of `filtered_signals`).
+    expect_equal(.row_nr, exp_row, info = info)
+    expect_equal(.signal, filtered_signals$signal[[exp_row]], info = info)
+
+    # compare symbol-related masked objects
+    expect_equal(.time_sym, exp_time, info = info)
+    expect_equal(.value_sym, exp_value, info)
+
+    # for processing of next row/signal of `filtered_signals`
+    row_counter$increment()
+
+    # return dummy result
+    rep(NA_real_, nrow(.signal))
+  })
+
+  # no warnings/errors/output expected
+  expect_silent(mbte_fit(filtered_signals, fit_quo = !!fit_quo))
+})
