@@ -69,10 +69,8 @@ gen_sim_ind <- function(nrow, ncol, max_subsig) {
 # + ind_tbl: The output of a call to gen_sim_ind() (index-table).
 # + `...`: The elements of the ellipsis are used as quosures, which generate
 #     the values of the subsignals (=> generators-quosures).
-# + noise_fun: A function (rnorm by default), which is used to add noise to the
-#   generated signals. It gets invoked with the first element being the number
-#   of random values to generate. Additionally, `sd` gets passed (standard
-#   deviation of the generated subsignal).
+# + pp_fun: Function for post-processing (is applied to the unaltered generated
+#   subsignal).
 # + weights: A numeric vector for sampling probabilities (for the
 #   generator-quosures).
 #
@@ -86,7 +84,7 @@ gen_sim_ind <- function(nrow, ncol, max_subsig) {
 #   defined below.
 #
 # Return: The signal-column gets added to the index-table.
-gen_sim_sig <- function(ind_tbl, ..., noise_fun = rnorm, weights = NULL) {
+gen_sim_sig <- function(ind_tbl, ..., pp_fun = function(x) x, weights = NULL) {
   stopifnot(is_tibble(ind_tbl))
 
   generator_quos <- enquos(...)
@@ -94,9 +92,6 @@ gen_sim_sig <- function(ind_tbl, ..., noise_fun = rnorm, weights = NULL) {
 
   # to choose a random generator
   choices_gen <- seq_along(generator_quos)
-
-  # amount of noise to add (multiplied by the output of `noise_fun`)
-  choices_noise_amount <- seq(0.1, 0.8, 0.1)
 
   # masking environment for tidy evalutation
   mask <- new_environment(coef_funs)
@@ -127,9 +122,8 @@ gen_sim_sig <- function(ind_tbl, ..., noise_fun = rnorm, weights = NULL) {
     stopifnot(is.numeric(sig_val))
     stopifnot(length(sig_val) == length(time))
 
-    # add variable amount of noise to signal-values
-    noise_amount <- sample(choices_noise_amount, 1)
-    sig_val <- sig_val + noise_amount * noise_fun(subsig_len, sd = sd(sig_val))
+    # apply post-processing function to generated signal-values
+    sig_val <- pp_fun(sig_val)
 
     # make sure no elements are near 0 (add 1e-4 to it); gets done to ensure,
     # that a subsignal doesen't get split if elements too close to 0 are
@@ -148,17 +142,29 @@ gen_sim_sig <- function(ind_tbl, ..., noise_fun = rnorm, weights = NULL) {
   }))
 }
 
-# A wrapper around gen_sim_sig() with predefined trends (linear, logarithmic,
-# sigmoid, 2 x noisy signal)
-gen_sim_sig_default <- function(ind_tbl, ...) {
+# A wrapper around gen_sim_sig() with predefined trends (linear, exponential,
+# logarithmic, sigmoid, noise)
+gen_sim_sig_default <- function(ind_tbl) {
   gen_sim_sig(
-    ind_tbl, ...,
-    r_coef(0.1, 2) * x,
-    r_coef(0.1, 3) * log(1 + x),
-    rs_coef(4) * (1 / (1 + exp(-(rs_coef(1) * c_x)))), # sigmoid
-    rs_coef(4) * rnorm(n), # noise with high intensity
-    rs_coef(1) * rnorm(n), # noise with lower signal-intensity
-    weights = c(1, 2, 2, 3, 4)
+    ind_tbl,
+    rs_coef(2) * x,
+    rs_coef(3.5) * exp(r_coef(0.1, 0.4) * x) + r_coef(0, 1.5),
+    rs_coef(3) * log(1 + x),
+    r_coef(1, 4) / (1 + exp(-rs_coef(2) * c_x)), # sigmoid
+    r_coef(2, 4) * rnorm(n), # noise with high intensity
+    weights = c(2, 3, 1, 3, 3),
+    pp_fun = function(x) {
+      # add variable amount of noise to generated subsignal
+      noise_amount <- sample(seq(0.1, 0.8, 0.1), 1)
+      x <- x + noise_amount * rnorm(length(x), sd = sd(x))
+
+      # ensure that all elements of `x` are positive
+      if (any(x <= 0)) {
+        x - min(x) + 0.1
+      } else {
+        x
+      }
+    }
   )
 }
 
