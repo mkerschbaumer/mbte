@@ -69,6 +69,7 @@
 #' }
 #'
 #' @seealso \code{\link{filtered_signals}} (dataset used in examples)
+#'   \code{\link{fitting-helpers}}
 #' @examples
 #' # load dataset (tbl_mbte with extracted subsignals)
 #' data(filtered_signals)

@@ -124,4 +124,5 @@ fits2$fits[[1]]
 }
 \seealso{
 \code{\link{filtered_signals}} (dataset used in examples)
+  \code{\link{fitting-helpers}}
 }

@@ -32,7 +32,8 @@ Suggests: testthat (>= 2.0.0),
   vdiffr,
   gdtools,
   knitr,
-  rmarkdown
+  rmarkdown,
+  nls2
 RoxygenNote: 6.1.0
 VignetteBuilder: knitr
 Collate:
@@ -49,4 +50,5 @@ Collate:
     'plot.R'
     'tbl_mbte.R'
     'reconstruct.R'
+    'trends.R'
     'unnest.R'
