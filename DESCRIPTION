@@ -34,7 +34,7 @@ Suggests: testthat (>= 2.0.0),
   knitr,
   rmarkdown,
   nls2
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 VignetteBuilder: knitr
 Collate:
     'assertions.R'
