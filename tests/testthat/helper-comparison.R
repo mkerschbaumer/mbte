@@ -29,7 +29,8 @@ are_deep_equal <- function(obj, exp, ..., nesting = NULL,
                            comp_fun = all.equal) {
   # generate information about nesting level
   info <- paste0(
-    "nesting:", ifelse(length(nesting) == 0, " none", nesting),
+    "nesting:", ifelse(length(nesting) == 0, " none",
+      paste(nesting, collapse = " ")),
     " - info from caller: \"", ..., "\""
   )
 
