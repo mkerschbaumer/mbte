@@ -14,8 +14,8 @@ knitr::opts_chunk$set(
 
 # mbte
 
+[![Lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)]()
 [![Travis-CI Build Status](https://travis-ci.org/mkerschbaumer/mbte.svg?branch=master)](https://travis-ci.org/mkerschbaumer/mbte)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/mkerschbaumer/mbte?branch=master&svg=true)](https://ci.appveyor.com/project/mkerschbaumer/mbte)
 [![Coverage Status](https://img.shields.io/codecov/c/github/mkerschbaumer/mbte/master.svg)](https://codecov.io/github/mkerschbaumer/mbte?branch=master)
 
 The goal of mbte is to simplify the process of finding trends in time-dependent
