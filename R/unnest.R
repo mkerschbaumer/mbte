@@ -136,7 +136,7 @@ mbte_unnest_fits <- function(x) {
       # add time column; NOTE: `fit` becomes the column containing the names of
       # the fits
       bind_cols(fit, select(sig, !!time)) %>%
-        gather("fit", "value", -!!time)
+        gather("fit", !!value, -!!time)
     })
 
   # colnames of "descriptive" columns (columns not being signal- or

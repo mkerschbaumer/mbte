@@ -1,5 +1,23 @@
 context("unnest_fits")
 
+# provide reference implementation of mbte_unnest_fits()
+# NOTE: the time and value symbols are quoted.
+reference_implementation <- function(x, time_sym, value_sym) {
+  time_sym <- rlang::ensym(time_sym)
+  value_sym <- rlang::ensym(value_sym)
+
+   x %>%
+    dplyr::mutate(fits = map2(signal, fits, ~{
+      # add time column to fits and convert from wide- to long form
+      tidyr::gather(bind_cols(.x[as.character(time_sym)], .y), "fit",
+        !!value_sym, -!!time_sym
+      )
+    })) %>%
+    tidyr::unnest(fits) %>%
+    dplyr::select(mv, signal_nr, fit, !!time_sym, !!value_sym) %>%
+    mbte_reconstruct(x)
+}
+
 # create dataset needed for testing
 fitted <- mbte_fit(filtered_signals, lm = lm(value ~ t, .signal))
 
@@ -42,18 +60,27 @@ test_that("time column not present or malformatted", {
   )
 })
 
+test_that("don't rely on standard colnames for time and value columns", {
+  # construct dataset with modified time and value colnames
+  dataset <- raw_signals %>%
+    dplyr::rename(signal_time = t, signal_value = value) %>%
+    new_tbl_mbte(signal_time, signal_value) %>%
+    mbte_nest_signals(mv) %>%
+    mbte_extract_subsignals() %>%
+    # perform dummy fitting using linear trend module
+    mbte_fit(lin = !!tr_linear())
+
+  # compute result for function to test and compare it to the reference
+  # implementation.
+  res <- expect_silent(mbte_unnest_fits(dataset))
+  reference <- reference_implementation(dataset, signal_time, signal_value)
+  expect_tbl_mbte_equal(res, reference)
+})
+
 # no errors expected
 test_that("positive test", {
   # compute expected result
-  exp <- fitted %>%
-    dplyr::mutate(fits = map2(signal, fits, ~{
-      # add time column to fits and convert from wide- to long form
-      tidyr::gather(bind_cols(.x["t"], .y), "fit", "value", -t)
-    })) %>%
-    tidyr::unnest(fits) %>%
-    dplyr::select(mv, signal_nr, fit, t, value) %>%
-    mbte_reconstruct(fitted)
-
+  exp <- reference_implementation(fitted, t, value)
   # compute actual result
   res <- expect_silent(mbte_unnest_fits(fitted))
 
