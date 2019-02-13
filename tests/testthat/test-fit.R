@@ -170,7 +170,10 @@ test_that("positive test", {
 
   # create custom comparison function (all.equal with checking of names
   # disabled)
-  comp_fun <- purrr::partial(all.equal, check.names = FALSE)
+  # NOTE: workaround for travis build on oldrel
+  comp_fun <- function(...) {
+    all.equal(..., check.names = FALSE)
+  }
 
   # compare result with expected result (using custom comparison function)
   expect_tbl_mbte_equal(res, exp, comp_fun = comp_fun)
