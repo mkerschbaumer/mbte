@@ -36,7 +36,12 @@ are_deep_equal <- function(obj, exp, ..., nesting = NULL,
 
   # objects can't be equal if classes don't match
   if (!identical(class(obj), class(exp))) {
-    testthat::fail(paste("Class mismatch at", info))
+    testthat::fail(
+      paste0("Class mismatch at ", info, "; Classes: \"",
+        paste(class(obj), collapse = ", "), "\" vs \"",
+        paste(class(exp), collapse = ", "), "\""
+      )
+    )
     return(FALSE)
   }
 
@@ -54,12 +59,23 @@ are_deep_equal <- function(obj, exp, ..., nesting = NULL,
   }
 
   if (!identical(length(obj), length(exp))) {
-    testthat::fail(paste("Length mismatch at", info))
+    testthat::fail(
+      paste0(
+        "Length mismatch at ", info, "; Lengths: ",
+        length(obj), " vs ", length(exp)
+      )
+    )
     return(FALSE)
   }
 
   if (!identical(names(obj), names(exp))) {
-    testthat::fail(paste("Names mismatch at", info))
+    testthat::fail(
+      paste0(
+        "Names mismatch at ", info, "; Names: \"",
+        paste(names(obj), collapse = ", "), "\" vs \"",
+        paste(names(exp), collapse = ", "), "\""
+      )
+    )
     return(FALSE)
   }
 
