@@ -96,7 +96,13 @@ new_tbl_mbte <- function(x, time, value, ..., signal = "signal", fits = "fits",
   if (!missing(subclass)) {
     assert_is_character(subclass)
   }
-  class(x) <- c(subclass, "tbl_mbte", class(x))
+
+  # only add class "tbl_mbte" if object doesen't inherit from tbl_mbte
+  if (inherits(x, "tbl_mbte")) {
+    class(x) <- c(subclass, class(x))
+  } else {
+    class(x) <- c(subclass, "tbl_mbte", class(x))
+  }
 
   x
 }
