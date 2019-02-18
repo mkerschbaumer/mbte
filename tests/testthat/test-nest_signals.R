@@ -28,13 +28,13 @@ test_that("error for missing specified gropuing variable", {
 
 # delete a specific column and make sure the right error (err_col_expected) gets
 # raised
-check_nonexisting_column <- function(target, attr_fun, regexp) {
+check_nonexisting_column <- function(target, colname_fun, regexp) {
   tbl <- gen_raw_gr_tbl_mbte()
 
-  # delete specified column and make sure the attribute for the target column
-  # is referring to a nonexisting column
+  # Delete specified column and make sure the set column name is referring to a
+  # nonexistent column.
   tbl[[target]] <- NULL
-  expect_identical(attr_fun(tbl), rlang::sym(target))
+  expect_identical(colname_fun(tbl), rlang::sym(target))
   expect_false(target %in% colnames(tbl))
 
   # error should get raised because target column is not present in dataset
@@ -45,11 +45,11 @@ check_nonexisting_column <- function(target, attr_fun, regexp) {
 }
 
 test_that("time-column missing", {
-  check_nonexisting_column("t", attr_time, "time.*column")
+  check_nonexisting_column("t", colname_time, "time.*column")
 })
 
 test_that("value-column missing", {
-  check_nonexisting_column("value", attr_value, "value.*column")
+  check_nonexisting_column("value", colname_value, "value.*column")
 })
 
 # malformat target column and check if the right error (err_class_mismatch) gets

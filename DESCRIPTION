@@ -38,12 +38,12 @@ RoxygenNote: 6.1.1
 VignetteBuilder: knitr
 Collate:
     'assertions.R'
-    'event-store.R'
-    'attributes.R'
+    'colnames.R'
     'extract_subsignals.R'
     'compute_metrics.R'
     'datasets.R'
     'error.R'
+    'event_store.R'
     'fit.R'
     'nest_signals.R'
     'package.R'

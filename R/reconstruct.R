@@ -47,9 +47,10 @@ mbte_reconstruct.tbl_mbte <- function(new, old) {
   assert_is_tbl_mbte(old)
   new_tbl_mbte(
     new,
-    time = !!attr_time(old),
-    value = !!attr_value(old),
-    signal = !!attr_signal(old),
-    fits = !!attr_fits(old)
+    time = !!colname_time(old),
+    value = !!colname_value(old),
+    signal = !!colname_signal(old),
+    fits = !!colname_fits(old)
   )
 }
+

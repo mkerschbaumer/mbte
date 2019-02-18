@@ -107,8 +107,8 @@ mbte_panel_plot <- function(x, expr, ..., nrow = 3, ncol = 4) {
   # create data mask for tidy evaluation
   data_mask <- as_data_mask(
     list(
-      .time_sym = attr_time(x),
-      .value_sym = attr_value(x),
+      .time_sym = colname_time(x),
+      .value_sym = colname_value(x),
       .n_pages = n_pages
     )
   )
@@ -175,10 +175,10 @@ globalVariables(".panel_id")
 create_plotting_tables <- function(x) {
   # unnest signals if signal columns are present and return empty tibble
   # otherwise
-  signals <- cond_unnest(x, attr_signal, mbte_unnest_signals)
+  signals <- cond_unnest(x, colname_signal, mbte_unnest_signals)
 
   # unnest fits, if present, and use empty tibble otherwise
-  fits <- cond_unnest(x, attr_fits, mbte_unnest_fits)
+  fits <- cond_unnest(x, colname_fits, mbte_unnest_fits)
 
   list(
     signals = signals,
@@ -186,17 +186,17 @@ create_plotting_tables <- function(x) {
   )
 }
 
-# perform conditional unnesting: if the attribute-function (like `attr_signal`)
-# returns a column-name, which is present in `x`, unnesting will be performed
-# using the unnesting function (`unnest_fun`). Otherwise an empty tibble will
-# be returned.
+# perform conditional unnesting: if the colname-related function (like
+# `colname_signal`) returns a column-name, which is present in `x`, unnesting
+# will be performed using the unnesting function (`unnest_fun`). Otherwise an
+# empty tibble will be returned.
 #' @importFrom purrr as_mapper
 #' @importFrom tibble tibble
-cond_unnest <- function(x, attr_fun, unnest_fun) {
-  attr_fun <- as_mapper(attr_fun)
+cond_unnest <- function(x, colname_fun, unnest_fun) {
+  colname_fun <- as_mapper(colname_fun)
   unnest_fun <- as_mapper(unnest_fun)
 
-  if (as.character(attr_fun(x)) %in% colnames(x)) {
+  if (as.character(colname_fun(x)) %in% colnames(x)) {
     unnest_fun(x)
   } else {
     tibble()

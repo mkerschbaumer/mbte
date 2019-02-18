@@ -88,10 +88,10 @@ new_tbl_mbte <- function(x, time, value, ..., signal = "signal", fits = "fits",
     })
   }
 
-  attr_time(x) <- ensym(time)
-  attr_value(x) <- ensym(value)
-  attr_signal(x) <- ensym(signal)
-  attr_fits(x) <- ensym(fits)
+  colname_time(x) <- ensym(time)
+  colname_value(x) <- ensym(value)
+  colname_signal(x) <- ensym(signal)
+  colname_fits(x) <- ensym(fits)
 
   if (!missing(subclass)) {
     assert_is_character(subclass)
@@ -132,10 +132,10 @@ new_tbl_mbte <- function(x, time, value, ..., signal = "signal", fits = "fits",
 #' @export
 is_tbl_mbte <- function(x) {
   # extract attribtues for checking
-  time <- attr_time(x)
-  value <- attr_value(x)
-  signal <- attr_signal(x)
-  fits <- attr_fits(x)
+  time <- colname_time(x)
+  value <- colname_value(x)
+  signal <- colname_signal(x)
+  fits <- colname_fits(x)
 
   # perform basic checks, including the correctness of the required attributes
   is_tibble(x) &&

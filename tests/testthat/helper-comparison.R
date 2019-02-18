@@ -106,11 +106,11 @@ expect_tbl_mbte_equal <- function(res, exp, ...) {
   expect_true(is_tbl_mbte(res))
   expect_true(is_tbl_mbte(exp))
 
-  # check relevant attributes
-  expect_identical(attr_time(res), attr_time(exp))
-  expect_identical(attr_value(res), attr_value(exp))
-  expect_identical(attr_signal(res), attr_signal(exp))
-  expect_identical(attr_fits(res), attr_fits(exp))
+  # check relevant column-names (currently implemented using attributes)
+  expect_identical(colname_time(res), colname_time(exp))
+  expect_identical(colname_value(res), colname_value(exp))
+  expect_identical(colname_signal(res), colname_signal(exp))
+  expect_identical(colname_fits(res), colname_fits(exp))
 
   # column-names and dimensions must match (asserted before performing deep
   # comparison involving the contents of list-columns)

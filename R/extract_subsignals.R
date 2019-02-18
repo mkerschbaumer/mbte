@@ -93,9 +93,9 @@ mbte_extract_subsignals <- function(x, f = mbte_default_indexer, ...) {
   assert_is_tbl_mbte(x)
   assert_is_function(f)
 
-  time <- attr_time(x)
-  value <- attr_value(x)
-  signals <- attr_signal(x)
+  time <- colname_time(x)
+  value <- colname_value(x)
+  signals <- colname_signal(x)
 
   assert_has_signal_column(x, signals)
   assert_valid_signal_col(x, signals)

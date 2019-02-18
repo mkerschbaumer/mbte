@@ -20,11 +20,11 @@ is_valid_reconstruction <- function(obj) {
   expect_true(tibble::is_tibble(obj))
   expect_true(is_tbl_mbte(obj))
 
-  # test if attributes have been set correctly
-  expect_identical(attr_time(obj), attr_time(reference))
-  expect_identical(attr_value(obj), attr_value(reference))
-  expect_identical(attr_signal(obj), attr_signal(reference))
-  expect_identical(attr_fits(obj), attr_fits(reference))
+  # Test if colnames (to use in analysis) have been set correctly.
+  expect_identical(colname_time(obj), colname_time(reference))
+  expect_identical(colname_value(obj), colname_value(reference))
+  expect_identical(colname_signal(obj), colname_signal(reference))
+  expect_identical(colname_fits(obj), colname_fits(reference))
 }
 
 # a wrapper around is_valid_reconstruction(), that additionally checks, if the

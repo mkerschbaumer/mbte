@@ -185,8 +185,8 @@ test_that("integrity masking", {
   row_counter <- new_counter(initial_value = 1L)
 
   # expected values for `.time_sym` and `.value_sym`
-  exp_time <- attr_time(filtered_signals)
-  exp_value <- attr_value(filtered_signals)
+  exp_time <- colname_time(filtered_signals)
+  exp_value <- colname_value(filtered_signals)
 
   # fitting quosure to use
   fit_quo <- rlang::quo({

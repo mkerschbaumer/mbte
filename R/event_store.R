@@ -112,3 +112,28 @@ cond_add_event_store <- function(x, store, caller_fn) {
 
   x
 }
+
+# event_log: a tibble with information about occurred unusual events and additional
+# information
+attr_event_log <- function(x) {
+  attr(x, "event_log")
+}
+
+#' @param x A \code{\link{tbl_mbte}} with event-log information stored in
+#'   attributes.
+#'
+#' @return A tibble with logged event-information. Each row represents an event.
+#' The column layout is specific to the function, which produced the event-log.
+#'
+#' @rdname event-logging
+#' @export
+# NOTE: the purpose of this function is to export attr_event_log() but still
+# keep the API of the mbte-package consistent (common prefix: mbte_)
+mbte_event_log <- attr_event_log
+
+`attr_event_log<-` <- function(x, value) {
+  stopifnot(is_tibble(value))
+  attr(x, "event_log") <- value
+  x
+}
+

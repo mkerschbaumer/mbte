@@ -117,11 +117,11 @@ mbte_fit <- function(x, ...) {
   fit_quos <- enquos(...)
   assert_ellipsis_named(fit_quos)
 
-  # extract symbol-related attributes
-  time <- attr_time(x)
-  value <- attr_value(x)
-  signal <- attr_signal(x)
-  fits <- attr_fits(x)
+  # extract column names to use
+  time <- colname_time(x)
+  value <- colname_value(x)
+  signal <- colname_signal(x)
+  fits <- colname_fits(x)
 
   # assert presence and type of signal column
   assert_has_signal_column(x, signal)

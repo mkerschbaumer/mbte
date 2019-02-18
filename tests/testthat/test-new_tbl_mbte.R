@@ -26,11 +26,11 @@ check_new_tbl_mbte <- function(obj, time, value, signal = signal, fits = fits) {
   expect_true(is_tbl_mbte(obj), info = info)
   expect_true(is_tibble(obj), info = info)
 
-  # relevant attributes must match expectated values
-  expect_identical(attr_time(obj), time, info = info)
-  expect_identical(attr_value(obj), value, info = info)
-  expect_identical(attr_signal(obj), signal, info = info)
-  expect_identical(attr_fits(obj), fits, info = info)
+  # relevant colnames must match expectated values
+  expect_identical(colname_time(obj), time, info = info)
+  expect_identical(colname_value(obj), value, info = info)
+  expect_identical(colname_signal(obj), signal, info = info)
+  expect_identical(colname_fits(obj), fits, info = info)
 }
 
 test_that("creation using tidy semantics", {

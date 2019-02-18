@@ -70,9 +70,9 @@ mbte_nest_signals <- function(x, ...) {
   }
 
   # extract relevant symbols
-  time <- attr_time(x)
-  value <- attr_value(x)
-  signal <- attr_signal(x)
+  time <- colname_time(x)
+  value <- colname_value(x)
+  signal <- colname_signal(x)
 
   assert_has_time_column(x, time)
   assert_valid_time_col(x, time)

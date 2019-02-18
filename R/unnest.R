@@ -44,10 +44,10 @@ mbte_unnest_signals <- function(x) {
   assert_is_tbl_mbte(x)
 
   # extract column-names related symbols
-  time <- attr_time(x)
-  value <- attr_value(x)
-  signal <- attr_signal(x)
-  fits <- attr_fits(x)
+  time <- colname_time(x)
+  value <- colname_value(x)
+  signal <- colname_signal(x)
+  fits <- colname_fits(x)
 
   # check presence and integrity of signal-column
   assert_has_signal_column(x, signal)
@@ -110,10 +110,10 @@ mbte_unnest_fits <- function(x) {
   assert_is_tbl_mbte(x)
 
   # extract column-name related symbols
-  time <- attr_time(x)
-  value <- attr_value(x)
-  signal <- attr_signal(x)
-  fits <- attr_fits(x)
+  time <- colname_time(x)
+  value <- colname_value(x)
+  signal <- colname_signal(x)
+  fits <- colname_fits(x)
 
   # check integrity of columns
   assert_has_signal_column(x, signal)

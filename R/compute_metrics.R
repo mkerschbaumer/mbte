@@ -96,9 +96,9 @@ mbte_compute_metrics <- function(x, ...) {
   assert_ellipsis_named(metric_quos)
 
   # extract symbols from object
-  value <- attr_value(x)
-  signal <- attr_signal(x)
-  fits <- attr_fits(x)
+  value <- colname_value(x)
+  signal <- colname_signal(x)
+  fits <- colname_fits(x)
 
   # check integrity of columns
   assert_has_signal_column(x, signal)

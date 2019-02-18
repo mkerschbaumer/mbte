@@ -33,11 +33,11 @@ test_that("is_tbl_mbte - not a tibble", {
   tbl <- as.data.frame(gen_valid_tbl_mbte())
   class(tbl) <- c("tbl_mbte", class(tbl))
 
-  # make sure symbols are still present
-  expect_equal(attr_time(tbl), rlang::sym("time_var"))
-  expect_equal(attr_value(tbl), rlang::sym("value_var"))
-  expect_equal(attr_signal(tbl), rlang::sym("signal_var"))
-  expect_equal(attr_fits(tbl), rlang::sym("fits_var"))
+  # make sure colnames haven't been modified
+  expect_equal(colname_time(tbl), rlang::sym("time_var"))
+  expect_equal(colname_value(tbl), rlang::sym("value_var"))
+  expect_equal(colname_signal(tbl), rlang::sym("signal_var"))
+  expect_equal(colname_fits(tbl), rlang::sym("fits_var"))
 
   # `tbl` should not be seen as a valid tbl_mbte, since a tbl_mbte-object must
   # also be a tibble, even if it inherits from `tbl_mbte`.
@@ -53,23 +53,24 @@ test_that("is_tbl_mbte - doesen't inherit from `tbl_mbte`", {
   expect_false(is_tbl_mbte(tbl))
 })
 
-# helper function to malformat a specific attribute, which is expected to
-# contain a symbol. Assert that the resulting object is not seen as a
-# `tbl_mbte`.
-check_attribute_malformatted <- function(attr_name) {
-  stopifnot(purrr::is_scalar_character(attr_name))
+# Helper function to malformat a specific attribute (or column name
+# specification), which is expected to contain a symbol. Assert that the
+# resulting object is not seen as a `tbl_mbte`.
+check_colname_malformatted <- function(colname) {
+  stopifnot(purrr::is_scalar_character(colname))
   tbl <- gen_valid_tbl_mbte()
 
-  attr(tbl, attr_name) <- NULL
+  attr(tbl, colname) <- NULL
   expect_false(is_tbl_mbte(tbl), info = "NULL as attribute")
 
-  attr(tbl, attr_name) <- "abc"
+  attr(tbl, colname) <- "abc"
   expect_false(is_tbl_mbte(tbl), info = "string as attribute")
 }
 
-test_that("is_tbl_mbte - attributes malformatted", {
-  # attributes to malformat
-  attr_to_test <- c("time", "value", "signal", "fits")
+test_that("is_tbl_mbte - colnames/attributes malformatted", {
+  # colnames/attributes to malformat
+  colname_to_test <- c("time", "value", "signal", "fits")
 
-  purrr::walk(attr_to_test, check_attribute_malformatted)
+  purrr::walk(colname_to_test, check_colname_malformatted)
 })
+
