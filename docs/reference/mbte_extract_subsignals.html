@@ -193,7 +193,7 @@ case, a tibble containing the logged events will be returned to the user.</p>
 
 <span class='co'># create nested tbl_mbte (needed for subsignal-extraction)</span>
 <span class='no'>tbl</span> <span class='kw'>&lt;-</span> <span class='no'>raw_signals</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>mv</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>mv</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='new_tbl_mbte.html'>new_tbl_mbte</a></span>(<span class='kw'>time</span> <span class='kw'>=</span> <span class='st'>"t"</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>"value"</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='mbte_nest_signals.html'>mbte_nest_signals</a></span>()
 
@@ -211,7 +211,7 @@ case, a tibble containing the logged events will be returned to the user.</p>
 #&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     8 14.7 
 #&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     9  4.27
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span>    10  9.81
-#&gt; </span><span style='color: #949494;'># ... with 90 more rows</span><span></div><div class='input'>
+#&gt; </span><span style='color: #949494;'># … with 90 more rows</span><span></div><div class='input'>
 <span class='co'># perform subsignal extraction</span>
 <span class='co'>#</span>
 <span class='co'># by default, mbte_default_indexer() gets used for signal-extraction</span>
@@ -230,7 +230,7 @@ case, a tibble containing the logged events will be returned to the user.</p>
 #&gt; </span><span style='color: #BCBCBC;'> 8</span><span> mv4           2 </span><span style='color: #949494;'>&lt;tibble [9 × 2]&gt;</span><span> 
 #&gt; </span><span style='color: #BCBCBC;'> 9</span><span> mv4           3 </span><span style='color: #949494;'>&lt;tibble [12 × 2]&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span> mv5           1 </span><span style='color: #949494;'>&lt;tibble [30 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #949494;'># ... with 76 more rows</span><span></div><div class='input'>
+#&gt; </span><span style='color: #949494;'># … with 76 more rows</span><span></div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

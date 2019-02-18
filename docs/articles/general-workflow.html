@@ -80,7 +80,7 @@
       <h1>General Workflow</h1>
                         <h4 class="author">Martin Kerschbaumer</h4>
             
-            <h4 class="date">2019-01-02</h4>
+            <h4 class="date">2019-02-18</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/mkerschbaumer/mbte/blob/master/vignettes/general-workflow.Rmd"><code>vignettes/general-workflow.Rmd</code></a></small>
       <div class="hidden name"><code>general-workflow.Rmd</code></div>
@@ -98,28 +98,28 @@
 <h1 class="hasAnchor">
 <a href="#example-workflow" class="anchor"></a>Example workflow</h1>
 <p>First, the required packages are loaded:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(tidyr)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(purrr)</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggplot2)</a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(mbte)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)
+<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(tidyr)
+<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(purrr)
+<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggplot2)
+<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(mbte)</code></pre></div>
 <p>The <em>raw_signals</em>-dataset is used for this demonstration.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"raw_signals"</span>)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">raw_signals</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; # A tibble: 4,200 x 3</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt;        t mv    value</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt;  1     1 mv1       0</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt;  2     2 mv1       0</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt;  3     3 mv1       0</span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt;  4     4 mv1       0</span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt;  5     5 mv1       0</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt;  6     6 mv1       0</span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt;  7     7 mv1       0</span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt;  8     8 mv1       0</span></a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt;  9     9 mv1       0</span></a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt; 10    10 mv1       0</span></a>
-<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt; # ... with 4,190 more rows</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"raw_signals"</span>)
+raw_signals
+<span class="co">#&gt; # A tibble: 4,200 x 3</span>
+<span class="co">#&gt;        t mv    value</span>
+<span class="co">#&gt;    &lt;int&gt; &lt;chr&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1     1 mv1       0</span>
+<span class="co">#&gt;  2     2 mv1       0</span>
+<span class="co">#&gt;  3     3 mv1       0</span>
+<span class="co">#&gt;  4     4 mv1       0</span>
+<span class="co">#&gt;  5     5 mv1       0</span>
+<span class="co">#&gt;  6     6 mv1       0</span>
+<span class="co">#&gt;  7     7 mv1       0</span>
+<span class="co">#&gt;  8     8 mv1       0</span>
+<span class="co">#&gt;  9     9 mv1       0</span>
+<span class="co">#&gt; 10    10 mv1       0</span>
+<span class="co">#&gt; # … with 4,190 more rows</span></code></pre></div>
 <p>The <code>raw_signals</code>-dataset is an exclusively fictional dataset, which consists of 3 columns:</p>
 <ul>
 <li>
@@ -133,50 +133,50 @@
 <div id="creation-of-the-main-datastructure" class="section level2">
 <h2 class="hasAnchor">
 <a href="#creation-of-the-main-datastructure" class="anchor"></a>Creation of the main datastructure</h2>
-<p>Because <code>raw_signals</code> is a tibble, <code><a href="../reference/new_tbl_mbte.html">new_tbl_mbte()</a></code> is used to convert it to a <code>tbl_mbte</code> (the main datastructure of the mbte-package). <code><a href="../reference/new_tbl_mbte.html">new_tbl_mbte()</a></code> takes tibbles as first argument or objects, that can be converted to tibbles via <code><a href="https://www.rdocumentation.org/packages/tibble/topics/as_tibble">tibble::as_tibble()</a></code>. Additionally, column names for the <code>time</code> and the <code>value</code>-columns are passed too.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># pass as strings</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">raw_signals &lt;-<span class="st"> </span><span class="kw"><a href="../reference/new_tbl_mbte.html">new_tbl_mbte</a></span>(raw_signals, <span class="dt">time =</span> <span class="st">"t"</span>, <span class="dt">value =</span> <span class="st">"value"</span>)</a></code></pre></div>
+<p>Because <code>raw_signals</code> is a tibble, <code><a href="../reference/new_tbl_mbte.html">new_tbl_mbte()</a></code> is used to convert it to a <code>tbl_mbte</code> (the main datastructure of the mbte-package). <code><a href="../reference/new_tbl_mbte.html">new_tbl_mbte()</a></code> takes tibbles as first argument or objects, that can be converted to tibbles via <code><a href="https://tibble.tidyverse.org/reference/as_tibble.html">tibble::as_tibble()</a></code>. Additionally, column names for the <code>time</code> and the <code>value</code>-columns are passed too.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># pass as strings</span>
+raw_signals &lt;-<span class="st"> </span><span class="kw"><a href="../reference/new_tbl_mbte.html">new_tbl_mbte</a></span>(raw_signals, <span class="dt">time =</span> <span class="st">"t"</span>, <span class="dt">value =</span> <span class="st">"value"</span>)</code></pre></div>
 <p>It would be possible to rely on quotation too:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">raw_signals &lt;-<span class="st"> </span><span class="kw"><a href="../reference/new_tbl_mbte.html">new_tbl_mbte</a></span>(raw_signals, <span class="dt">time =</span> t, <span class="dt">value =</span> value)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">raw_signals &lt;-<span class="st"> </span><span class="kw"><a href="../reference/new_tbl_mbte.html">new_tbl_mbte</a></span>(raw_signals, <span class="dt">time =</span> t, <span class="dt">value =</span> value)</code></pre></div>
 </div>
 <div id="nesting-of-signals" class="section level2">
 <h2 class="hasAnchor">
 <a href="#nesting-of-signals" class="anchor"></a>Nesting of signals</h2>
 <p>In the following step, the <code>time</code>- and <code>value</code>- columns get combined into a new list-column, which is consisting of tibbles (signal-column). A parameter for grouping must be specified. Since the goal is to find out which measurement- variables contain trends, the <code>mv</code>-column is used for grouping (contains the names of the measured parameters).</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">nested &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mbte_nest_signals.html">mbte_nest_signals</a></span>(raw_signals, <span class="st">"mv"</span>)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">nested</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt; # A tibble: 42 x 2</span></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt;    mv    signal            </span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt;    &lt;chr&gt; &lt;list&gt;            </span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;  1 mv1   &lt;tibble [100 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt;  2 mv2   &lt;tibble [100 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt;  3 mv3   &lt;tibble [100 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt;  4 mv4   &lt;tibble [100 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt;  5 mv5   &lt;tibble [100 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt;  6 mv6   &lt;tibble [100 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt;  7 mv7   &lt;tibble [100 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt;  8 mv8   &lt;tibble [100 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt;  9 mv9   &lt;tibble [100 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt; 10 mv10  &lt;tibble [100 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt; # ... with 32 more rows</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nested &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mbte_nest_signals.html">mbte_nest_signals</a></span>(raw_signals, <span class="st">"mv"</span>)
+nested
+<span class="co">#&gt; # A tibble: 42 x 2</span>
+<span class="co">#&gt;    mv    signal            </span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;list&gt;            </span>
+<span class="co">#&gt;  1 mv1   &lt;tibble [100 × 2]&gt;</span>
+<span class="co">#&gt;  2 mv2   &lt;tibble [100 × 2]&gt;</span>
+<span class="co">#&gt;  3 mv3   &lt;tibble [100 × 2]&gt;</span>
+<span class="co">#&gt;  4 mv4   &lt;tibble [100 × 2]&gt;</span>
+<span class="co">#&gt;  5 mv5   &lt;tibble [100 × 2]&gt;</span>
+<span class="co">#&gt;  6 mv6   &lt;tibble [100 × 2]&gt;</span>
+<span class="co">#&gt;  7 mv7   &lt;tibble [100 × 2]&gt;</span>
+<span class="co">#&gt;  8 mv8   &lt;tibble [100 × 2]&gt;</span>
+<span class="co">#&gt;  9 mv9   &lt;tibble [100 × 2]&gt;</span>
+<span class="co">#&gt; 10 mv10  &lt;tibble [100 × 2]&gt;</span>
+<span class="co">#&gt; # … with 32 more rows</span></code></pre></div>
 <p>Also here, the passed variables get quoted. Therefore, the following call is equivalent to the one above.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">nested &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mbte_nest_signals.html">mbte_nest_signals</a></span>(raw_signals, mv)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nested &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mbte_nest_signals.html">mbte_nest_signals</a></span>(raw_signals, mv)</code></pre></div>
 <p>Each subtibble contains the complete signal for the chosen grouping:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">nested<span class="op">$</span>signal[[<span class="dv">5</span>]] <span class="co"># print example signal-subtibble</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; # A tibble: 100 x 2</span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt;        t value</span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt;    &lt;int&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt;  1     1  0   </span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt;  2     2  0   </span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt;  3     3  0   </span></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt;  4     4  0   </span></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt;  5     5  0   </span></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt;  6     6  0   </span></a>
-<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt;  7     7  0   </span></a>
-<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt;  8     8  0   </span></a>
-<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt;  9     9  4.40</span></a>
-<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt; 10    10  3.02</span></a>
-<a class="sourceLine" id="cb7-15" data-line-number="15"><span class="co">#&gt; # ... with 90 more rows</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nested<span class="op">$</span>signal[[<span class="dv">5</span>]] <span class="co"># print example signal-subtibble</span>
+<span class="co">#&gt; # A tibble: 100 x 2</span>
+<span class="co">#&gt;        t value</span>
+<span class="co">#&gt;    &lt;int&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1     1  0   </span>
+<span class="co">#&gt;  2     2  0   </span>
+<span class="co">#&gt;  3     3  0   </span>
+<span class="co">#&gt;  4     4  0   </span>
+<span class="co">#&gt;  5     5  0   </span>
+<span class="co">#&gt;  6     6  0   </span>
+<span class="co">#&gt;  7     7  0   </span>
+<span class="co">#&gt;  8     8  0   </span>
+<span class="co">#&gt;  9     9  4.40</span>
+<span class="co">#&gt; 10    10  3.02</span>
+<span class="co">#&gt; # … with 90 more rows</span></code></pre></div>
 </div>
 <div id="subsignal-extraction" class="section level2">
 <h2 class="hasAnchor">
@@ -188,181 +188,181 @@
 #&gt; [[2]]</code></pre>
 <p><img src="general-workflow_files/figure-html/plot%20subsignals-2.png" width="672"></p>
 <p>The subsignal-extraction is performed by using <code><a href="../reference/mbte_extract_subsignals.html">mbte_extract_subsignals()</a></code>.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">extracted &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mbte_extract_subsignals.html">mbte_extract_subsignals</a></span>(nested)</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">extracted</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt; # A tibble: 86 x 3</span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt;    mv    signal_nr signal           </span></a>
-<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt;    &lt;chr&gt;     &lt;int&gt; &lt;list&gt;           </span></a>
-<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt;  1 mv1           1 &lt;tibble [22 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt;  2 mv1           2 &lt;tibble [8 × 2]&gt; </span></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt;  3 mv1           3 &lt;tibble [13 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt;  4 mv2           1 &lt;tibble [5 × 2]&gt; </span></a>
-<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt;  5 mv3           1 &lt;tibble [20 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">#&gt;  6 mv3           2 &lt;tibble [22 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co">#&gt;  7 mv4           1 &lt;tibble [3 × 2]&gt; </span></a>
-<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="co">#&gt;  8 mv4           2 &lt;tibble [9 × 2]&gt; </span></a>
-<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co">#&gt;  9 mv4           3 &lt;tibble [12 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co">#&gt; 10 mv5           1 &lt;tibble [30 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="co">#&gt; # ... with 76 more rows</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">extracted &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mbte_extract_subsignals.html">mbte_extract_subsignals</a></span>(nested)
+extracted
+<span class="co">#&gt; # A tibble: 86 x 3</span>
+<span class="co">#&gt;    mv    signal_nr signal           </span>
+<span class="co">#&gt;    &lt;chr&gt;     &lt;int&gt; &lt;list&gt;           </span>
+<span class="co">#&gt;  1 mv1           1 &lt;tibble [22 × 2]&gt;</span>
+<span class="co">#&gt;  2 mv1           2 &lt;tibble [8 × 2]&gt; </span>
+<span class="co">#&gt;  3 mv1           3 &lt;tibble [13 × 2]&gt;</span>
+<span class="co">#&gt;  4 mv2           1 &lt;tibble [5 × 2]&gt; </span>
+<span class="co">#&gt;  5 mv3           1 &lt;tibble [20 × 2]&gt;</span>
+<span class="co">#&gt;  6 mv3           2 &lt;tibble [22 × 2]&gt;</span>
+<span class="co">#&gt;  7 mv4           1 &lt;tibble [3 × 2]&gt; </span>
+<span class="co">#&gt;  8 mv4           2 &lt;tibble [9 × 2]&gt; </span>
+<span class="co">#&gt;  9 mv4           3 &lt;tibble [12 × 2]&gt;</span>
+<span class="co">#&gt; 10 mv5           1 &lt;tibble [30 × 2]&gt;</span>
+<span class="co">#&gt; # … with 76 more rows</span></code></pre></div>
 <p>The output shows, that the first signal has been split into three subsignals. The column “signal_nr” has been added to describe the position of the extracted subsignal within the original signal (e.g. <code>signal_nr == 2</code> indicates, that the corresponding row contains the second subsignal within the orginal signal).</p>
 <p>In this example, only subsignals with a length of greater than 11 (arbitrary threshold) are kept. This should ensure, that signals like the one for “mv2” (measurement variable 2) are discarded. Filtering can be done using dplyr. Since <code>signal</code> is a list-column, <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map_int()</a></code> is used to get the number of rows of the corresponding signal (which is stored as a tibble).</p>
-<p>NOTE: <code><a href="../reference/mbte_reconstruct.html">mbte_reconstruct()</a></code> should be called, if functions are invoked, which may modify the attributes of the original object (in this case <code><a href="http://dplyr.tidyverse.org/reference/filter.html">dplyr::filter()</a></code>).</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">filtered_dataset &lt;-<span class="st"> </span>extracted <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(purrr<span class="op">::</span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map_int</a></span>(signal, nrow) <span class="op">&gt;</span><span class="st"> </span><span class="dv">11</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/mbte_reconstruct.html">mbte_reconstruct</a></span>(extracted)</a>
-<a class="sourceLine" id="cb11-4" data-line-number="4">filtered_dataset</a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt; # A tibble: 52 x 3</span></a>
-<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt;    mv    signal_nr signal           </span></a>
-<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt;    &lt;chr&gt;     &lt;int&gt; &lt;list&gt;           </span></a>
-<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt;  1 mv1           1 &lt;tibble [22 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt;  2 mv1           3 &lt;tibble [13 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co">#&gt;  3 mv3           1 &lt;tibble [20 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="co">#&gt;  4 mv3           2 &lt;tibble [22 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb11-12" data-line-number="12"><span class="co">#&gt;  5 mv4           3 &lt;tibble [12 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb11-13" data-line-number="13"><span class="co">#&gt;  6 mv5           1 &lt;tibble [30 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb11-14" data-line-number="14"><span class="co">#&gt;  7 mv6           1 &lt;tibble [21 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb11-15" data-line-number="15"><span class="co">#&gt;  8 mv6           3 &lt;tibble [30 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb11-16" data-line-number="16"><span class="co">#&gt;  9 mv7           1 &lt;tibble [56 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb11-17" data-line-number="17"><span class="co">#&gt; 10 mv8           1 &lt;tibble [29 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb11-18" data-line-number="18"><span class="co">#&gt; # ... with 42 more rows</span></a></code></pre></div>
+<p>NOTE: <code><a href="../reference/mbte_reconstruct.html">mbte_reconstruct()</a></code> should be called, if functions are invoked, which may modify the attributes of the original object (in this case <code><a href="https://dplyr.tidyverse.org/reference/filter.html">dplyr::filter()</a></code>).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">filtered_dataset &lt;-<span class="st"> </span>extracted <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(purrr<span class="op">::</span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map.html">map_int</a></span>(signal, nrow) <span class="op">&gt;</span><span class="st"> </span><span class="dv">11</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw"><a href="../reference/mbte_reconstruct.html">mbte_reconstruct</a></span>(extracted)
+filtered_dataset
+<span class="co">#&gt; # A tibble: 52 x 3</span>
+<span class="co">#&gt;    mv    signal_nr signal           </span>
+<span class="co">#&gt;    &lt;chr&gt;     &lt;int&gt; &lt;list&gt;           </span>
+<span class="co">#&gt;  1 mv1           1 &lt;tibble [22 × 2]&gt;</span>
+<span class="co">#&gt;  2 mv1           3 &lt;tibble [13 × 2]&gt;</span>
+<span class="co">#&gt;  3 mv3           1 &lt;tibble [20 × 2]&gt;</span>
+<span class="co">#&gt;  4 mv3           2 &lt;tibble [22 × 2]&gt;</span>
+<span class="co">#&gt;  5 mv4           3 &lt;tibble [12 × 2]&gt;</span>
+<span class="co">#&gt;  6 mv5           1 &lt;tibble [30 × 2]&gt;</span>
+<span class="co">#&gt;  7 mv6           1 &lt;tibble [21 × 2]&gt;</span>
+<span class="co">#&gt;  8 mv6           3 &lt;tibble [30 × 2]&gt;</span>
+<span class="co">#&gt;  9 mv7           1 &lt;tibble [56 × 2]&gt;</span>
+<span class="co">#&gt; 10 mv8           1 &lt;tibble [29 × 2]&gt;</span>
+<span class="co">#&gt; # … with 42 more rows</span></code></pre></div>
 </div>
 <div id="fitting" class="section level2">
 <h2 class="hasAnchor">
 <a href="#fitting" class="anchor"></a>Fitting</h2>
 <p>The remaining rows are analyzed for trends. This is done by fitting an arbitrary model to the subsignals. The only criteria for the used models is, that numeric predictions for the original signal must be computable.</p>
 <p>Since the general trend is not always known beforehand, <code><a href="https://www.rdocumentation.org/packages/stats/topics/loess">loess()</a></code> gets used to fit a spline to each subsignal using <code><a href="../reference/mbte_fit.html">mbte_fit()</a></code>. Additonally, a linear model gets fit too.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">fitted &lt;-<span class="st"> </span>filtered_dataset <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/mbte_fit.html">mbte_fit</a></span>(</a>
-<a class="sourceLine" id="cb12-3" data-line-number="3">    <span class="dt">loess =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/loess">loess</a></span>(value <span class="op">~</span><span class="st"> </span>t, .signal, <span class="dt">span =</span> <span class="fl">0.95</span>),</a>
-<a class="sourceLine" id="cb12-4" data-line-number="4">    <span class="dt">lm =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/lm">lm</a></span>(value <span class="op">~</span><span class="st"> </span>t, .signal)</a>
-<a class="sourceLine" id="cb12-5" data-line-number="5">  )</a>
-<a class="sourceLine" id="cb12-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co"># resulting table</span></a>
-<a class="sourceLine" id="cb12-8" data-line-number="8">fitted</a>
-<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co">#&gt; # A tibble: 52 x 4</span></a>
-<a class="sourceLine" id="cb12-10" data-line-number="10"><span class="co">#&gt;    mv    signal_nr signal            fits             </span></a>
-<a class="sourceLine" id="cb12-11" data-line-number="11"><span class="co">#&gt;    &lt;chr&gt;     &lt;int&gt; &lt;list&gt;            &lt;list&gt;           </span></a>
-<a class="sourceLine" id="cb12-12" data-line-number="12"><span class="co">#&gt;  1 mv1           1 &lt;tibble [22 × 2]&gt; &lt;tibble [22 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb12-13" data-line-number="13"><span class="co">#&gt;  2 mv1           3 &lt;tibble [13 × 2]&gt; &lt;tibble [13 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb12-14" data-line-number="14"><span class="co">#&gt;  3 mv3           1 &lt;tibble [20 × 2]&gt; &lt;tibble [20 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb12-15" data-line-number="15"><span class="co">#&gt;  4 mv3           2 &lt;tibble [22 × 2]&gt; &lt;tibble [22 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb12-16" data-line-number="16"><span class="co">#&gt;  5 mv4           3 &lt;tibble [12 × 2]&gt; &lt;tibble [12 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb12-17" data-line-number="17"><span class="co">#&gt;  6 mv5           1 &lt;tibble [30 × 2]&gt; &lt;tibble [30 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb12-18" data-line-number="18"><span class="co">#&gt;  7 mv6           1 &lt;tibble [21 × 2]&gt; &lt;tibble [21 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb12-19" data-line-number="19"><span class="co">#&gt;  8 mv6           3 &lt;tibble [30 × 2]&gt; &lt;tibble [30 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb12-20" data-line-number="20"><span class="co">#&gt;  9 mv7           1 &lt;tibble [56 × 2]&gt; &lt;tibble [56 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb12-21" data-line-number="21"><span class="co">#&gt; 10 mv8           1 &lt;tibble [29 × 2]&gt; &lt;tibble [29 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb12-22" data-line-number="22"><span class="co">#&gt; # ... with 42 more rows</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fitted &lt;-<span class="st"> </span>filtered_dataset <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw"><a href="../reference/mbte_fit.html">mbte_fit</a></span>(
+    <span class="dt">loess =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/loess">loess</a></span>(value <span class="op">~</span><span class="st"> </span>t, .signal, <span class="dt">span =</span> <span class="fl">0.95</span>),
+    <span class="dt">lm =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/lm">lm</a></span>(value <span class="op">~</span><span class="st"> </span>t, .signal)
+  )
+
+<span class="co"># resulting table</span>
+fitted
+<span class="co">#&gt; # A tibble: 52 x 4</span>
+<span class="co">#&gt;    mv    signal_nr signal            fits             </span>
+<span class="co">#&gt;    &lt;chr&gt;     &lt;int&gt; &lt;list&gt;            &lt;list&gt;           </span>
+<span class="co">#&gt;  1 mv1           1 &lt;tibble [22 × 2]&gt; &lt;tibble [22 × 2]&gt;</span>
+<span class="co">#&gt;  2 mv1           3 &lt;tibble [13 × 2]&gt; &lt;tibble [13 × 2]&gt;</span>
+<span class="co">#&gt;  3 mv3           1 &lt;tibble [20 × 2]&gt; &lt;tibble [20 × 2]&gt;</span>
+<span class="co">#&gt;  4 mv3           2 &lt;tibble [22 × 2]&gt; &lt;tibble [22 × 2]&gt;</span>
+<span class="co">#&gt;  5 mv4           3 &lt;tibble [12 × 2]&gt; &lt;tibble [12 × 2]&gt;</span>
+<span class="co">#&gt;  6 mv5           1 &lt;tibble [30 × 2]&gt; &lt;tibble [30 × 2]&gt;</span>
+<span class="co">#&gt;  7 mv6           1 &lt;tibble [21 × 2]&gt; &lt;tibble [21 × 2]&gt;</span>
+<span class="co">#&gt;  8 mv6           3 &lt;tibble [30 × 2]&gt; &lt;tibble [30 × 2]&gt;</span>
+<span class="co">#&gt;  9 mv7           1 &lt;tibble [56 × 2]&gt; &lt;tibble [56 × 2]&gt;</span>
+<span class="co">#&gt; 10 mv8           1 &lt;tibble [29 × 2]&gt; &lt;tibble [29 × 2]&gt;</span>
+<span class="co">#&gt; # … with 42 more rows</span></code></pre></div>
 <p>Users can make use of masked objects for fitting (see documentation of <code><a href="../reference/mbte_fit.html">mbte_fit()</a></code> for details). For example <code>.signal</code> does not exist in the workspace. It gets provided by <code><a href="../reference/mbte_fit.html">mbte_fit()</a></code> to simplify fitting. That way, the user can think of fitting a linear model to a table containing the time- and value-column (in our example named <code>t</code> and <code>value</code>). <code>.signal</code> is just an element of the signal-column of the filtered dataset:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">filtered_dataset<span class="op">$</span>signal[[<span class="dv">1</span>]] <span class="co"># example element of `.signal`</span></a>
-<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="co">#&gt; # A tibble: 22 x 2</span></a>
-<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="co">#&gt;        t value</span></a>
-<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="co">#&gt;    &lt;int&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">#&gt;  1    29 36.9 </span></a>
-<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">#&gt;  2    30 22.9 </span></a>
-<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#&gt;  3    31 21.4 </span></a>
-<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">#&gt;  4    32 31.8 </span></a>
-<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="co">#&gt;  5    33 21.6 </span></a>
-<a class="sourceLine" id="cb13-10" data-line-number="10"><span class="co">#&gt;  6    34 27.5 </span></a>
-<a class="sourceLine" id="cb13-11" data-line-number="11"><span class="co">#&gt;  7    35 22.6 </span></a>
-<a class="sourceLine" id="cb13-12" data-line-number="12"><span class="co">#&gt;  8    36 19.5 </span></a>
-<a class="sourceLine" id="cb13-13" data-line-number="13"><span class="co">#&gt;  9    37  7.11</span></a>
-<a class="sourceLine" id="cb13-14" data-line-number="14"><span class="co">#&gt; 10    38 11.5 </span></a>
-<a class="sourceLine" id="cb13-15" data-line-number="15"><span class="co">#&gt; # ... with 12 more rows</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">filtered_dataset<span class="op">$</span>signal[[<span class="dv">1</span>]] <span class="co"># example element of `.signal`</span>
+<span class="co">#&gt; # A tibble: 22 x 2</span>
+<span class="co">#&gt;        t value</span>
+<span class="co">#&gt;    &lt;int&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1    29 36.9 </span>
+<span class="co">#&gt;  2    30 22.9 </span>
+<span class="co">#&gt;  3    31 21.4 </span>
+<span class="co">#&gt;  4    32 31.8 </span>
+<span class="co">#&gt;  5    33 21.6 </span>
+<span class="co">#&gt;  6    34 27.5 </span>
+<span class="co">#&gt;  7    35 22.6 </span>
+<span class="co">#&gt;  8    36 19.5 </span>
+<span class="co">#&gt;  9    37  7.11</span>
+<span class="co">#&gt; 10    38 11.5 </span>
+<span class="co">#&gt; # … with 12 more rows</span></code></pre></div>
 </div>
 <div id="metric-computation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#metric-computation" class="anchor"></a>Metric computation</h2>
 <p>In order to compare the fits, an error metric is computed for each fit. Generally speaking, a trend is present, if the used models are able to generalize the underlying trend of a signal. Therefore, the lower the resulting error metric, the higher the likelyhood for an interesting measurement-parameter worth inversitgating.</p>
 <p>For the comparison of the fits, the normalized root mean-squared error is used, since a error metric is required, which is relative to the range of the signal-intensities (signal-values).</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">nrmse &lt;-<span class="st"> </span><span class="cf">function</span>(obs, pred) {</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">sqrt</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>((pred <span class="op">-</span><span class="st"> </span>obs)<span class="op">^</span><span class="dv">2</span>)) <span class="op">/</span><span class="st"> </span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Extremes">max</a></span>(obs) <span class="op">-</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Extremes">min</a></span>(obs))</a>
-<a class="sourceLine" id="cb14-3" data-line-number="3">}</a>
-<a class="sourceLine" id="cb14-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb14-5" data-line-number="5">metrics &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mbte_compute_metrics.html">mbte_compute_metrics</a></span>(fitted, <span class="dt">nrmse =</span> <span class="kw">nrmse</span>(.obs, .pred))</a>
-<a class="sourceLine" id="cb14-6" data-line-number="6">metrics</a>
-<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="co">#&gt; # A tibble: 104 x 5</span></a>
-<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co">#&gt;    mv    signal_nr fit   metric result</span></a>
-<a class="sourceLine" id="cb14-9" data-line-number="9"><span class="co">#&gt;    &lt;chr&gt;     &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb14-10" data-line-number="10"><span class="co">#&gt;  1 mv1           1 loess nrmse  0.157 </span></a>
-<a class="sourceLine" id="cb14-11" data-line-number="11"><span class="co">#&gt;  2 mv1           1 lm    nrmse  0.166 </span></a>
-<a class="sourceLine" id="cb14-12" data-line-number="12"><span class="co">#&gt;  3 mv1           3 loess nrmse  0.295 </span></a>
-<a class="sourceLine" id="cb14-13" data-line-number="13"><span class="co">#&gt;  4 mv1           3 lm    nrmse  0.299 </span></a>
-<a class="sourceLine" id="cb14-14" data-line-number="14"><span class="co">#&gt;  5 mv3           1 loess nrmse  0.243 </span></a>
-<a class="sourceLine" id="cb14-15" data-line-number="15"><span class="co">#&gt;  6 mv3           1 lm    nrmse  0.252 </span></a>
-<a class="sourceLine" id="cb14-16" data-line-number="16"><span class="co">#&gt;  7 mv3           2 loess nrmse  0.0872</span></a>
-<a class="sourceLine" id="cb14-17" data-line-number="17"><span class="co">#&gt;  8 mv3           2 lm    nrmse  0.146 </span></a>
-<a class="sourceLine" id="cb14-18" data-line-number="18"><span class="co">#&gt;  9 mv4           3 loess nrmse  0.193 </span></a>
-<a class="sourceLine" id="cb14-19" data-line-number="19"><span class="co">#&gt; 10 mv4           3 lm    nrmse  0.231 </span></a>
-<a class="sourceLine" id="cb14-20" data-line-number="20"><span class="co">#&gt; # ... with 94 more rows</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nrmse &lt;-<span class="st"> </span><span class="cf">function</span>(obs, pred) {
+  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">sqrt</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>((pred <span class="op">-</span><span class="st"> </span>obs)<span class="op">^</span><span class="dv">2</span>)) <span class="op">/</span><span class="st"> </span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Extremes">max</a></span>(obs) <span class="op">-</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Extremes">min</a></span>(obs))
+}
+
+metrics &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mbte_compute_metrics.html">mbte_compute_metrics</a></span>(fitted, <span class="dt">nrmse =</span> <span class="kw">nrmse</span>(.obs, .pred))
+metrics
+<span class="co">#&gt; # A tibble: 104 x 5</span>
+<span class="co">#&gt;    mv    signal_nr fit   metric result</span>
+<span class="co">#&gt;    &lt;chr&gt;     &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 mv1           1 loess nrmse  0.157 </span>
+<span class="co">#&gt;  2 mv1           1 lm    nrmse  0.166 </span>
+<span class="co">#&gt;  3 mv1           3 loess nrmse  0.295 </span>
+<span class="co">#&gt;  4 mv1           3 lm    nrmse  0.299 </span>
+<span class="co">#&gt;  5 mv3           1 loess nrmse  0.243 </span>
+<span class="co">#&gt;  6 mv3           1 lm    nrmse  0.252 </span>
+<span class="co">#&gt;  7 mv3           2 loess nrmse  0.0872</span>
+<span class="co">#&gt;  8 mv3           2 lm    nrmse  0.146 </span>
+<span class="co">#&gt;  9 mv4           3 loess nrmse  0.193 </span>
+<span class="co">#&gt; 10 mv4           3 lm    nrmse  0.231 </span>
+<span class="co">#&gt; # … with 94 more rows</span></code></pre></div>
 <p>Like for <code><a href="../reference/mbte_fit.html">mbte_fit()</a></code>, <code><a href="../reference/mbte_compute_metrics.html">mbte_compute_metrics()</a></code> also uses masking to simplify the metric computation. Here <code>.pred</code> denote the predicted signal-values from the model and <code>.obs</code> are the observed/original values of the signal (both are numeric vectors).</p>
 <p>The resulting matrics-table can be filterd accordingly using dplyr. A score gets computed for each signal (identified by the measurement variable and the signal_nr).</p>
 <p>NOTE: In this case, calling <code><a href="../reference/mbte_reconstruct.html">mbte_reconstruct()</a></code> is not required, since the result doesen’t have to be of class <code>tbl_mbte</code>, which will only be processed by dplyr and not by the mbte-package directly.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">metrics &lt;-<span class="st"> </span>metrics <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(mv, signal_nr) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="dt">score =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(result)) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># compute score (lower is better)</span></a>
-<a class="sourceLine" id="cb15-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(<span class="op">-</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/desc.html">desc</a></span>(score)) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># order by result in ascending order</span></a>
-<a class="sourceLine" id="cb15-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span>() <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb15-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(mv, signal_nr, score) <span class="co"># only keep relevant columns</span></a>
-<a class="sourceLine" id="cb15-7" data-line-number="7">metrics</a>
-<a class="sourceLine" id="cb15-8" data-line-number="8"><span class="co">#&gt; # A tibble: 52 x 3</span></a>
-<a class="sourceLine" id="cb15-9" data-line-number="9"><span class="co">#&gt;    mv    signal_nr  score</span></a>
-<a class="sourceLine" id="cb15-10" data-line-number="10"><span class="co">#&gt;    &lt;chr&gt;     &lt;int&gt;  &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb15-11" data-line-number="11"><span class="co">#&gt;  1 mv22          1 0.0704</span></a>
-<a class="sourceLine" id="cb15-12" data-line-number="12"><span class="co">#&gt;  2 mv37          1 0.0965</span></a>
-<a class="sourceLine" id="cb15-13" data-line-number="13"><span class="co">#&gt;  3 mv21          2 0.102 </span></a>
-<a class="sourceLine" id="cb15-14" data-line-number="14"><span class="co">#&gt;  4 mv18          2 0.128 </span></a>
-<a class="sourceLine" id="cb15-15" data-line-number="15"><span class="co">#&gt;  5 mv6           3 0.192 </span></a>
-<a class="sourceLine" id="cb15-16" data-line-number="16"><span class="co">#&gt;  6 mv15          2 0.206 </span></a>
-<a class="sourceLine" id="cb15-17" data-line-number="17"><span class="co">#&gt;  7 mv32          1 0.212 </span></a>
-<a class="sourceLine" id="cb15-18" data-line-number="18"><span class="co">#&gt;  8 mv27          2 0.215 </span></a>
-<a class="sourceLine" id="cb15-19" data-line-number="19"><span class="co">#&gt;  9 mv10          1 0.217 </span></a>
-<a class="sourceLine" id="cb15-20" data-line-number="20"><span class="co">#&gt; 10 mv13          1 0.223 </span></a>
-<a class="sourceLine" id="cb15-21" data-line-number="21"><span class="co">#&gt; # ... with 42 more rows</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">metrics &lt;-<span class="st"> </span>metrics <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(mv, signal_nr) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="dt">score =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(result)) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># compute score (lower is better)</span>
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(<span class="op">-</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span>(score)) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># order by result in ascending order</span>
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span>() <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(mv, signal_nr, score) <span class="co"># only keep relevant columns</span>
+metrics
+<span class="co">#&gt; # A tibble: 52 x 3</span>
+<span class="co">#&gt;    mv    signal_nr  score</span>
+<span class="co">#&gt;    &lt;chr&gt;     &lt;int&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 mv22          1 0.0704</span>
+<span class="co">#&gt;  2 mv37          1 0.0965</span>
+<span class="co">#&gt;  3 mv21          2 0.102 </span>
+<span class="co">#&gt;  4 mv18          2 0.128 </span>
+<span class="co">#&gt;  5 mv6           3 0.192 </span>
+<span class="co">#&gt;  6 mv15          2 0.206 </span>
+<span class="co">#&gt;  7 mv32          1 0.212 </span>
+<span class="co">#&gt;  8 mv27          2 0.215 </span>
+<span class="co">#&gt;  9 mv10          1 0.217 </span>
+<span class="co">#&gt; 10 mv13          1 0.223 </span>
+<span class="co">#&gt; # … with 42 more rows</span></code></pre></div>
 <p>It can be seen, that subsignal nr. 1 of measurement-variable mv22 seems to have the best score. To investigate the fits further, the <code>fitted</code>-table containing the fits is rearranged (order of rows changed according to the best fits). The best-performing fits are put at the beginning of the table.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">fitted &lt;-<span class="st"> </span>fitted <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/join.html">left_join</a></span>(metrics, <span class="dt">by =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"mv"</span>, <span class="st">"signal_nr"</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># add "score" column</span></a>
-<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(<span class="op">-</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/desc.html">desc</a></span>(score)) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># reorder rows</span></a>
-<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span>score) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># remove column "score"</span></a>
-<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="../reference/mbte_reconstruct.html">mbte_reconstruct</a></span>(fitted)</a>
-<a class="sourceLine" id="cb16-6" data-line-number="6">fitted</a>
-<a class="sourceLine" id="cb16-7" data-line-number="7"><span class="co">#&gt; # A tibble: 52 x 4</span></a>
-<a class="sourceLine" id="cb16-8" data-line-number="8"><span class="co">#&gt;    mv    signal_nr signal            fits             </span></a>
-<a class="sourceLine" id="cb16-9" data-line-number="9"><span class="co">#&gt;    &lt;chr&gt;     &lt;int&gt; &lt;list&gt;            &lt;list&gt;           </span></a>
-<a class="sourceLine" id="cb16-10" data-line-number="10"><span class="co">#&gt;  1 mv22          1 &lt;tibble [33 × 2]&gt; &lt;tibble [33 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb16-11" data-line-number="11"><span class="co">#&gt;  2 mv37          1 &lt;tibble [20 × 2]&gt; &lt;tibble [20 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb16-12" data-line-number="12"><span class="co">#&gt;  3 mv21          2 &lt;tibble [28 × 2]&gt; &lt;tibble [28 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb16-13" data-line-number="13"><span class="co">#&gt;  4 mv18          2 &lt;tibble [25 × 2]&gt; &lt;tibble [25 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb16-14" data-line-number="14"><span class="co">#&gt;  5 mv6           3 &lt;tibble [30 × 2]&gt; &lt;tibble [30 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb16-15" data-line-number="15"><span class="co">#&gt;  6 mv15          2 &lt;tibble [13 × 2]&gt; &lt;tibble [13 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb16-16" data-line-number="16"><span class="co">#&gt;  7 mv32          1 &lt;tibble [14 × 2]&gt; &lt;tibble [14 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb16-17" data-line-number="17"><span class="co">#&gt;  8 mv27          2 &lt;tibble [28 × 2]&gt; &lt;tibble [28 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb16-18" data-line-number="18"><span class="co">#&gt;  9 mv10          1 &lt;tibble [25 × 2]&gt; &lt;tibble [25 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb16-19" data-line-number="19"><span class="co">#&gt; 10 mv13          1 &lt;tibble [72 × 2]&gt; &lt;tibble [72 × 2]&gt;</span></a>
-<a class="sourceLine" id="cb16-20" data-line-number="20"><span class="co">#&gt; # ... with 42 more rows</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fitted &lt;-<span class="st"> </span>fitted <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/join.html">left_join</a></span>(metrics, <span class="dt">by =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"mv"</span>, <span class="st">"signal_nr"</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># add "score" column</span>
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(<span class="op">-</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span>(score)) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># reorder rows</span>
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span>score) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># remove column "score"</span>
+<span class="st">  </span><span class="kw"><a href="../reference/mbte_reconstruct.html">mbte_reconstruct</a></span>(fitted)
+fitted
+<span class="co">#&gt; # A tibble: 52 x 4</span>
+<span class="co">#&gt;    mv    signal_nr signal            fits             </span>
+<span class="co">#&gt;    &lt;chr&gt;     &lt;int&gt; &lt;list&gt;            &lt;list&gt;           </span>
+<span class="co">#&gt;  1 mv22          1 &lt;tibble [33 × 2]&gt; &lt;tibble [33 × 2]&gt;</span>
+<span class="co">#&gt;  2 mv37          1 &lt;tibble [20 × 2]&gt; &lt;tibble [20 × 2]&gt;</span>
+<span class="co">#&gt;  3 mv21          2 &lt;tibble [28 × 2]&gt; &lt;tibble [28 × 2]&gt;</span>
+<span class="co">#&gt;  4 mv18          2 &lt;tibble [25 × 2]&gt; &lt;tibble [25 × 2]&gt;</span>
+<span class="co">#&gt;  5 mv6           3 &lt;tibble [30 × 2]&gt; &lt;tibble [30 × 2]&gt;</span>
+<span class="co">#&gt;  6 mv15          2 &lt;tibble [13 × 2]&gt; &lt;tibble [13 × 2]&gt;</span>
+<span class="co">#&gt;  7 mv32          1 &lt;tibble [14 × 2]&gt; &lt;tibble [14 × 2]&gt;</span>
+<span class="co">#&gt;  8 mv27          2 &lt;tibble [28 × 2]&gt; &lt;tibble [28 × 2]&gt;</span>
+<span class="co">#&gt;  9 mv10          1 &lt;tibble [25 × 2]&gt; &lt;tibble [25 × 2]&gt;</span>
+<span class="co">#&gt; 10 mv13          1 &lt;tibble [72 × 2]&gt; &lt;tibble [72 × 2]&gt;</span>
+<span class="co">#&gt; # … with 42 more rows</span></code></pre></div>
 </div>
 <div id="visualisation-of-fits" class="section level2">
 <h2 class="hasAnchor">
 <a href="#visualisation-of-fits" class="anchor"></a>Visualisation of fits</h2>
 <p><code><a href="../reference/mbte_panel_plot.html">mbte_panel_plot()</a></code> is used to produce the following visualisations of the fits. Since the <code>fitted</code>-table has been rearranged according to the performance of the corresponding fit, signals containing a clearer trend are drawn first:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">fit_vis &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mbte_panel_plot.html">mbte_panel_plot</a></span>(fitted, {</a>
-<a class="sourceLine" id="cb17-2" data-line-number="2">  <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(.u_signals, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(t, value)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb17-3" data-line-number="3"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>(<span class="dt">alpha =</span> <span class="fl">0.75</span>, <span class="dt">color =</span> <span class="st">"grey50"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb17-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_path</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">color =</span> fit, <span class="dt">group =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(mv, signal_nr, fit)), .u_fits) <span class="op">+</span></a>
-<a class="sourceLine" id="cb17-5" data-line-number="5"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html">scale_color_brewer</a></span>(<span class="dt">palette =</span> <span class="st">"Set1"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb17-6" data-line-number="6"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="dt">x =</span> <span class="st">"time"</span>, <span class="dt">y =</span> <span class="st">"signal-values"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb17-7" data-line-number="7"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Fits ordered by metric"</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"Page"</span>, .n_page, <span class="st">"of"</span>, .n_pages)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb17-8" data-line-number="8"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb17-9" data-line-number="9"><span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="dt">legend.position =</span> <span class="st">"bottom"</span>)</a>
-<a class="sourceLine" id="cb17-10" data-line-number="10">}, mv, signal_nr, <span class="dt">nrow =</span> <span class="dv">2</span>, <span class="dt">ncol =</span> <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb17-11" data-line-number="11">fit_vis &lt;-<span class="st"> </span>fit_vis[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(fit_vis))] <span class="co"># only keep best and worst fits</span></a>
-<a class="sourceLine" id="cb17-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb17-13" data-line-number="13"><span class="co"># best fits</span></a>
-<a class="sourceLine" id="cb17-14" data-line-number="14">fit_vis[[<span class="dv">1</span>]]</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_vis &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mbte_panel_plot.html">mbte_panel_plot</a></span>(fitted, {
+  <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(.u_signals, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(t, value)) <span class="op">+</span>
+<span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>(<span class="dt">alpha =</span> <span class="fl">0.75</span>, <span class="dt">color =</span> <span class="st">"grey50"</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_path</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">color =</span> fit, <span class="dt">group =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(mv, signal_nr, fit)), .u_fits) <span class="op">+</span>
+<span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html">scale_color_brewer</a></span>(<span class="dt">palette =</span> <span class="st">"Set1"</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span>(<span class="dt">x =</span> <span class="st">"time"</span>, <span class="dt">y =</span> <span class="st">"signal-values"</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">"Fits ordered by metric"</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste</a></span>(<span class="st">"Page"</span>, .n_page, <span class="st">"of"</span>, .n_pages)) <span class="op">+</span>
+<span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="dt">legend.position =</span> <span class="st">"bottom"</span>)
+}, mv, signal_nr, <span class="dt">nrow =</span> <span class="dv">2</span>, <span class="dt">ncol =</span> <span class="dv">3</span>)
+fit_vis &lt;-<span class="st"> </span>fit_vis[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(fit_vis))] <span class="co"># only keep best and worst fits</span>
+
+<span class="co"># best fits</span>
+fit_vis[[<span class="dv">1</span>]]</code></pre></div>
 <p><img src="general-workflow_files/figure-html/plot%20results-1.png" width="672"></p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="co"># worst fits</span></a>
-<a class="sourceLine" id="cb18-3" data-line-number="3">fit_vis[[<span class="dv">2</span>]]</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="co"># worst fits</span>
+fit_vis[[<span class="dv">2</span>]]</code></pre></div>
 <p><img src="general-workflow_files/figure-html/plot%20results-2.png" width="672"></p>
 </div>
 </div>

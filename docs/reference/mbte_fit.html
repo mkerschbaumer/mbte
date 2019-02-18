@@ -156,7 +156,7 @@ signal-values.</p>
 
     <p>Fitting-quosures can make use of the following masked objects (see examples
 for clarification):</p><dl class='dl-horizontal'>
-  <dt>.signal</dt><dd><p>A <code><a href='https://www.rdocumentation.org/packages/tibble/topics/tibble'>tibble</a></code> with the signal to fit
+  <dt>.signal</dt><dd><p>A <code><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></code> with the signal to fit
     (`time` and `value`-columns are present).</p></dd>
   <dt>.time_sym</dt><dd><p>The name of the time column as a
     <code><a href='https://www.rdocumentation.org/packages/base/topics/name'>symbol</a></code>.</p></dd>
@@ -240,7 +240,7 @@ case, a tibble containing the logged events will be returned to the user.</p>
 #&gt; </span><span style='color: #BCBCBC;'> 8</span><span> mv8           2 </span><span style='color: #949494;'>&lt;tibble [26 × 2]&gt;</span><span> </span><span style='color: #949494;'>&lt;tibble [26 × 2]&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'> 9</span><span> mv9           1 </span><span style='color: #949494;'>&lt;tibble [63 × 2]&gt;</span><span> </span><span style='color: #949494;'>&lt;tibble [63 × 2]&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span> mv10          1 </span><span style='color: #949494;'>&lt;tibble [25 × 2]&gt;</span><span> </span><span style='color: #949494;'>&lt;tibble [25 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #949494;'># ... with 27 more rows</span><span></div><div class='input'>
+#&gt; </span><span style='color: #949494;'># … with 27 more rows</span><span></div><div class='input'>
 <span class='co'># a tibble in the `fits`-list column; the columns `fit1` and `fit2` are</span>
 <span class='co'># equivalent (only different ways of returning the fittind signal-values have</span>
 <span class='co'># been used).</span>
@@ -257,7 +257,7 @@ case, a tibble containing the logged events will be returned to the user.</p>
 #&gt; </span><span style='color: #BCBCBC;'> 8</span><span>  20.7  20.7
 #&gt; </span><span style='color: #BCBCBC;'> 9</span><span>  19.5  19.5
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span>  18.2  18.2
-#&gt; </span><span style='color: #949494;'># ... with 12 more rows</span><span></div><div class='input'>
+#&gt; </span><span style='color: #949494;'># … with 12 more rows</span><span></div><div class='input'>
 <span class='co'># use tidy-dots semantics of mbte_fit() - useful if fitting quosures are</span>
 <span class='co'># generated programmatically</span>
 
@@ -282,7 +282,7 @@ case, a tibble containing the logged events will be returned to the user.</p>
 #&gt; </span><span style='color: #BCBCBC;'> 8</span><span> mv8           2 </span><span style='color: #949494;'>&lt;tibble [26 × 2]&gt;</span><span> </span><span style='color: #949494;'>&lt;tibble [26 × 2]&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'> 9</span><span> mv9           1 </span><span style='color: #949494;'>&lt;tibble [63 × 2]&gt;</span><span> </span><span style='color: #949494;'>&lt;tibble [63 × 2]&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span> mv10          1 </span><span style='color: #949494;'>&lt;tibble [25 × 2]&gt;</span><span> </span><span style='color: #949494;'>&lt;tibble [25 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #949494;'># ... with 27 more rows</span><span></div><div class='input'>
+#&gt; </span><span style='color: #949494;'># … with 27 more rows</span><span></div><div class='input'>
 <span class='no'>fits2</span>$<span class='no'>fits</span><span class='kw'>[[</span><span class='fl'>1</span>]]</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 22 x 2</span><span>
 #&gt;      lm1   lm2
 #&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -296,7 +296,7 @@ case, a tibble containing the logged events will be returned to the user.</p>
 #&gt; </span><span style='color: #BCBCBC;'> 8</span><span>  20.7  20.7
 #&gt; </span><span style='color: #BCBCBC;'> 9</span><span>  19.5  19.5
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span>  18.2  18.2
-#&gt; </span><span style='color: #949494;'># ... with 12 more rows</span><span></div><div class='input'>
+#&gt; </span><span style='color: #949494;'># … with 12 more rows</span><span></div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

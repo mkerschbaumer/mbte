@@ -224,7 +224,7 @@ case, a tibble containing the logged events will be returned to the user.</p>
 #&gt; </span><span style='color: #BCBCBC;'> 8</span><span> mv8           2 </span><span style='color: #949494;'>&lt;tibble [26 × 2]&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'> 9</span><span> mv9           1 </span><span style='color: #949494;'>&lt;tibble [63 × 2]&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span> mv10          1 </span><span style='color: #949494;'>&lt;tibble [25 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #949494;'># ... with 27 more rows</span><span></div><div class='input'>
+#&gt; </span><span style='color: #949494;'># … with 27 more rows</span><span></div><div class='input'>
 <span class='co'># fit linear model to each signal (`t` denotes the time column)</span>
 <span class='no'>fits</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mbte_fit.html'>mbte_fit</a></span>(<span class='no'>filtered_signals</span>, <span class='kw'>lm</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>value</span> ~ <span class='no'>t</span>, <span class='no'>.signal</span>))
 
@@ -249,7 +249,7 @@ case, a tibble containing the logged events will be returned to the user.</p>
 #&gt; </span><span style='color: #BCBCBC;'> 8</span><span> mv8           2 lm    nrmse  0.221 
 #&gt; </span><span style='color: #BCBCBC;'> 9</span><span> mv9           1 lm    nrmse  0.243 
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span> mv10          1 lm    nrmse  0.156 
-#&gt; </span><span style='color: #949494;'># ... with 27 more rows</span><span></div><div class='input'>
+#&gt; </span><span style='color: #949494;'># … with 27 more rows</span><span></div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

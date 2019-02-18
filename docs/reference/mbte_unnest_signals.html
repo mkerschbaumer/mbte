@@ -171,10 +171,10 @@ inversion of <code><a href='mbte_nest_signals.html'>mbte_nest_signals</a></code>
 #&gt; </span><span style='color: #BCBCBC;'> 8</span><span>     8 mv1       0
 #&gt; </span><span style='color: #BCBCBC;'> 9</span><span>     9 mv1       0
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span>    10 mv1       0
-#&gt; </span><span style='color: #949494;'># ... with 4,190 more rows</span><span></div><div class='input'>
+#&gt; </span><span style='color: #949494;'># … with 4,190 more rows</span><span></div><div class='input'>
 <span class='co'># create a tbl_mbte to nest</span>
 <span class='no'>tbl</span> <span class='kw'>&lt;-</span> <span class='no'>raw_signals</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>mv</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>mv</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='new_tbl_mbte.html'>new_tbl_mbte</a></span>(<span class='kw'>time</span> <span class='kw'>=</span> <span class='st'>"t"</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>"value"</span>)
 
 <span class='co'># nest signals and unnest them (should be equal to `tbl`)</span>

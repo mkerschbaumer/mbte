@@ -132,7 +132,7 @@ This step is necessary, since functions like <code><a href='mbte_fit.html'>mbte_
 <code><a href='mbte_compute_metrics.html'>mbte_compute_metrics</a></code> rely on the presence of the
 `signal`-column. It is required to specify grouping columns (either by
 passing them via <code>...</code> or by passing a
-<code><a href='http://dplyr.tidyverse.org/reference/grouped_df.html'>grouped table</a></code> as the <code>x</code>-parameter).</p>
+<code><a href='https://dplyr.tidyverse.org/reference/grouped_df.html'>grouped table</a></code> as the <code>x</code>-parameter).</p>
     
     </div>
 
@@ -149,7 +149,7 @@ passing them via <code>...</code> or by passing a
       <th>...</th>
       <td><p>Variables (get <code><a href='https://rlang.r-lib.org/reference/quotation.html'>quoted</a></code>), which
 can be used for grouping. If no variables are specified, it is assumed,
-that <code>x</code> is already a <code><a href='http://dplyr.tidyverse.org/reference/grouped_df.html'>grouped table</a></code>.</p></td>
+that <code>x</code> is already a <code><a href='https://dplyr.tidyverse.org/reference/grouped_df.html'>grouped table</a></code>.</p></td>
     </tr>
     </table>
     
@@ -193,10 +193,10 @@ the grouping columns of a grouped table (if <code>x</code> is grouped).</p>
 #&gt; </span><span style='color: #BCBCBC;'> 8</span><span> mv8   </span><span style='color: #949494;'>&lt;tibble [100 × 2]&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'> 9</span><span> mv9   </span><span style='color: #949494;'>&lt;tibble [100 × 2]&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span> mv10  </span><span style='color: #949494;'>&lt;tibble [100 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #949494;'># ... with 32 more rows</span><span></div><div class='input'>
+#&gt; </span><span style='color: #949494;'># … with 32 more rows</span><span></div><div class='input'>
 <span class='co'># alternative: use pregrouped table</span>
 <span class='no'>tbl</span> <span class='kw'>&lt;-</span> <span class='no'>raw_signals</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>mv</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>mv</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='new_tbl_mbte.html'>new_tbl_mbte</a></span>(<span class='kw'>time</span> <span class='kw'>=</span> <span class='st'>"t"</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>"value"</span>)
 
 <span class='co'># yields the same result</span>
@@ -213,7 +213,7 @@ the grouping columns of a grouped table (if <code>x</code> is grouped).</p>
 #&gt; </span><span style='color: #BCBCBC;'> 8</span><span> mv8   </span><span style='color: #949494;'>&lt;tibble [100 × 2]&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'> 9</span><span> mv9   </span><span style='color: #949494;'>&lt;tibble [100 × 2]&gt;</span><span>
 #&gt; </span><span style='color: #BCBCBC;'>10</span><span> mv10  </span><span style='color: #949494;'>&lt;tibble [100 × 2]&gt;</span><span>
-#&gt; </span><span style='color: #949494;'># ... with 32 more rows</span><span></div><div class='input'>
+#&gt; </span><span style='color: #949494;'># … with 32 more rows</span><span></div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
