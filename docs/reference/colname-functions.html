@@ -128,7 +128,11 @@ friendly)</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>colname_time</span>(<span class='no'>x</span>)
+    <pre class="usage"><span class='fu'>colname_set</span>(<span class='no'>x</span>, <span class='no'>value</span>, <span class='no'>name</span>)
+
+<span class='fu'>colname_get</span>(<span class='no'>x</span>, <span class='no'>name</span>)
+
+<span class='fu'>colname_time</span>(<span class='no'>x</span>)
 
 <span class='fu'>colname_time</span>(<span class='no'>x</span>) <span class='kw'>&lt;-</span> <span class='no'>value</span>
 
@@ -155,6 +159,11 @@ friendly)</p>
       <th>value</th>
       <td><p>The name of the column as a <code><a href='https://www.rdocumentation.org/packages/base/topics/name'>symbol</a></code>.</p></td>
     </tr>
+    <tr>
+      <th>name</th>
+      <td><p>A character vector of length 1 (string) describing the purpose
+of the column to get/set (e.g. <code>"signal"</code> or <code>"fits"</code>).</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -166,6 +175,10 @@ friendly)</p>
     <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
 
     <ul>
+<li><p><code>colname_set</code>: Set a specific column name. This function is
+designed for extension-packages.</p></li>
+<li><p><code>colname_get</code>: Get a specific column name. This function is
+designed for extension-packages.</p></li>
 <li><p><code>colname_time</code>: Get column name for signal-time.</p></li>
 <li><p><code>colname_time&lt;-</code>: Override column name for signal-time.</p></li>
 <li><p><code>colname_value</code>: Get column name for signal-values.</p></li>

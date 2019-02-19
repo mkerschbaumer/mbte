@@ -2,6 +2,8 @@
 % Please edit documentation in R/colnames.R
 \name{colname-functions}
 \alias{colname-functions}
+\alias{colname_set}
+\alias{colname_get}
 \alias{colname_time}
 \alias{colname_time<-}
 \alias{colname_value}
@@ -12,6 +14,10 @@
 \alias{colname_fits<-}
 \title{Column-name related functions}
 \usage{
+colname_set(x, value, name)
+
+colname_get(x, name)
+
 colname_time(x)
 
 colname_time(x) <- value
@@ -32,6 +38,9 @@ colname_fits(x) <- value
 \item{x}{A \code{\link{tbl_mbte}}.}
 
 \item{value}{The name of the column as a \code{\link[base:name]{symbol}}.}
+
+\item{name}{A character vector of length 1 (string) describing the purpose
+of the column to get/set (e.g. \code{"signal"} or \code{"fits"}).}
 }
 \value{
 Replacement functions like \code{colname_time<-} return a modified
@@ -46,6 +55,12 @@ friendly)
 }
 \section{Functions}{
 \itemize{
+\item \code{colname_set}: Set a specific column name. This function is
+designed for extension-packages.
+
+\item \code{colname_get}: Get a specific column name. This function is
+designed for extension-packages.
+
 \item \code{colname_time}: Get column name for signal-time.
 
 \item \code{colname_time<-}: Override column name for signal-time.
