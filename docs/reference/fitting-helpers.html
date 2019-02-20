@@ -145,11 +145,13 @@ fitting them via <code><a href='https://www.rdocumentation.org/packages/stats/to
 with <code>NA</code>'s will be returned if some values of the signal are zero or
 negative.</p></li>
 <li><p><code>tr_logistic</code>: Fit a sigmoid model using
-<code><a href='https://www.rdocumentation.org/packages/nls2/topics/nls2'>nls2</a></code>. This fitting helper requires the `nls2`-package
-(the "port"-algorithm with 500 iterations is used).
-The formula used for fitting is
-<code>value ~ A / (1 + exp(B * (C - time))) + D</code>. NOTE: warnings and
-errors are suppressed.</p></li>
+  <code><a href='https://www.rdocumentation.org/packages/nls2/topics/nls2'>nls2</a></code>. This fitting helper requires the `nls2`-package
+  (the "port"-algorithm with 500 iterations is used). The signal-tibble to
+  fit must have at least five rows (see <code><a href='mbte_fit.html'>mbte_fit</a></code>). Otherwise
+  <code>NA</code>'s are returned.</p>
+<p>The formula used for fitting is
+  <code>value ~ A / (1 + exp(B * (C - time))) + D</code>. NOTE: warnings are
+  suppressed.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>

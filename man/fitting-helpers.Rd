@@ -32,11 +32,14 @@ with \code{NA}'s will be returned if some values of the signal are zero or
 negative.
 
 \item \code{tr_logistic}: Fit a sigmoid model using
-\code{\link[nls2]{nls2}}. This fitting helper requires the `nls2`-package
-(the "port"-algorithm with 500 iterations is used).
-The formula used for fitting is
-\code{value ~ A / (1 + exp(B * (C - time))) + D}. NOTE: warnings and
-errors are suppressed.
+  \code{\link[nls2]{nls2}}. This fitting helper requires the `nls2`-package
+  (the "port"-algorithm with 500 iterations is used). The signal-tibble to
+  fit must have at least five rows (see \code{\link{mbte_fit}}). Otherwise
+  \code{NA}'s are returned.
+
+  The formula used for fitting is
+  \code{value ~ A / (1 + exp(B * (C - time))) + D}. NOTE: warnings are
+  suppressed.
 }}
 
 \examples{

@@ -68,18 +68,16 @@ local({
 
 # expect that fitting fails (e.g. in this case a sine-like signal is provided)
 test_that("logistic - no convergence", {
-  # a warning indicating the event log should be raised
-  fits <- expect_warning(
-    mbte_fit(dat_convergence_failure, log = !!tr_logistic()),
-    regexp = "mbte_event_log"
+  # No warning/output regarding event log expected.
+  fits <- expect_silent(
+    mbte_fit(dat_convergence_failure, log = !!tr_logistic())
   )
 
   # make sure NA's are produced
   expect_equal(nrow(fits), 1L)
   expect_equal(fits$fits[[1]], tibble(log = rep(NA_real_, 30)))
 
-  # check event log
+  # check event log (should be empry)
   event_log <- mbte_event_log(fits)
-  expect_equal(nrow(event_log), 1L)
-  expect_match(event_log$error[[1]]$message, "(M|m)odel didn't converge")
+  expect_null(event_log)
 })

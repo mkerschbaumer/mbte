@@ -79,10 +79,13 @@ predict.tr_exponential <- function(object, newdata, ...) {
 
 #' @describeIn fitting-helpers Fit a sigmoid model using
 #'   \code{\link[nls2]{nls2}}. This fitting helper requires the `nls2`-package
-#'   (the "port"-algorithm with 500 iterations is used).
+#'   (the "port"-algorithm with 500 iterations is used). The signal-tibble to
+#'   fit must have at least five rows (see \code{\link{mbte_fit}}). Otherwise
+#'   \code{NA}'s are returned.
+#'
 #'   The formula used for fitting is
-#'   \code{value ~ A / (1 + exp(B * (C - time))) + D}. NOTE: warnings and
-#'   errors are suppressed.
+#'   \code{value ~ A / (1 + exp(B * (C - time))) + D}. NOTE: warnings are
+#'   suppressed.
 #' @importFrom rlang new_formula quo
 #' @importFrom stats median nls.control quantile
 #' @importFrom tibble tibble
@@ -110,7 +113,7 @@ tr_logistic <- function() {
 
     nls_wrapper <- function() {
       # don't show error messages (regarding try()) + treat warnings as errors
-      previous <- options(show.error.messages = FALSE, warn = -2)
+      previous <- options(show.error.messages = FALSE)
       on.exit(options(previous))
       nls2::nls2(value ~ A / (1 + exp(B * (C - time))) + D, signal,
         algorithm = "port",
@@ -124,12 +127,18 @@ tr_logistic <- function() {
       )
     }
 
-    # perform fitting via nls2()
-    fit <- nls_wrapper()
+    # Ensure at least five data points are present to perform a nls fit.
+    if (nrow(signal) > 4) {
+      # Perform fitting via nls2().
+      fit <- suppressWarnings(nls_wrapper())
 
-    if (!fit$convInfo$isConv) {
-      # model didn't converge => signal by raising error
-      stop("Model didn't converge: ", fit$convInfo$stopMessage)
+      # Return NA's if model doesen't converge.
+      if (!fit$convInfo$isConv) {
+        fit <- rep(NA_real_, nrow(signal))
+      }
+    } else {
+      # less than five data points present for fitting
+      fit <- rep(NA_real_, nrow(signal))
     }
 
     fit
